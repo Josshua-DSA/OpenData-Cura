@@ -518,15 +518,30 @@ def upsert_penduduk(session: Session, records: List[Dict[str, Any]]) -> int:
     return count
 
 def upsert_indikator_kia(session: Session, records: List[Dict[str, Any]]) -> int:
-    """Idempotent bulk upsert for indikator_kia (Sub-domain KIA)."""
+    """Idempotent bulk upsert for indikator_kia (Sub-domain KIA).
+
+    PostgreSQL treats NULLs as distinct, so the plain
+    `UNIQUE (kode_bps, tahun, bulan)` constraint does NOT dedupe annual rows
+    (`bulan IS NULL`). For those we delete-then-insert; for monthly rows we
+    use a real ON CONFLICT upsert. This keeps the seed idempotent.
+    """
     if not records:
         return 0
 
-    import pandas as pd
     count = 0
     for r in records:
         bulan_val = r.get("bulan")
         bulan_clean = int(bulan_val) if bulan_val is not None and str(bulan_val).strip() and str(bulan_val).strip() != "nan" else None
+
+        if bulan_clean is None:
+            # Annual row: dedupe by delete-then-insert (NULL-safe idempotency).
+            session.execute(
+                text(
+                    "DELETE FROM indikator_kia "
+                    "WHERE kode_bps = :kode_bps AND tahun = :tahun AND bulan IS NULL"
+                ),
+                {"kode_bps": r["kode_bps"], "tahun": r["tahun"]},
+            )
 
         stmt = pg_insert(IndikatorKia).values(
             kode_bps=r["kode_bps"],
@@ -550,18 +565,19 @@ def upsert_indikator_kia(session: Session, records: List[Dict[str, Any]]) -> int
             cakupan_idl=r.get("cakupan_idl"),
             persen_desa_uci=r.get("persen_desa_uci"),
             dropout_rate_imunisasi=r.get("dropout_rate_imunisasi"),
-            source_id=r.get("source_id", "opendata_jatim_dinkes")
+            source_id=r.get("source_id", "opendata_jatim")
         )
-        stmt = stmt.on_conflict_do_update(
-            constraint="uq_kia_wilayah_waktu",
-            set_={
-                "aki": stmt.excluded.aki,
-                "akb": stmt.excluded.akb,
-                "prevalensi_stunting": stmt.excluded.prevalensi_stunting,
-                "cakupan_idl": stmt.excluded.cakupan_idl,
-                "updated_at": datetime.utcnow()
-            }
-        )
+        if bulan_clean is not None:
+            stmt = stmt.on_conflict_do_update(
+                constraint="uq_kia_wilayah_waktu",
+                set_={
+                    "aki": stmt.excluded.aki,
+                    "akb": stmt.excluded.akb,
+                    "prevalensi_stunting": stmt.excluded.prevalensi_stunting,
+                    "cakupan_idl": stmt.excluded.cakupan_idl,
+                    "updated_at": datetime.utcnow()
+                }
+            )
         session.execute(stmt)
         count += 1
     session.commit()
