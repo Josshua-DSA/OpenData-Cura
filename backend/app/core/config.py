@@ -1,6 +1,14 @@
 from typing import List, Union
-from pydantic import AnyHttpUrl, validator
+from pydantic import AnyHttpUrl, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Insecure JWT secret values the app must refuse to boot with.
+INSECURE_JWT_DEFAULTS = {
+    "",
+    "cura_healthtrust_super_secret_jwt_key_2026_change_in_production",
+    "change_in_production",
+    "secret",
+}
 
 
 class Settings(BaseSettings):
@@ -40,10 +48,21 @@ class Settings(BaseSettings):
     DB_POOL_RECYCLE: int = 1800
 
     # Security & JWT
-    JWT_SECRET_KEY: str = "cura_healthtrust_super_secret_jwt_key_2026_change_in_production"
+    JWT_SECRET_KEY: str = ""
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 1 day
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
+
+    @field_validator("JWT_SECRET_KEY")
+    @classmethod
+    def _reject_weak_jwt_secret(cls, v: str) -> str:
+        if v.strip() in INSECURE_JWT_DEFAULTS or len(v.strip()) < 32:
+            raise ValueError(
+                "JWT_SECRET_KEY is missing or too weak (min 32 chars). "
+                "Set a strong value in .env — the app refuses to boot with an "
+                "insecure default to prevent token forgery."
+            )
+        return v
 
     # CORS Origins
     BACKEND_CORS_ORIGINS: List[str] = [
