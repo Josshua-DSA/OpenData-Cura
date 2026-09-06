@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   postgres:
     image: postgis/postgis:15-3.3
@@ -18,10 +16,16 @@ services:
       timeout: 5s
       retries: 5
 
+  # Adminer is a LOCAL-ONLY dev convenience. It must NOT be deployed to a
+  # server: no app-level auth and always-on is a security risk there.
+  # Start it explicitly only when needed:
+  #   docker compose up -d adminer
+  #   docker compose stop adminer
   adminer:
     image: adminer:latest
     container_name: healthtrust_adminer
-    restart: always
+    # restart: always  (REMOVED — do not keep a passwordless DB GUI resident in prod)
+    profiles: ["tools"]
     ports:
       - "8080:8080"
     depends_on:

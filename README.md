@@ -43,39 +43,36 @@ Cura dibangun bukan sekadar sebagai katalog rumah sakit, melainkan **Read-First 
 
 ---
 
-## 🌐 Fitur Web yang Dibangun
+## 🌐 Fitur Web & Status Implementasi
 
-Aplikasi web Cura dibagi menjadi dua permukaan antarmuka:
+> ⚠️ **Status jujur per komponen.** Layer **data & API backend sudah berfungsi penuh** (41 data tests + 7 API tests, semuanya green di CI). Layer **frontend dan ML masih dalam perencanaan** — belum ada baris kode UI (`frontend/` berisi placeholder) dan belum ada model ML terlatih (`experiments/` berisi placeholder). Deskripsi di bawah memisahkan **yang sudah ada** (✅) dari **yang direncanakan** (🚧).
 
-### A. Portal Publik (Akses Terbuka Tanpa Login)
-* 🏢 **Katalog Faskes Terpadu (`/faskes`)**:
-  - Direktori pencarian 447 Rumah Sakit dan 977 Puskesmas se-Jawa Timur.
-  - Filter multi-kriteria: Kelas (A/B/C/D), 38 Kabupaten/Kota, Jenis Layanan (RSU, RSIA, RSK), dan Status Kepemilikan (Pemerintah, Swasta, TNI/Polri).
-* 🗺️ **Peta Geospasial Interaktif (`/map`)**:
-  - **Choropleth Layer Multi-Metrik**: Pewarnaan 38 wilayah standar WHO (🟢 Hijau $\ge 1.0$, 🟡 Kuning $0.7-0.99$, 🔴 Merah $< 0.7$), rasio dokter, angka stunting, dan kasus DBD.
-  - **Marker Sebaran RS/Puskesmas**: Pin lokasi fasilitas kesehatan dengan popup detail profil & kontak.
-  - **Radius Search (Nearby Faskes)**: Fitur deteksi faskes terdekat dalam radius tertentu dari posisi koordinat pengguna (`ST_DWithin` PostGIS).
-* 🩺 **Pantau Penyakit & Epidemiologi (`/penyakit`)**:
-  - Grafik tren 10 diagnosa penyakit terbanyak rawat inap & rawat jalan triwulanan (Q1–Q4).
-  - Monitoring komparasi penyakit menular (TB, DBD, Diare, ISPA) vs penyakit tidak menular (Hipertensi, Diabetes, Stroke).
-* 👶 **Kesehatan Ibu, Anak (KIA) & Gizi (`/kia`)**:
-  - Visualisasi angka kematian ibu (AKI), angka kematian bayi (AKB), dan prevalensi stunting per kabupaten/kota.
-  - Analisis korelasi ketersediaan Puskesmas rawat inap terhadap status gizi balita.
-* 📍 **Profil Komparasi 38 Wilayah (`/wilayah`)**:
-  - Komparasi berdampingan (*side-by-side*) kapasitas faskes, SDM dokter, dan status kesehatan antar dua daerah pilihan.
-* 🤖 **Tanya Data / AI Insight (`/ask`)**:
-  - Asisten interaktif berbasis LLM dengan injeksi konteks database agregat untuk menjawab pertanyaan kebijakan kesehatan berbahasa Indonesia secara faktual.
-* 📥 **Open Data Download (`/katalog`)**:
-  - Transparansi metadata sumber data, lisensi, cakupan periode, serta tombol unduh dataset bersih format `.csv` dan `.parquet`.
+### A. Sudah Ada Sekarang (✅)
 
-### B. Dashboard Manajemen & Dinas Kesehatan (Wajib Login)
-* 🚨 **Early Warning System (EWS)**:
-  - Notifikasi otomatis ketika rasio tempat tidur berada pada zona merah ($<0.7$), terjadi lonjakan kasus penyakit, atau defisit nakes ekstrem.
-* 📈 **Machine Learning Insights**:
-  - *Bed Demand Forecasting*: Estimasi lonjakan kebutuhan ranjang rawat inap 3–6 bulan ke depan.
-  - *Healthcare Disparity Clustering*: Pengelompokan 38 Kab/Kota ke dalam kuadran prioritas alokasi bantuan kesehatan.
-* 📄 **Executive Report Generator**:
-  - Ekspor ringkasan eksekutif profil kesehatan wilayah ke format PDF dan Excel dalam satu klik.
+**REST API Backend (FastAPI)** — endpoint live, terdokumentasi di `/docs`:
+- 🏢 `GET /api/v1/faskes` — katalog 447 RS + 977 Puskesmas, filter multi-kriteria, radius search `ST_DWithin`.
+- 🗺️ `GET /api/v1/wilayah` + `GET /api/v1/wilayah/choropleth` — GeoJSON 38 kab/kota + rasio TT & proyeksi 2026.
+- 🩺 `GET /api/v1/penyakit/*` — tren 10 penyakit terbanyak triwulanan & morbiditas.
+- 👶 `GET /api/v1/kia/*` — AKI/AKB/stunting/imunisasi per wilayah.
+- 👨‍⚕️ `GET /api/v1/sdm/*` — sebaran tenaga medis per wilayah.
+- 🚨 `GET /api/v1/decision/*` — rule ambang batas & event early-warning (tabel + CLI `evaluate-alerts`; **tanpa notifier email/webhook**).
+- 📥 `GET /api/v1/katalog` — metadata + unduh dataset bersih `.csv`/`.parquet`.
+
+**Early Warning Engine (data layer)** — `alert_rules`, `alert_events`, dan CLI `evaluate-alerts` menghasilkan `active_alerts` dari rasio TT, lonjakan kasus, dan stunting. **Belum ada notifikasi push** (harus di-poll).
+
+### B. Direncanakan (🚧 — belum ada kode)
+
+**Portal Publik (HTML/CSS/JS + Leaflet + ECharts)** — `/faskes`, `/map`, `/penyakit`, `/kia`, `/wilayah`, `/ask`, `/katalog`. Saat ini `frontend/` berisi placeholder `.gitkeep`.
+
+**Dashboard Manajemen (Next.js + login JWT)** — belum dibangun.
+
+**Machine Learning**:
+- *Bed Demand Forecasting* — `ml_readiness_dataset.parquet` (feature store 38×30) **sudah tersedia** sebagai input, tetapi **model belum dilatih** (`experiments/notebooks/` kosong).
+- *Healthcare Disparity Clustering* — direncanakan, belum ada.
+
+**AI Insight (`/ask`)** — endpoint ada, tetapi jawabannya dihasilkan oleh **template string + agregat DB**, bukan LLM. Integrasi LLM (mis. Anthropic) direncanakan; `ANTHROPIC_API_KEY` sudah dideklarasikan di config tapi belum dipakai.
+
+**Executive Report Generator (PDF/Excel)** — direncanakan, belum ada endpoint/dependensi PDF.
 
 ---
 
@@ -173,15 +170,24 @@ docker-compose up -d
 
 ### 2. Inisialisasi Database & Seeding Data
 ```bash
-# Inisialisasi skema tabel PostGIS, index GIST, dan Spatial Views
-python3 database/cli.py init-db
+# Inisialisasi skema tabel PostGIS, index GIST/GIN, dan Spatial Views
+PYTHONPATH=database python database/cli.py init-db
 
-# Seeding data referensi 38 Kab/Kota
-python3 database/cli.py seed-wilayah
+# Seeding data referensi & seluruh domain (idempoten, aman diulang)
+PYTHONPATH=database python database/cli.py seed-wilayah
+PYTHONPATH=database python database/cli.py seed-references
+PYTHONPATH=database python database/cli.py seed-puskesmas
+PYTHONPATH=database python database/cli.py seed-workforce
+PYTHONPATH=database python database/cli.py seed-morbidity
+PYTHONPATH=database python database/cli.py seed-kia
+PYTHONPATH=database python database/cli.py seed-surveillance
+PYTHONPATH=database python database/cli.py seed-alert-rules
 
-# Load seluruh data faskes, nakes, dan indikator bersih ke PostgreSQL
-python3 database/cli.py seed-all
+# Atau jalankan pipeline ETL end-to-end (ingest → clean → load semua domain)
+PYTHONPATH=database python database/cli.py run-etl
 ```
+
+> Migrasi skema dikelola **Alembic** (`alembic upgrade head`). Untuk database yang sudah ada, tandai baseline sekali dengan `alembic stamp head`.
 
 ### 3. Menjalankan Backend API
 ```bash

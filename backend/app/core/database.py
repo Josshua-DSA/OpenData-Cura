@@ -1,9 +1,13 @@
 from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.pool import NullPool
-from sqlalchemy.orm import declarative_base
 
 from backend.app.core.config import settings
+
+# Single source of truth for schema: database/models.py
+# Backend reuses the same declarative Base so there is exactly ONE
+# metadata and no divergent table definitions between ETL and API.
+from database.models import Base  # noqa: F401  (re-exported)
 
 # Async Engine for FastAPI Endpoints
 async_engine = create_async_engine(
@@ -22,8 +26,8 @@ AsyncSessionLocal = async_sessionmaker(
     autoflush=False,
 )
 
-# Base Declarative Model
-Base = declarative_base()
+# Base Declarative Model (re-exported from database.models; no local redeclare)
+# Base = declarative_base()  — REMOVED: single source of truth is database.models.Base
 
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:

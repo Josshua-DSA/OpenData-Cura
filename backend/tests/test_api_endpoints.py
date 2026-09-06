@@ -79,10 +79,26 @@ async def test_katalog_and_ml_readiness():
         body = res.json()
         assert len(body["data"]) == 6  # 4 base + 2 ML Feature store datasets
 
-        # Test download ml dataset
+        # Test download ml dataset — validate real content (mencegah regresi bug file_prefix)
         res_dl = await ac.get("/api/v1/katalog/ml_readiness_dataset/download?format=parquet")
         assert res_dl.status_code == 200
         assert len(res_dl.content) > 0
+
+        import io
+        import pandas as pd
+        df_ml = pd.read_parquet(io.BytesIO(res_dl.content))
+        # ML feature store harus 38 baris x 30 kolom dengan feature signature engineered
+        assert len(df_ml) == 38, f"ML dataset harus 38 Kab/Kota, dapat {len(df_ml)}"
+        assert len(df_ml.columns) >= 20, f"ML dataset minimal 20 kolom, dapat {len(df_ml.columns)}"
+        for expected_col in ["kode_bps", "total_tt", "total_rs", "dokter_umum", "rasio_dokter_per_1000"]:
+            assert expected_col in df_ml.columns, f"Kolom ML feature '{expected_col}' hilang"
+
+        # Test download healthcare_workforce — harus dapat 266 baris (bukan 114 indicators)
+        res_wf = await ac.get("/api/v1/katalog/healthcare_workforce/download?format=parquet")
+        assert res_wf.status_code == 200
+        df_wf = pd.read_parquet(io.BytesIO(res_wf.content))
+        assert len(df_wf) == 266, f"Workforce harus 266 baris (38x7 nakes), dapat {len(df_wf)}"
+        assert "jenis_nakes" in df_wf.columns, "Kolom 'jenis_nakes' hilang → file salah dikirim"
 
 
 @pytest.mark.asyncio

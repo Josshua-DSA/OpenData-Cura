@@ -65,7 +65,7 @@ DATASETS_METADATA: List[Dict[str, Any]] = [
         "cakupan_wilayah": "Provinsi Jawa Timur (38 Kab/Kota)",
         "format_tersedia": ["parquet", "csv"],
         "lisensi": "Open Government Data Jatim",
-        "file_prefix": "indicators_jatim",  # Fallback to indicators for initial export stream
+        "file_prefix": "healthcare_workforce",
     },
     {
         "id": "ml_readiness_dataset",
@@ -77,7 +77,7 @@ DATASETS_METADATA: List[Dict[str, Any]] = [
         "cakupan_wilayah": "Provinsi Jawa Timur (38 Kab/Kota)",
         "format_tersedia": ["parquet", "csv"],
         "lisensi": "Open Access Academic & Research",
-        "file_prefix": "bed_ratio_38_kab",  # Consolidated dataset baseline
+        "file_prefix": "ml_readiness_dataset",
     },
 ]
 
