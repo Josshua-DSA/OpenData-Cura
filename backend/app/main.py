@@ -3,17 +3,26 @@ from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
+from sqlalchemy import text
 
 from backend.app.core.config import settings
-from backend.app.core.database import async_engine, Base
+from backend.app.core.database import async_engine
 from backend.app.api.v1.router import api_router
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: Ensure tables exist
-    async with async_engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    # Startup: verify DB connectivity only.
+    # Schema is managed exclusively by Alembic migrations (database/migrations/).
+    # create_all was removed to avoid a second, divergent schema source of truth.
+    try:
+        async with async_engine.connect() as conn:
+            await conn.execute(text("SELECT 1"))
+    except Exception as e:  # pragma: no cover - environment-specific
+        raise RuntimeError(
+            "Cannot reach database. Ensure PostGIS is up (port 5433) and "
+            "Alembic migrations have been applied: `alembic upgrade head`."
+        ) from e
     yield
     # Shutdown: Dispose DB connection pool
     await async_engine.dispose()
