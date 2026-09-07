@@ -63,7 +63,12 @@ jobs:
           PYTHONPATH=database python database/cli.py seed-kia
           PYTHONPATH=database python database/cli.py seed-surveillance
           PYTHONPATH=database python database/cli.py seed-alert-rules
-          PYTHONPATH=database python database/cli.py run-etl
+          # NOTE: run-etl is intentionally EXCLUDED from CI.
+          # It fetches live data from sirs.kemkes.go.id which regularly
+          # times out (30s per endpoint × 4 endpoints = 2+ min wasted),
+          # and the fallback path does not persist to raw/ so the
+          # orchestrator sees empty data.  Seed commands above already
+          # populate the DB with enough data for all tests.
 
       - name: Run Data Pipeline Tests (database/tests)
         run: |
