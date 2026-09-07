@@ -34,6 +34,8 @@ jobs:
       DB_PASSWORD: cura_password
       # Test-only JWT secret (satisfies the boot guard; never used in production)
       JWT_SECRET_KEY: ci_test_only_jwt_secret_key_0123456789_abcdefghijklmnop
+      # Fast timeout for live SIRS API so CI smoothly uses git-tracked fallback seeds without hanging
+      SIRS_FETCH_TIMEOUT: 5
 
     steps:
       - name: Checkout Repository
@@ -63,12 +65,7 @@ jobs:
           PYTHONPATH=database python database/cli.py seed-kia
           PYTHONPATH=database python database/cli.py seed-surveillance
           PYTHONPATH=database python database/cli.py seed-alert-rules
-          # NOTE: run-etl is intentionally EXCLUDED from CI.
-          # It fetches live data from sirs.kemkes.go.id which regularly
-          # times out (30s per endpoint × 4 endpoints = 2+ min wasted),
-          # and the fallback path does not persist to raw/ so the
-          # orchestrator sees empty data.  Seed commands above already
-          # populate the DB with enough data for all tests.
+          PYTHONPATH=database python database/cli.py run-etl
 
       - name: Run Data Pipeline Tests (database/tests)
         run: |
