@@ -34,6 +34,8 @@ jobs:
       DB_PASSWORD: cura_password
       # Test-only JWT secret (satisfies the boot guard; never used in production)
       JWT_SECRET_KEY: ci_test_only_jwt_secret_key_0123456789_abcdefghijklmnop
+      # Fast timeout for live SIRS API so CI smoothly uses git-tracked fallback seeds without hanging
+      SIRS_FETCH_TIMEOUT: 5
 
     steps:
       - name: Checkout Repository

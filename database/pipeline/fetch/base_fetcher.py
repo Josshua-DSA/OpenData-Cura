@@ -4,6 +4,7 @@ Sesuai RULES.md Seksi 2.2: Setiap sumber data punya satu Fetcher class yang inhe
 """
 
 from abc import ABC, abstractmethod
+import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 import logging
@@ -31,7 +32,8 @@ class BaseFetcher(ABC):
     }
 
     def __init__(self, timeout: int = 30):
-        self.timeout = timeout
+        env_timeout = os.environ.get("SIRS_FETCH_TIMEOUT")
+        self.timeout = int(env_timeout) if env_timeout else timeout
         self.session = requests.Session()
         self.session.headers.update(self.HEADERS)
 
@@ -97,6 +99,10 @@ class BaseFetcher(ABC):
             logger.warning(f"Live fetch failed for '{self.source_id}': {e}. Attempting fallback...")
             fallback_data, path = self._load_fallback()
             if fallback_data is not None:
+                try:
+                    save_raw_snapshot(self.source_id, fallback_data, extension="json")
+                except Exception as save_err:
+                    logger.debug(f"Could not persist fallback snapshot: {save_err}")
                 return fallback_data, False
             raise FetchError(
                 f"Failed to fetch live data and no local snapshot available for {self.source_id}"

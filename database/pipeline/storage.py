@@ -111,5 +111,21 @@ def load_latest_snapshot(source_id: str, extension: str = "json") -> Tuple[Optio
             except Exception as e:
                 logger.error(f"[Fallback] Error reading {fallback_file}: {e}")
 
+    # Fallback to git-tracked seeds baseline (critical for CI / clean checkout without raw/)
+    seeds_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "seeds")
+    seed_fallback = os.path.join(seeds_dir, f"{source_id}_fallback.{extension}")
+    if os.path.exists(seed_fallback):
+        try:
+            if extension == "json":
+                with open(seed_fallback, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+            else:
+                with open(seed_fallback, "r", encoding="utf-8") as f:
+                    data = f.read()
+            logger.info(f"[Fallback] Loaded fallback baseline from seeds: {os.path.basename(seed_fallback)}")
+            return data, seed_fallback
+        except Exception as e:
+            logger.error(f"[Fallback] Error reading seed fallback {seed_fallback}: {e}")
+
     logger.warning(f"[Fallback] No local snapshots available for '{source_id}'")
     return None, None
