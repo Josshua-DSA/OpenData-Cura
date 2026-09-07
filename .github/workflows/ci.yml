@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-data-pipeline:
-    name: Run Data & API Test Suites
+    name: Run Unit Tests & Data Quality Gates
     runs-on: ubuntu-latest
 
     services:
