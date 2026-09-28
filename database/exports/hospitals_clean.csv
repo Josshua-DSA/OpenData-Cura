@@ -19,7 +19,7 @@ kode_rs,nama_rs,alamat,telepon,kode_bps,kelas,kepemilikan,pemilik_raw,jenis_rs,l
 3579074,RS Baptis Batu,Jalan Raya Panglima Sudirman No. 33,(0341)594161,3579,C,swasta,Organisasi Katholik,RSU,-7.8848,112.53,1,0,SIRS Kemenkes,2026-LIVE
 3508016,RS Umum Daerah Dr. Haryoto Kabupaten Lumajang,JL. BASUKI RAHMAT NO. 5,0334-881666,3508,B,pemerintah,Pemkab,RSU,-8.119889,113.227523,1,0,SIRS Kemenkes,2026-LIVE
 3508053,RS Wijaya Kusuma Lumajang,Jl. Ahmad Yani Nomor. 149,085179695149,3508,C,swasta,SWASTA/LAINNYA,RSU,-8.108688,113.231137,1,0,SIRS Kemenkes,2026-LIVE
-3509010,RS Umum Daerah Dr. Soebandi Jember,Jl. Dr. Soebandi No.124,0331-487441,3509,B,pemerintah,Pemkab,RSU,-8.197788,113.697829,1,0,SIRS Kemenkes,2026-LIVE
+3509010,RS Umum Daerah Dr. Soebandi Jember,Jl. Dokter Soebandi No.124,0331-487441,3509,B,pemerintah,Pemkab,RSU,-8.197788,113.697829,1,0,SIRS Kemenkes,2026-LIVE
 3509021,RS Perkebunan PTPN X (Persero) Jember,Jalan Bedadung Nomor 2,0331-487104,3509,C,pemerintah,BUMN,RSU,-8.167885,113.70555,1,0,SIRS Kemenkes,2026-LIVE
 3509032,RS Tk. III Baladhika Husada Jember,Jl. PB Sudirman No. 45,0331-484674,3509,C,tni_polri,TNI AD,RSU,-8.163536,113.706223,1,0,SIRS Kemenkes,2026-LIVE
 3509043,RS Paru Jember,Jl. Nusa Indah No. 28 Jember,0331-411781,3509,B,pemerintah,Pemprop,RSK PARU,-8.1606,113.701,1,0,SIRS Kemenkes,2026-LIVE
@@ -29,12 +29,12 @@ kode_rs,nama_rs,alamat,telepon,kode_bps,kelas,kepemilikan,pemilik_raw,jenis_rs,l
 3509134,RS Daerah Balung Jember,"Jalan Rambipuji, No 19",0336-621595,3509,C,pemerintah,Pemkab,RSU,-8.264424,113.542333,1,0,SIRS Kemenkes,2026-LIVE
 3510010,RS Umum Daerah Blambangan,Jl. Letkol Istiqlah Nomor. 49,0333-421118,3510,B,pemerintah,Pemkab,RSU,-8.208935,114.365876,1,0,SIRS Kemenkes,2026-LIVE
 3510021,RS Umum Bhakti Husada,Jl. RS Bhakti Husada no 11,(0333)821224,3510,C,swasta,SWASTA/LAINNYA,RSU,-8.309592,114.039869,1,0,SIRS Kemenkes,2026-LIVE
-3510043,RS Umum Daerah Genteng,Jl. Hasanudin No.98,0333-845839,3510,C,pemerintah,Pemkab,RSU,-8.365306,114.163841,1,0,SIRS Kemenkes,2026-LIVE
+3510043,RS Umum Daerah Genteng,Jalan Hasanudin No.98,0333-845839,3510,C,pemerintah,Pemkab,RSU,-8.365306,114.163841,1,0,SIRS Kemenkes,2026-LIVE
 3510054,RS Islam Fatimah,Jl. Jember nomor 25,(0333) 421451,3510,C,swasta,SWASTA/LAINNYA,RSU,-8.2616,114.334,1,0,SIRS Kemenkes,2026-LIVE
 3510076,RS Yasmin,Jl. Letkol Istiqlah Nomor 80-84,0333-424671,3510,C,swasta,SWASTA/LAINNYA,RSU,-8.207141,114.363324,1,0,SIRS Kemenkes,2026-LIVE
 3510102,RS Nahdlatul Ulama Banyuwangi,Jl. Raya Mangir No. 9,0333 632965,3510,C,swasta,SWASTA/LAINNYA,RSU,-8.346902,114.281401,1,0,SIRS Kemenkes,2026-LIVE
-3511011,RS Umum dr. H.Koesnadi Bondowoso,Jl. Piere Tendean No. 3 Bondowoso,0332-421263,3511,B,pemerintah,Pemkab,RSU,-7.918692,113.814618,1,0,SIRS Kemenkes,2026-LIVE
-3512012,RS Umum Daerah dr. Abdoer Rahem Situbondo,Jl. Anggrek No. 68,0338-671028,3512,C,pemerintah,Pemkab,RSU,-7.695492,113.995515,1,0,SIRS Kemenkes,2026-LIVE
+3511011,RS Umum dr. H.Koesnadi Bondowoso,Jl. Piere Tendean No. 3,0332-421263,3511,B,pemerintah,Pemkab,RSU,-7.918692,113.814618,1,0,SIRS Kemenkes,2026-LIVE
+3512012,RS Umum Daerah dr. Abdoer Rahem Situbondo,Jl. Anggrek No. 68,0338-671028,3512,C,pemerintah,Pemkab,RSU,-7.286581,112.702914,1,0,SIRS Kemenkes,2026-LIVE
 3512034,RS Elizabeth,Jl. WR Supratman Nomor 2A,0338-671174,3512,C,swasta,SWASTA/LAINNYA,RSU,-7.7042,114.015,1,0,SIRS Kemenkes,2026-LIVE
 3513013,RS Umum Daerah Waluyo Jati Kraksaan,Jalan Dr. Soetomo No. 1,(0335) 841481,3513,B,pemerintah,Pemkab,RSU,-7.7618,113.437,1,0,SIRS Kemenkes,2026-LIVE
 3513024,RS Graha Sehat,Jl. Raya Panglima Sudirman No.2,0335-846500,3513,C,swasta,SWASTA/LAINNYA,RSU,-7.755783,113.439551,1,0,SIRS Kemenkes,2026-LIVE
@@ -62,7 +62,7 @@ kode_rs,nama_rs,alamat,telepon,kode_bps,kelas,kepemilikan,pemilik_raw,jenis_rs,l
 3522014,RS Umum Daerah Dr. R. Sosodoro Djatikoesoemo,Jl. Veteran No 36,0353-3412133,3522,B,pemerintah,Pemkab,RSU,-7.159544,111.899583,1,0,SIRS Kemenkes,2026-LIVE
 3522025,Rumah Sakit Aisyiyah Bojonegoro,Jl KH Hasyim Asyari No 17,0353881748,3522,C,swasta,SWASTA/LAINNYA,RSU,-7.150728,111.879049,1,0,SIRS Kemenkes,2026-LIVE
 3522036,RSI Muhammadiyah Sumberrejo,Jl. Raya Sumberrejo 1193,0353331056,3522,D,swasta,Organisasi Islam,RSU,-7.175705,112.004423,1,0,SIRS Kemenkes,2026-LIVE
-3522047,RS Umum Daerah Sumberrejo,Jl. Raya No. 231 Sumberrejo,0353-331530,3522,C,pemerintah,Pemkab,RSU,-7.173903,111.99248,1,0,SIRS Kemenkes,2026-LIVE
+3522047,RS Umum Daerah Sumberrejo,Jl. Raya Sumberrejo No. 231,0353-331530,3522,C,pemerintah,Pemkab,RSU,-7.173903,111.99248,1,0,SIRS Kemenkes,2026-LIVE
 3522058,RS umum Daerah Padangan,Jl. Dr. Soetomo No. 02,(0353) 551666,3522,C,pemerintah,Pemkab,RSU,-7.167632,111.609211,1,0,SIRS Kemenkes,2026-LIVE
 3523015,RS Umum Daerah Dr. R. Koesma Tuban,Jl. dr. Wahidin Sudiro Husodo No. 800,0356-321010,3523,B,pemerintah,Pemkab,RSU,-6.89901,112.046265,1,0,SIRS Kemenkes,2026-LIVE
 3523041,RS Medika Mulia Tuban,Jl. Mojopahit 699,0356 324618,3523,C,swasta,Organisasi Sosial,RSU,-6.917,112.049,1,0,SIRS Kemenkes,2026-LIVE
@@ -98,12 +98,12 @@ kode_rs,nama_rs,alamat,telepon,kode_bps,kelas,kepemilikan,pemilik_raw,jenis_rs,l
 3573055,RS Umum Panti Waluya Sawahan Malang,Jl. Nusakambangan No.56 Kota Malang,0341-362017,3573,B,swasta,SWASTA/LAINNYA,RSU,-7.986746,112.624772,1,0,SIRS Kemenkes,2026-LIVE
 3573066,RS Umum Lavalette Malang,Jalan W.R Supratman No. 10,(0341)-470805,3573,B,swasta,SWASTA/LAINNYA,RSU,-7.965745,112.637926,1,0,SIRS Kemenkes,2026-LIVE
 3507070,RS Marsudi Waluyo,Jl. Raya Mondoroko km. 9 Dusun Magersari,(0341) 458974,3507,D,swasta,Organisasi Protestan,RSU,-7.909215,112.657844,1,0,SIRS Kemenkes,2026-LIVE
-3507102,RS Angkatan Udara dr. Munir Lanud Abdulrachman Saleh,"Jl. Dr. M. Munir No.18 Lanud Abd. Saleh, Desa Saptorenggo Kec. Pakis Kab, Malang",0341 792273,3507,D,tni_polri,TNI AU,RSU,-7.933968,112.702725,1,0,SIRS Kemenkes,2026-LIVE
+3507102,RS Angkatan Udara dr. Munir Lanud Abdulrachman Saleh,Jl. Dr. M. Munir No.18,0341 792273,3507,D,tni_polri,TNI AU,RSU,-7.933968,112.702725,1,0,SIRS Kemenkes,2026-LIVE
 3573135,RS Ibu dan Anak Muhammadiyah Malang,jalan wahid hasyim 26,0341-326222,3573,C,swasta,SWASTA/LAINNYA,RSIA,-7.984488,112.6287,1,0,SIRS Kemenkes,2026-LIVE
 3507204,RS Umum Islam Gondang Legi,Jl. Hayam Wuruk 66,879047 - 879879,3507,C,swasta,SWASTA/LAINNYA,RSU,-8.170151,112.640122,1,0,SIRS Kemenkes,2026-LIVE
 3573215,RS Umum Islam Aisyiyah Malang,Jl. Sulawesi Nomor 16 Malang,081234468808,3573,C,swasta,SWASTA/LAINNYA,RSU,-7.988628,112.625453,1,0,SIRS Kemenkes,2026-LIVE
 3573226,RS Islam Unisma Malang,Jl. MT. Haryono No. 139,(0341) 551356,3573,C,swasta,SWASTA/LAINNYA,RSU,-7.9402,112.609,1,0,SIRS Kemenkes,2026-LIVE
-3507230,RS Sumber Sentosa,"Jalan Raya Kebonsari Nomor 221, Kec. Tumpang, Kab. Malang, 65156",0341787233,3507,D,swasta,SWASTA/LAINNYA,RSU,-8.013331,112.756499,1,0,SIRS Kemenkes,2026-LIVE
+3507230,RS Sumber Sentosa,"Jalan Raya Kebonsari No. 221, RT 003/ RW 002",0341787233,3507,D,swasta,SWASTA/LAINNYA,RSU,-8.013331,112.756499,1,0,SIRS Kemenkes,2026-LIVE
 3507241,RS Umum Islam Madinah Kasembon,Jl. Raya Sukosari No.32,085706240914,3507,D,swasta,SWASTA/LAINNYA,RSU,-7.775143,112.30624,1,0,SIRS Kemenkes,2026-LIVE
 3574012,RS Umum Daerah dr. Mohamad Saleh Kota Probolinggo,Jl. Mayjend Panjaitan No.65,0335-433119,3574,B,pemerintah,Pemkot,RSU,-7.7489,113.21,1,0,SIRS Kemenkes,2026-LIVE
 3574023,RS Umum Dharma Husada,Jl. Panjaitan No. 8-10,0335 422176,3574,C,swasta,SWASTA/LAINNYA,RSU,-7.752921,113.210029,1,0,SIRS Kemenkes,2026-LIVE
@@ -130,9 +130,9 @@ kode_rs,nama_rs,alamat,telepon,kode_bps,kelas,kepemilikan,pemilik_raw,jenis_rs,l
 3578086,RS Primasatya Husada Citra (PHC) Surabaya,PRAPAT KURUNG SELATAN NOMOR 1,031-3294801-3,3578,B,swasta,SWASTA/LAINNYA,RSU,-7.209639,112.736103,1,0,SIRS Kemenkes,2026-LIVE
 3578090,RS TNI AL Dr. Oepomo,Jl. Laksda M.Nazir No.56 Surabaya,031-3293536,3578,D,tni_polri,TNI AL,RSU,-7.2124,112.724,1,0,SIRS Kemenkes,2026-LIVE
 3578100,RS Umum Adi Husada Kapasari,Kapasari No. 97-101,031-3764555,3578,C,swasta,Organisasi Sosial,RSU,-7.242289,112.752615,1,0,SIRS Kemenkes,2026-LIVE
-3578111,RS Islam Surabaya,Jalan jend ahmad yani nomor 2-4,0811363670,3578,B,swasta,SWASTA/LAINNYA,RSU,-7.0,112.739465,1,0,SIRS Kemenkes,2026-LIVE
+3578111,RS Islam Surabaya,jalan jendral ahmad yani nomor 2-4,0811363670,3578,B,swasta,SWASTA/LAINNYA,RSU,-7.0,112.739465,1,0,SIRS Kemenkes,2026-LIVE
 3578122,RS Umum Tk. III Brawijaya,Jalan Ksatrian No 17,085141170005,3578,C,tni_polri,TNI AD,RSU,-7.301494,112.737547,1,0,SIRS Kemenkes,2026-LIVE
-3578144,RS Marinir Ewa Pangalila Gunungsari,Jl. Golf 1 No. 1,081232331626,3578,C,tni_polri,TNI AL,RSU,-7.305853,112.71273,1,0,SIRS Kemenkes,2026-LIVE
+3578144,RS Marinir Ewa Pangalila Gunungsari,Jl. Golf 1 No. 1 Gunungsari,081232331626,3578,C,tni_polri,TNI AL,RSU,-7.305853,112.71273,1,0,SIRS Kemenkes,2026-LIVE
 3578166,RS Soemitro Lanud Moeljono Surabaya,Jl.Serayu No. 17 Surabaya,5669514,3578,D,tni_polri,TNI AU,RSU,-7.29159,112.740784,1,0,SIRS Kemenkes,2026-LIVE
 3578192,RS Jiwa Menur,Jl. Raya Menur No. 120,031-5021635,3578,A,pemerintah,Pemprop,RSK Jiwa,-7.28566,112.76224,1,0,SIRS Kemenkes,2026-LIVE
 3578202,RS Mata Undaan,Undaan Kulon 19,031-5319619,3578,B,swasta,Organisasi Sosial,RSK Mata,-7.254178,112.743531,1,0,SIRS Kemenkes,2026-LIVE
@@ -141,7 +141,7 @@ kode_rs,nama_rs,alamat,telepon,kode_bps,kelas,kepemilikan,pemilik_raw,jenis_rs,l
 3578476,RS Al Irsyad Surabaya,Jl. KHM.Mansyur No. 210 - 214 dan 191,031-3531223,3578,C,swasta,Organisasi Sosial,RSU,-7.2279,112.741,1,0,SIRS Kemenkes,2026-LIVE
 3578523,RS Umum Daerah Haji Provinsi Jawa Timur,Jl. Manyar Kertoadi No.10,031-5924000,3578,B,pemerintah,Pemprop,RSU,-7.28309,112.77972,1,0,SIRS Kemenkes,2026-LIVE
 3578556,RS Premier Surabaya,Jl. Nginden Intan Barat B,031-5993211,3578,B,swasta,SWASTA/LAINNYA,RSU,-7.3047,112.765,1,0,SIRS Kemenkes,2026-LIVE
-3578560,RS Husada Utama Surabaya,Jl. Prof. Dr. Moestopo 31-33-35 Surabaya,031-5017975,3578,B,swasta,SWASTA/LAINNYA,RSU,-7.2655,112.756,1,0,SIRS Kemenkes,2026-LIVE
+3578560,RS Husada Utama Surabaya,Jl. Prof. Dr. Moestopo 31-33-35,031-5017975,3578,B,swasta,SWASTA/LAINNYA,RSU,-7.2655,112.756,1,0,SIRS Kemenkes,2026-LIVE
 3578571,RS Umum Daerah dr. Mohamad Soewandhie,Jl. Tambakrejo No. 45-47,(031) 3717141,3578,B,pemerintah,Pemkot,RSU,-7.245621,112.758002,1,0,SIRS Kemenkes,2026-LIVE
 3578582,RS Umum Mitra Keluarga Surabaya,Jl. Satelit Indah II darmo satelit,031-7345333,3578,B,swasta,SWASTA/LAINNYA,RSU,-7.2668,112.691,1,0,SIRS Kemenkes,2026-LIVE
 3578593,RS Ibu dan Anak Pura Raharja,JL. PUCANG ADI NO.12-14,0315019898,3578,C,swasta,Organisasi Sosial,RSIA,-7.283186,112.752747,1,0,SIRS Kemenkes,2026-LIVE
@@ -175,7 +175,7 @@ kode_rs,nama_rs,alamat,telepon,kode_bps,kelas,kepemilikan,pemilik_raw,jenis_rs,l
 3508054,RS Bhayangkara Lumajang,JL. KYAI ILYAS NO. 7,0334-881646,3508,C,tni_polri,POLRI,RSU,-8.133253,113.221877,1,0,SIRS Kemenkes,2026-LIVE
 3523053,RS Nahdlatul Ulama Tuban,Jl. Letda Sucipto No. 211,(0356) 328299,3523,C,swasta,SWASTA/LAINNYA,RSU,-6.883738,112.021651,1,0,SIRS Kemenkes,2026-LIVE
 3508055,RS Umum Djatiroto,"JL. PB SUDIRMAN NO. 81, RT. 002 RW. 001",0334-321004,3508,C,pemerintah,BUMN,RSU,-8.118403,113.359144,1,0,SIRS Kemenkes,2026-LIVE
-3578322,RS Umum Daerah Husada Prima,Jl. Karang Tembok No. 39,(031) 3713836,3578,C,pemerintah,Pemprop,RSU,,,0,1,SIRS Kemenkes,2026-LIVE
+3578322,RS Umum Daerah Husada Prima,Jl. Karang Tembok No. 39,0812124444800,3578,C,pemerintah,Pemprop,RSU,,,0,1,SIRS Kemenkes,2026-LIVE
 3578766,RS Wiyung Sejahtera,Jl. Karangan PDAM Nomor 1-3,(031) 7532653,3578,C,swasta,SWASTA/LAINNYA,RSU,-7.323648,112.679322,1,0,SIRS Kemenkes,2026-LIVE
 3578767,RS Ibu dan Anak Cempaka Putih Permata,"Jl. Jambangan Kebon Agung No. 8, Jambangan, Surabaya, Jawa Timur",(031) 8282350,3578,C,swasta,Perusahaan,RSIA,-7.33605,112.724884,1,0,SIRS Kemenkes,2026-LIVE
 3578768,RS Ibu dan Anak Lombok Dua Dua Lontar,Jl. Lontar No. 206 (lama Jl. Raya Lontar No. 109),"(031) 7526071,",3578,C,swasta,Perusahaan,RSIA,-7.284559,112.669538,1,0,SIRS Kemenkes,2026-LIVE
@@ -258,7 +258,7 @@ kode_rs,nama_rs,alamat,telepon,kode_bps,kelas,kepemilikan,pemilik_raw,jenis_rs,l
 3516036,RS Mutiara Hati Mojokerto,Jl. Raya Kemantren Wetan No.49,0321-363442,3516,D,swasta,SWASTA/LAINNYA,RSU,-7.455406,112.418984,1,0,SIRS Kemenkes,2026-LIVE
 3504073,RS Putra Waspada Tulungagung,Jl. Jayeng Kusuma No 66,0355-335550,3504,C,swasta,SWASTA/LAINNYA,RSU,-8.025795,111.92014,1,0,SIRS Kemenkes,2026-LIVE
 3520014,RS Ibu dan Anak Sekar Wangi,Jl. Gubernur Suryo No. 46-48,0351-895853,3520,C,swasta,SWASTA/LAINNYA,RSIA,-7.645606,111.348351,1,0,SIRS Kemenkes,2026-LIVE
-3516037,RS Umum Kartini,Jl. Airlangga 137,0321-592261,3516,D,swasta,Organisasi Sosial,RSU,-7.523654,112.556498,1,0,SIRS Kemenkes,2026-LIVE
+3516037,RS Umum Kartini,jl. Airlangga 137,0321-592261,3516,D,swasta,Organisasi Sosial,RSU,-7.523654,112.556498,1,0,SIRS Kemenkes,2026-LIVE
 3507104,RS Prima Husada,Perum Banjararum Selatan No.3-7,0341-458679,3507,C,swasta,SWASTA/LAINNYA,RSU,-7.952794,112.63017,1,0,SIRS Kemenkes,2026-LIVE
 3578780,RS Orthopedi dan Traumatologi Surabaya,EMERALD MANSION TX 10,031 - 57431574,3578,C,swasta,Perusahaan,RSK Orthopedi,-7.299774,112.662241,1,0,SIRS Kemenkes,2026-LIVE
 3529026,RS Esto Ebhu,Jl.Dr Cipto no 38,081234888838,3529,C,swasta,SWASTA/LAINNYA,RSU,-7.01526,113.86378,1,0,SIRS Kemenkes,2026-LIVE
@@ -267,15 +267,15 @@ kode_rs,nama_rs,alamat,telepon,kode_bps,kelas,kepemilikan,pemilik_raw,jenis_rs,l
 3509136,RS Umum Citra Husada Jember,Jl. Teratai No. 22,0331-486200,3509,C,swasta,SWASTA/LAINNYA,RSU,-8.173613,113.679965,1,0,SIRS Kemenkes,2026-LIVE
 3501017,RSU Agung Mulia,Jalan Sasuit Tubun Nomor 25,0357-884466,3501,D,swasta,SWASTA/LAINNYA,RSU,-8.192645,111.097956,1,0,SIRS Kemenkes,2026-LIVE
 3515137,RS Ibu dan Anak Pondok Tjandra,"Pondok Tjandra, Jl. Mangga I No.E-225, Tambaksumur, Kec. Waru, Kabupaten Sidoarjo, Jawa Timur 61256",031-8664488,3515,C,swasta,SWASTA/LAINNYA,RSIA,-7.345495,112.779143,1,0,SIRS Kemenkes,2026-LIVE
-3507107,RS Ben Mari,"JL.Raya Kendalpayak No.17, RT. 004, RW 007, Desa Kendalpayak, Kec. Pakisaji, Kab, Malang",(0341) 837666 /,3507,D,swasta,SWASTA/LAINNYA,RSU,-7.988838,112.63017,1,0,SIRS Kemenkes,2026-LIVE
+3507107,RS Ben Mari,"JL. Raya Kendalpayak No.17, RT. 004/RW 007",(0341) 837666 /,3507,D,swasta,SWASTA/LAINNYA,RSU,-7.988838,112.63017,1,0,SIRS Kemenkes,2026-LIVE
 3525090,RS Umum Wates Husada,Jl Raya Wates Utara No 38,031-7922351,3525,D,swasta,SWASTA/LAINNYA,RSU,-7.270877,112.442756,1,0,SIRS Kemenkes,2026-LIVE
 3524043,RS Mitra Sehat Lamongan,Jl. Raya Lamongan - Babat Km 5,085745728401,3524,D,swasta,SWASTA/LAINNYA,RSU,-7.102652,112.371939,1,0,SIRS Kemenkes,2026-LIVE
 3515138,RS Umum Aisyiyah Siti Fatimah,Jl. Raya Kenongo no. 14,0823-4281-8398,3515,D,swasta,Organisasi Islam,RSU,-7.48587,112.653177,1,0,SIRS Kemenkes,2026-LIVE
 3517089,RS Umum Daerah Ploso,Jl. Darmo Sugondo No.83,0321-888615,3517,C,pemerintah,Pemkab,RSU,-7.461697,112.222674,1,0,SIRS Kemenkes,2026-LIVE
 3515140,RS Arafah Anwar Medika Sukodono,Jl. Sawo No. 2 Dungus Sukodono,031 8830989 /03,3515,D,swasta,Perusahaan,RSU,-7.394087,112.673385,1,0,SIRS Kemenkes,2026-LIVE
 3509137,RS Umum Srikandi IBI Jember,Jl. KH Agus Salim No. 20,0331 335290,3509,C,swasta,Organisasi Sosial,RSU,-8.185869,113.69038,1,0,SIRS Kemenkes,2026-LIVE
-3524044,RS Abdurrahman Syamsuri (Arsy),Jl. Raya Deandles km-74 Paciran Kab. Lamongan,0322 4661795,3524,D,swasta,Organisasi Islam,RSU,-6.868421,112.326199,1,0,SIRS Kemenkes,2026-LIVE
-3578781,RS Umum Royal Surabaya,JL. Rungkut Industri I/1,031-8476111,3578,B,swasta,SWASTA/LAINNYA,RSU,-7.328649,112.750876,1,0,SIRS Kemenkes,2026-LIVE
+3524044,RS Abdurrahman Syamsuri (Arsy),Jl. Raya Deandles km-74,0322 4661795,3524,D,swasta,Organisasi Islam,RSU,-6.868421,112.326199,1,0,SIRS Kemenkes,2026-LIVE
+3578781,RS Umum Royal Surabaya,Rungkut Industri I/1,031-8476111,3578,B,swasta,SWASTA/LAINNYA,RSU,-7.328649,112.750876,1,0,SIRS Kemenkes,2026-LIVE
 3517094,RS Umum Nadhlatul Ulama Jombang,Jl KH Hasyim Asy ari No 211,0321-878700,3517,D,swasta,SWASTA/LAINNYA,RSU,-7.578701,112.237045,1,0,SIRS Kemenkes,2026-LIVE
 3514053,RS Mitra Sehat Medika,Jl Raya By Pass No. 06,(0343) 636064,3514,D,swasta,SWASTA/LAINNYA,RSU,-7.662167,112.695572,1,0,SIRS Kemenkes,2026-LIVE
 3524045,RS Umum dr. Suyudi,Jl. Raya Deandles Paciran,0322-661412,3524,C,swasta,Perusahaan,RSU,-6.867536,112.357208,1,0,SIRS Kemenkes,2026-LIVE
@@ -303,7 +303,7 @@ kode_rs,nama_rs,alamat,telepon,kode_bps,kelas,kepemilikan,pemilik_raw,jenis_rs,l
 3528027,RS Umum Daerah Mohammad Noer Pamekasan,Jl. Bonorogo No. 17,0324-323085,3528,C,pemerintah,Pemprop,RSU,-7.156987,113.48876,1,0,SIRS Kemenkes,2026-LIVE
 3524047,RS Muhammadiyah Babat,"Jl. KH. Ahmad Dahlan No. 14 Babat, Lamongan",0322-451125,3524,D,swasta,SWASTA/LAINNYA,RSU,-7.104947,112.167148,1,0,SIRS Kemenkes,2026-LIVE
 3519026,RS Paru Manguharjo Madiun,Jln. Yos Sudarso No.108-112,0351-464916,3519,C,pemerintah,Pemprop,RSK PARU,-7.615441,111.524213,1,0,SIRS Kemenkes,2026-LIVE
-3513027,RS Rizani,Jalan Raya Surabaya Situbondo 135 Sumberrejo Paiton Probolinggo Jawa Timur,(0335) 773444,3513,C,swasta,Perusahaan,RSU,-7.719667,113.538272,1,0,SIRS Kemenkes,2026-LIVE
+3513027,RS Rizani,Jalan Raya Surabaya Situbondo 135 Sumberrejo,(0335) 773444,3513,C,swasta,Perusahaan,RSU,-7.719667,113.538272,1,0,SIRS Kemenkes,2026-LIVE
 3573257,RS Umum Persada Hospital,Kompleks Araya Business Center Kav.II-IV Jl. Panji Suroso,0341-2996333,3573,B,swasta,SWASTA/LAINNYA,RSU,-7.934939,112.650135,1,0,SIRS Kemenkes,2026-LIVE
 3578769,RS Ibu dan Anak Kendangsari Merr,Jl. Dr. Ir. Soekarno No. 2,(031) 3814388,3578,C,swasta,SWASTA/LAINNYA,RSIA,-7.250214,112.783707,1,0,SIRS Kemenkes,2026-LIVE
 3525095,RS PKU Muhammadiyah Sekapuk,Jln. Raya Deandles No. 21,085854042976,3525,D,swasta,Organisasi Islam,RSU,-6.956595,112.50413,1,0,SIRS Kemenkes,2026-LIVE
@@ -378,12 +378,12 @@ kode_rs,nama_rs,alamat,telepon,kode_bps,kelas,kepemilikan,pemilik_raw,jenis_rs,l
 3525105,RS Eka Husada,Jl. Raya Menganti,031 99008514 03,3525,C,swasta,SWASTA/LAINNYA,RSU,-7.291807,112.575988,1,0,SIRS Kemenkes,2026-LIVE
 3527014,RS Umum Daerah Ketapang,Jl Raya Ketapang No.7,085142518881,3527,D,pemerintah,Pemkab,RSU,-6.896616,113.282077,1,0,SIRS Kemenkes,2026-LIVE
 3524050,RS Umum Permata Bunda,Jl. Petro No. 20,082142906511,3524,D,swasta,SWASTA/LAINNYA,RSU,-7.099666,112.19042,1,0,SIRS Kemenkes,2026-LIVE
-3524052,RS Umum Daerah Karangkembang,Jl. Raya Babat - Jombang Km. 2,(0322) 4651378,3524,D,pemerintah,Pemkab,RSU,-7.122641,112.163732,1,0,SIRS Kemenkes,2026-LIVE
+3524052,RS Umum Daerah Karangkembang,Jl. Raya Babat - Jombang Km. 2,(0322) 4651378,3524,D,pemerintah,Pemkab,RSU,-7.12265,112.163732,1,0,SIRS Kemenkes,2026-LIVE
 3571150,RS Umum Daerah Kilisuci,Jl. KH. Wachid Hasyim No. 64,(0354)6021640,3571,C,pemerintah,Pemkot,RSU,-7.816495,112.005396,1,0,SIRS Kemenkes,2026-LIVE
 3504087,RS Umum Daerah Campurdarat,Jalan Kanigoro Nomor 13,0355 5351501,3504,C,pemerintah,Pemkab,RSU,-8.161967,111.859621,1,0,SIRS Kemenkes,2026-LIVE
 3515145,RS Mitra Keluarga Pondok Tjandra,Jalan Raya Taman Asri Kav. DD 1-8,031 99691000,3515,C,swasta,SWASTA/LAINNYA,RSU,-7.344655,112.77546,1,0,SIRS Kemenkes,2026-LIVE
 3515146,RS Pusura Candi,JL Raya Gelam No. 39,(031) 99717449,3515,D,swasta,SWASTA/LAINNYA,RSU,-7.473685,112.713711,1,0,SIRS Kemenkes,2026-LIVE
-3524056,RS Muhammadiyah Kalikapas Lamongan,Jl Raya Lamongan Mantup,0813-3366-5300,3524,D,swasta,Organisasi Islam,RSU,-7.139507,112.412361,1,0,SIRS Kemenkes,2026-LIVE
+3524056,RS Muhammadiyah Kalikapas Lamongan,Jl. Raya Lamongan Mantup,0813-3366-5300,3524,D,swasta,Organisasi Islam,RSU,-7.139507,112.412361,1,0,SIRS Kemenkes,2026-LIVE
 3507119,RS Umum Wajak Husada,Jl. Raya Kidangbang No.02,03418221030,3507,D,swasta,SWASTA/LAINNYA,RSU,-8.094954,112.707843,1,0,SIRS Kemenkes,2026-LIVE
 3523056,RS Graha Husada,Jl.Imam Bonjol No. 01,081234447930,3523,D,swasta,Perusahaan,RSU,-6.964313,111.751161,1,0,SIRS Kemenkes,2026-LIVE
 3524072,RS Permata Hati Lamongan,Jl. Raya Tambakboyo No. 02,081233348800,3524,D,swasta,SWASTA/LAINNYA,RSU,-7.2785,112.7216,1,0,SIRS Kemenkes,2026-LIVE
@@ -414,21 +414,21 @@ kode_rs,nama_rs,alamat,telepon,kode_bps,kelas,kepemilikan,pemilik_raw,jenis_rs,l
 3578812,RS Ibu dan Anak Adi Guna,Jl. Alun-alun Rangkah no. 1-3,082139139082,3578,C,swasta,Perorangan,RSIA,-7.249101,112.764791,1,0,SIRS Kemenkes,2026-LIVE
 3521028,RS Umum Daerah Mantingan,Jl. Raya Ngawi - Mantingan KM 1,03514475655,3521,D,pemerintah,Pemkab,RSU,-7.359693,111.15561,1,0,SIRS Kemenkes,2026-LIVE
 3577098,RS Umum Darmayu Madiun,Jl. Kapten Tendean No. 47,0351-4109999,3577,C,swasta,SWASTA/LAINNYA,RSU,-7.660522,111.530431,1,0,SIRS Kemenkes,2026-LIVE
-3524074,RS An-Noor Medika Lamongan,Jl Andansari No 1,085742211279,3524,D,swasta,Perusahaan,RSU,-7.117681,112.413461,1,0,SIRS Kemenkes,2026-LIVE
+3524074,RS An-Noor Medika Lamongan,"Jl Andansari No 1, Ngaglik Timur, Sukorejo, Lamongan",085742211279,3524,D,swasta,Perusahaan,RSU,-7.117681,112.413461,1,0,SIRS Kemenkes,2026-LIVE
 3524075,RS Mata KMU Lamongan,"Jl. Raya No. 181, Plosowahyu",081222213216,3524,C,swasta,Perusahaan,RSK Mata,-7.105621,112.386383,1,0,SIRS Kemenkes,2026-LIVE
 3573277,RS Ibu dan Anak Mitra Mulia,Jl. Pahlawan Trip A10,081333666651,3573,C,swasta,Perorangan,RSIA,-7.967588,112.621784,1,0,SIRS Kemenkes,2026-LIVE
 3507261,RS Umum Cahaya Medika,Jl. Kelud Nomor 05,+6281547514779,3507,D,swasta,SWASTA/LAINNYA,RSU,-8.211428,112.637773,1,0,SIRS Kemenkes,2026-LIVE
 3527025,RS Sukma Wijaya,H. Agus Salim No. 19,081216145351,3527,D,swasta,SWASTA/LAINNYA,RSU,-8.351186,113.442543,1,0,SIRS Kemenkes,2026-LIVE
 3527026,RS Qona'ah,Jl. Diponegoro No. 7,081331166319,3527,D,swasta,Perusahaan,RSU,-7.208597,113.253199,1,0,SIRS Kemenkes,2026-LIVE
 3528041,RS Ibu dan Anak Puri Bunda Madura,Jl. Kabupaten No. 99,6281214516999,3528,C,swasta,Perorangan,RSIA,-7.15805,113.474646,1,0,SIRS Kemenkes,2026-LIVE
-3511024,RS Cahya Medika,Jalan Raya Pakisan - Bataan No. 24,0332-5557554,3511,D,swasta,SWASTA/LAINNYA,RSU,-7.925101,113.844333,1,0,SIRS Kemenkes,2026-LIVE
+3511024,RS Cahya Medika,Jalan Raya Pakisan - Bataan 24,0332-5557554,3511,D,swasta,SWASTA/LAINNYA,RSU,-7.925101,113.844333,1,0,SIRS Kemenkes,2026-LIVE
 3578816,RS Ibu dan Anak Idaf Husada,"Jl. KO Wisata Bukit Mas II Blok RF no. 11, Blok F no. 10 - 11",(031)99423409,3578,C,swasta,SWASTA/LAINNYA,RSIA,-7.311987,112.665574,1,0,SIRS Kemenkes,2026-LIVE
 3526046,RS Khusus Bedah Heart and Surgery,Jl. Soekarno-Hatta 34A,082245560714,3526,C,swasta,SWASTA/LAINNYA,RSK BEDAH,-7.049342,112.733636,1,0,SIRS Kemenkes,2026-LIVE
 3514071,RS Hermina Pasuruan,Jl. Raya Pasuruan-Probolinggo KM 5,(0343) 4742523,3514,C,swasta,SWASTA/LAINNYA,RSU,-7.665664,112.934747,1,0,SIRS Kemenkes,2026-LIVE
 3578814,Ciputra Hospital Surabaya,Jalan West Radial Road CF-6,03133393888,3578,B,swasta,SWASTA/LAINNYA,RSU,-7.28282,112.631772,1,0,SIRS Kemenkes,2026-LIVE
 3577099,RS Hermina Madiun,Jl. Sido Makmur Ring Road Barat,(0351) 4108585,3577,C,swasta,Perusahaan,RSU,-7.619362,111.502754,1,0,SIRS Kemenkes,2026-LIVE
 3578815,RS Umum Daerah Eka Candrarini,Jalan Medokan Asri Tengah No. 2,(031)8439473,3578,C,pemerintah,Pemkot,RSU,-7.327133,112.784158,1,0,SIRS Kemenkes,2026-LIVE
-3507262,RS AU dr. Mohammad Moenir,"Jl. Rogonoto, RT.00 3/RW.005, Desa Tamanharjo, Kecamatan Singosari, Kabupaten Malang, Provinsi Jawa Timur 65153",081332911256,3507,D,tni_polri,TNI AU,RSU,-7.894207,112.677518,1,0,SIRS Kemenkes,2026-LIVE
+3507262,RS AU dr. Mohammad Moenir,"Jl. Rogonoto, RT.003/RW.005",081332911256,3507,D,tni_polri,TNI AU,RSU,-7.894207,112.677518,1,0,SIRS Kemenkes,2026-LIVE
 3522076,RS Umum Daerah Temayang,Jl. Raya Temayang - Dander,03538940024,3522,D,pemerintah,Pemkab,RSU,-7.335503,111.913744,1,0,SIRS Kemenkes,2026-LIVE
 3524076,RS Umum Daerah Ki Ageng Brondong,Jl Raya Daendles,08518862817,3524,D,pemerintah,Pemkab,RSU,-6.869866,112.272979,1,0,SIRS Kemenkes,2026-LIVE
 3515159,RSAL dr SOEKANTYO JAHJA PUSPENERBAL,Jl. Raya Bandara Ir. H. Juanda,031-8669934,3515,C,tni_polri,TNI AL,RSU,-7.380814,112.763986,1,0,SIRS Kemenkes,2026-LIVE
@@ -445,4 +445,4 @@ kode_rs,nama_rs,alamat,telepon,kode_bps,kelas,kepemilikan,pemilik_raw,jenis_rs,l
 3528042,Rumah Sakit Bhayangkara Pamekasan,Jl. Raya Nyalaran no 224,03246650016,3528,D,tni_polri,POLRI,RSU,,,0,1,SIRS Kemenkes,2026-LIVE
 3517112,RSIA ANNISA MEDIKA HUSADA,"Jl. Raya Gambiran NO. 166-168, Mojoagung",082123600062,3517,C,swasta,SWASTA/LAINNYA,RSIA,,,0,1,SIRS Kemenkes,2026-LIVE
 3517113,RS BHAYANGKARA TK IV JOMBANG,Jl. KH. Romli Tamim,087711882042,3517,D,tni_polri,POLRI,RSU,-7.553026,112.247041,1,0,SIRS Kemenkes,2026-LIVE
-3514073,RSNU PASURUAN,Jl. Raya Kejayan No.2,08179628531,3514,D,swasta,Organisasi Islam,RSU,-7.69176,112.88081,1,0,SIRS Kemenkes,2026-LIVE
+3514073,RSNU PASURUAN,Jl Raya Kejayan No 2,08179628531,3514,D,swasta,Organisasi Islam,RSU,-7.69176,112.88081,1,0,SIRS Kemenkes,2026-LIVE
