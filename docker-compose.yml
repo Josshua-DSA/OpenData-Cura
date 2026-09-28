@@ -1,4 +1,5 @@
 services:
+
   postgres:
     image: postgis/postgis:15-3.3
     container_name: healthtrust_postgis
@@ -15,21 +16,50 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - cura-network  
 
-  # Adminer is a LOCAL-ONLY dev convenience. It must NOT be deployed to a
-  # server: no app-level auth and always-on is a security risk there.
-  # Start it explicitly only when needed:
-  #   docker compose up -d adminer
-  #   docker compose stop adminer
   adminer:
     image: adminer:latest
     container_name: healthtrust_adminer
-    # restart: always  (REMOVED — do not keep a passwordless DB GUI resident in prod)
     profiles: ["tools"]
     ports:
       - "8080:8080"
     depends_on:
       - postgres
+    networks:
+      - cura-network  
+
+
+  backend:
+    build: 
+      context: ./backend  
+    container_name: healthtrust_backend
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER:-cura_user}:${DB_PASSWORD:-cura_password}@postgres:5432/${DB_NAME:-cura_db}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy 
+    networks:
+      - cura-network
+
+  frontend:
+    build: 
+      context: ./frontend  
+    container_name: healthtrust_frontend
+    ports:
+      - "3000:3000" 
+    depends_on:
+      - backend
+    networks:
+      - cura-network
+
 
 volumes:
-  pgdata:
+  pgdata: 
+
+networks:
+  cura-network:
+    driver: bridge
