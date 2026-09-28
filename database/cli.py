@@ -15,6 +15,7 @@ def main():
     subparsers.add_parser("seed-kia", help="Seed Maternal and Child Health (KIA) records")
     subparsers.add_parser("seed-surveillance", help="Seed Weekly Disease Surveillance records")
     subparsers.add_parser("seed-alert-rules", help="Seed default early warning alert rules")
+    subparsers.add_parser("seed-indicators", help="Seed 8 Public Health Macro Determinant Indicators (Sanitasi, Air, Stunting, IDL, K4, BPJS, Rokok, Kepadatan)")
     subparsers.add_parser("evaluate-alerts", help="Evaluate alert rules against current data and generate events")
     subparsers.add_parser("build-ml-features", help="Build unified ML readiness dataset feature store")
     subparsers.add_parser("run-etl", help="Run full ETL pipeline")
@@ -193,6 +194,15 @@ def main():
         if os.path.exists(path):
             df_raw = pd.read_csv(path)
             upsert_alert_rules(session, df_raw.to_dict(orient="records"))
+        session.close()
+        return
+
+    if args.command == "seed-indicators":
+        from pipeline.opendata_crawler import crawl_and_parse_opendata_csv
+        from pipeline.loader import get_session, upsert_indikator_kesehatan
+        session = get_session()
+        records = crawl_and_parse_opendata_csv()
+        upsert_indikator_kesehatan(session, records)
         session.close()
         return
 
