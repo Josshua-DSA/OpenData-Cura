@@ -15,7 +15,9 @@ def main():
     subparsers.add_parser("seed-kia", help="Seed Maternal and Child Health (KIA) records")
     subparsers.add_parser("seed-surveillance", help="Seed Weekly Disease Surveillance records")
     subparsers.add_parser("seed-alert-rules", help="Seed default early warning alert rules")
+    subparsers.add_parser("seed-indicators", help="Seed 8 Public Health Macro Determinant Indicators (Sanitasi, Air, Stunting, IDL, K4, BPJS, Rokok, Kepadatan)")
     subparsers.add_parser("evaluate-alerts", help="Evaluate alert rules against current data and generate events")
+    subparsers.add_parser("evaluate-kpi", help="Evaluate regional KPI scoring and prescriptive recommendations")
     subparsers.add_parser("build-ml-features", help="Build unified ML readiness dataset feature store")
     subparsers.add_parser("run-etl", help="Run full ETL pipeline")
     subparsers.add_parser("test-db", help="Run test suite for data layer")
@@ -196,6 +198,15 @@ def main():
         session.close()
         return
 
+    if args.command == "seed-indicators":
+        from pipeline.opendata_crawler import crawl_and_parse_opendata_csv
+        from pipeline.loader import get_session, upsert_indikator_kesehatan
+        session = get_session()
+        records = crawl_and_parse_opendata_csv()
+        upsert_indikator_kesehatan(session, records)
+        session.close()
+        return
+
     if args.command == "evaluate-alerts":
         import os
         import pandas as pd
@@ -207,6 +218,14 @@ def main():
         session = get_session()
         upsert_alert_events(session, df_alerts.to_dict(orient="records"))
         session.close()
+        return
+
+    if args.command == "evaluate-kpi":
+        import os
+        from etl.transform.evaluate_recommendations import evaluate_regional_kpi_recommendations
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        exports_dir = os.path.join(base_dir, "exports")
+        evaluate_regional_kpi_recommendations(exports_dir)
         return
 
     if args.command == "build-ml-features":
