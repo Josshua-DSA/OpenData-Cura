@@ -33,15 +33,18 @@ services:
 
   backend:
     build: 
-      context: ./backend  
+      context: .                          
+      dockerfile: backend/Dockerfile      
     container_name: healthtrust_backend
+    env_file:             
+      - .env              
     environment:
       - DATABASE_URL=postgresql://${DB_USER:-cura_user}:${DB_PASSWORD:-cura_password}@postgres:5432/${DB_NAME:-cura_db}
     ports:
       - "8000:8000"
     depends_on:
       postgres:
-        condition: service_healthy 
+        condition: service_healthy
     networks:
       - cura-network
 
