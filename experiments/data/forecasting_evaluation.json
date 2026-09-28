@@ -1,0 +1,24 @@
+{
+  "random_forest": {
+    "rmse": 233.56,
+    "mae": 167.56,
+    "mape_pct": 13.6
+  },
+  "xgboost": {
+    "rmse": 240.15,
+    "mae": 175.58,
+    "mape_pct": 15.6
+  },
+  "sarimax_seasonal": {
+    "rmse": 264.33,
+    "mae": 197.76,
+    "mape_pct": 15.49
+  },
+  "ridge_regression": {
+    "rmse": 252.5,
+    "mae": 195.22,
+    "mape_pct": 18.85
+  },
+  "best_model": "Random Forest Regressor",
+  "target_mape_met": true
+}

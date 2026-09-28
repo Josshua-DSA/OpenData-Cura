@@ -1,0 +1,64 @@
+{
+  "provinsi": "Jawa Timur",
+  "tahun_analisis": "2026",
+  "total_kab_kota": 38,
+  "skor_kesehatan_provinsi_mean": 47.09,
+  "skor_kesehatan_provinsi_weighted": 45.65,
+  "jumlah_wilayah_prioritas_intervensi": 10,
+  "jumlah_wilayah_waspada": 19,
+  "jumlah_wilayah_tangguh": 9,
+  "top_5_prioritas_intervensi": [
+    {
+      "kode_bps": 3529,
+      "nama_wilayah": "Kabupaten Sumenep",
+      "skor_kesehatan": 33.29
+    },
+    {
+      "kode_bps": 3513,
+      "nama_wilayah": "Kabupaten Probolinggo",
+      "skor_kesehatan": 34.16
+    },
+    {
+      "kode_bps": 3512,
+      "nama_wilayah": "Kabupaten Situbondo",
+      "skor_kesehatan": 35.89
+    },
+    {
+      "kode_bps": 3521,
+      "nama_wilayah": "Kabupaten Ngawi",
+      "skor_kesehatan": 36.11
+    },
+    {
+      "kode_bps": 3507,
+      "nama_wilayah": "Kabupaten Malang",
+      "skor_kesehatan": 37.23
+    }
+  ],
+  "top_5_wilayah_tertinggi": [
+    {
+      "kode_bps": 3571,
+      "nama_wilayah": "Kota Kediri",
+      "skor_kesehatan": 63.52
+    },
+    {
+      "kode_bps": 3522,
+      "nama_wilayah": "Kabupaten Bojonegoro",
+      "skor_kesehatan": 61.5
+    },
+    {
+      "kode_bps": 3576,
+      "nama_wilayah": "Kota Mojokerto",
+      "skor_kesehatan": 59.87
+    },
+    {
+      "kode_bps": 3572,
+      "nama_wilayah": "Kota Blitar",
+      "skor_kesehatan": 59.61
+    },
+    {
+      "kode_bps": 3577,
+      "nama_wilayah": "Kota Madiun",
+      "skor_kesehatan": 59.12
+    }
+  ]
+}
