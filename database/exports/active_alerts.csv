@@ -11,13 +11,13 @@ defisit_dokter,3527,Kabupaten Sampang,0.179,Rasio dokter umum Kabupaten Sampang 
 defisit_dokter,3526,Kabupaten Bangkalan,0.207,Rasio dokter umum Kabupaten Bangkalan (0.21 per 1.000) tergolong defisit kritis.,waspada,active
 defisit_dokter,3525,Kabupaten Gresik,0.185,Rasio dokter umum Kabupaten Gresik (0.18 per 1.000) tergolong defisit kritis.,waspada,active
 defisit_dokter,3524,Kabupaten Lamongan,0.207,Rasio dokter umum Kabupaten Lamongan (0.21 per 1.000) tergolong defisit kritis.,waspada,active
-rasio_tt_defisit,3523,Kabupaten Tuban,0.7,Rasio tempat tidur Kabupaten Tuban (0.70 per 1.000) berada di bawah standar minimal WHO (1.0).,waspada,active
+rasio_tt_defisit,3523,Kabupaten Tuban,0.71,Rasio tempat tidur Kabupaten Tuban (0.71 per 1.000) berada di bawah standar minimal WHO (1.0).,waspada,active
 defisit_dokter,3523,Kabupaten Tuban,0.163,Rasio dokter umum Kabupaten Tuban (0.16 per 1.000) tergolong defisit kritis.,waspada,active
 defisit_dokter,3522,Kabupaten Bojonegoro,0.217,Rasio dokter umum Kabupaten Bojonegoro (0.22 per 1.000) tergolong defisit kritis.,waspada,active
 defisit_dokter,3521,Kabupaten Ngawi,0.127,Rasio dokter umum Kabupaten Ngawi (0.13 per 1.000) tergolong defisit kritis.,waspada,active
 defisit_dokter,3502,Kabupaten Ponorogo,0.15,Rasio dokter umum Kabupaten Ponorogo (0.15 per 1.000) tergolong defisit kritis.,waspada,active
 defisit_dokter,3519,Kabupaten Madiun,0.201,Rasio dokter umum Kabupaten Madiun (0.20 per 1.000) tergolong defisit kritis.,waspada,active
-rasio_tt_defisit,3518,Kabupaten Nganjuk,0.86,Rasio tempat tidur Kabupaten Nganjuk (0.86 per 1.000) berada di bawah standar minimal WHO (1.0).,waspada,active
+rasio_tt_defisit,3518,Kabupaten Nganjuk,0.85,Rasio tempat tidur Kabupaten Nganjuk (0.85 per 1.000) berada di bawah standar minimal WHO (1.0).,waspada,active
 defisit_dokter,3518,Kabupaten Nganjuk,0.137,Rasio dokter umum Kabupaten Nganjuk (0.14 per 1.000) tergolong defisit kritis.,waspada,active
 rasio_tt_defisit,3520,Kabupaten Magetan,0.78,Rasio tempat tidur Kabupaten Magetan (0.78 per 1.000) berada di bawah standar minimal WHO (1.0).,waspada,active
 defisit_dokter,3520,Kabupaten Magetan,0.193,Rasio dokter umum Kabupaten Magetan (0.19 per 1.000) tergolong defisit kritis.,waspada,active
@@ -34,7 +34,7 @@ rasio_tt_defisit,3505,Kabupaten Blitar,0.75,Rasio tempat tidur Kabupaten Blitar 
 defisit_dokter,3505,Kabupaten Blitar,0.212,Rasio dokter umum Kabupaten Blitar (0.21 per 1.000) tergolong defisit kritis.,waspada,active
 rasio_tt_defisit,3509,Kabupaten Jember,0.85,Rasio tempat tidur Kabupaten Jember (0.85 per 1.000) berada di bawah standar minimal WHO (1.0).,waspada,active
 defisit_dokter,3509,Kabupaten Jember,0.189,Rasio dokter umum Kabupaten Jember (0.19 per 1.000) tergolong defisit kritis.,waspada,active
-rasio_tt_defisit,3510,Kabupaten Banyuwangi,0.92,Rasio tempat tidur Kabupaten Banyuwangi (0.92 per 1.000) berada di bawah standar minimal WHO (1.0).,waspada,active
+rasio_tt_defisit,3510,Kabupaten Banyuwangi,0.86,Rasio tempat tidur Kabupaten Banyuwangi (0.86 per 1.000) berada di bawah standar minimal WHO (1.0).,waspada,active
 defisit_dokter,3510,Kabupaten Banyuwangi,0.213,Rasio dokter umum Kabupaten Banyuwangi (0.21 per 1.000) tergolong defisit kritis.,waspada,active
 rasio_tt_defisit,3511,Kabupaten Bondowoso,0.75,Rasio tempat tidur Kabupaten Bondowoso (0.75 per 1.000) berada di bawah standar minimal WHO (1.0).,waspada,active
 defisit_dokter,3511,Kabupaten Bondowoso,0.129,Rasio dokter umum Kabupaten Bondowoso (0.13 per 1.000) tergolong defisit kritis.,waspada,active
