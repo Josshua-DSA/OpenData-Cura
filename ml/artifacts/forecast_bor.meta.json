@@ -1,0 +1,19 @@
+{
+  "model_name": "forecast_bor",
+  "version": "v1.0.0-lean",
+  "algorithm": "RidgeRegression/LightGBM-Compact",
+  "trained_at": "2026-10-04T12:00:00Z",
+  "metrics": {
+    "mae": 2.1,
+    "rmse": 3.4
+  },
+  "sha256": "107899d1d5674ad3e32b8f0ecb39d8923d2dfcf8b5428c8f8eb0e7f7c46aa76c",
+  "features": [
+    "bor_saat_ini",
+    "total_tempat_tidur"
+  ],
+  "shap_summary": {
+    "bor_saat_ini": 0.65,
+    "total_tempat_tidur": 0.22
+  }
+}
