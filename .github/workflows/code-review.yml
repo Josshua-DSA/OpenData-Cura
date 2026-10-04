@@ -1,6 +1,12 @@
 name: Automated Code Review & Quality Checks
 
 on:
+  push:
+    branches: [ joshua ]
+    paths:
+      - "backend/**"
+      - "database/**"
+      - ".github/workflows/code-review.yml"
   pull_request:
     branches: [ main, joshua ]
     paths:
