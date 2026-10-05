@@ -12,6 +12,7 @@ from backend.app.api.v1.endpoints import (
     transaksi,
     statistik,
     ask,
+    prediksi,
 )
 
 api_router = APIRouter()
@@ -28,3 +29,4 @@ api_router.include_router(katalog.router)
 api_router.include_router(transaksi.router)
 api_router.include_router(statistik.router)
 api_router.include_router(ask.router)
+api_router.include_router(prediksi.router)

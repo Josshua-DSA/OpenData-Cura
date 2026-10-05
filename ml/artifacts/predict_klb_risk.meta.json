@@ -1,0 +1,25 @@
+{
+  "model_name": "predict_klb_risk",
+  "version": "v1.0.0-lean",
+  "algorithm": "LogisticRegression/LightGBM-Compact",
+  "trained_at": "2026-10-04T12:00:00Z",
+  "metrics": {
+    "roc_auc": 0.89,
+    "f1_score": 0.85
+  },
+  "sha256": "a7ca5daebe8fe1768831f16e2ce1e3a3ed6dd935e65f6ecfd96827a3a06f5610",
+  "features": [
+    "kasus_minggu_ini",
+    "kasus_minggu_lalu",
+    "curah_hujan_mm",
+    "suhu_rata_rata",
+    "kepadatan_penduduk",
+    "cakupan_imunisasi_pct",
+    "sanitasi_layak_pct"
+  ],
+  "shap_summary": {
+    "kasus_minggu_ini": 0.44,
+    "curah_hujan_mm": 0.29,
+    "cakupan_imunisasi_pct": 0.17
+  }
+}

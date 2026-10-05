@@ -111,7 +111,7 @@ class OpenDataJatimFetcher(BaseFetcher):
             logger.warning(f"[OpenData Jatim] Error fetching dataset metadata: {e}")
 
     def _parse_seed_csv(self) -> List[Dict[str, Any]]:
-        """Parse local structured seed CSV ke format indikator."""
+        """Parse local structured seed CSV ke format indikator dan validasi via OOP cleaner."""
         records: List[Dict[str, Any]] = []
 
         if not os.path.exists(self._seed_path):
@@ -128,13 +128,20 @@ class OpenDataJatimFetcher(BaseFetcher):
                     "kode_bps": kbps,
                     "nama_wilayah": str(row.get("nama_wilayah", "")),
                     "tahun": int(row.get("tahun", 2024)),
-                    "topik": str(row.get("topik", "Fasilitas Kesehatan")),
-                    "nama_indikator": str(row.get("nama_indikator", "Puskesmas")),
+                    "topik": str(row.get("topik", "Sanitasi & Lingkungan")),
+                    "nama_indikator": str(row.get("nama_indikator", "Indikator")),
                     "nilai": float(row.get("nilai", 0)),
-                    "satuan": str(row.get("satuan", "Unit")),
-                    "sumber_data": "Dinas Kesehatan Provinsi Jawa Timur",
+                    "satuan": str(row.get("satuan", "%")),
+                    "sumber_data": str(row.get("sumber_file", "Dinas Kesehatan Provinsi Jawa Timur / BPS")),
                     "coverage_periode": "2024-OFFICIAL"
                 })
+
+        try:
+            from etl.transform.clean_indicators import clean_and_validate_indicators
+            df_cleaned = clean_and_validate_indicators(records)
+            records = df_cleaned.to_dict(orient="records")
+        except Exception as e:
+            logger.warning(f"[OpenData Jatim] Cleaner validation warning (fallback raw): {e}")
 
         logger.info(f"[OpenData Jatim] Successfully prepared {len(records)} indicator records.")
         return records

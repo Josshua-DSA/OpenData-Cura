@@ -8,6 +8,7 @@ from sqlalchemy import text
 from backend.app.core.config import settings
 from backend.app.core.database import async_engine
 from backend.app.api.v1.router import api_router
+from backend.app.services.ml_artifact_service import ml_artifact_service
 
 
 @asynccontextmanager
@@ -23,7 +24,13 @@ async def lifespan(app: FastAPI):
             "Cannot reach database. Ensure PostGIS is up (port 5433) and "
             "Alembic migrations have been applied: `alembic upgrade head`."
         ) from e
+
+    # Load ML artifacts from disk into memory (Lean single worker)
+    ml_artifact_service.load_all_artifacts()
+    app.state.ml_service = ml_artifact_service
+
     yield
+
     # Shutdown: Dispose DB connection pool
     await async_engine.dispose()
 

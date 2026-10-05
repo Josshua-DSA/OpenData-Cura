@@ -100,32 +100,44 @@ python3 database/cli.py seed-all
 
 ---
 
-### 3.3 `indicators_jatim.parquet` / `.csv` (Puskesmas & Nakes)
-- **Baris**: 114 baris data agregat kesehatan wilayah.
+### 3.3 `indicators_jatim.parquet` / `.csv` (8 Determinan Kesehatan Publik Jawa Timur)
+- **Baris**: 304 baris data agregat determinan makro kesehatan (38 Kab/Kota $\times$ 8 Indikator).
+- **Domain**: Lingkungan, Gizi, Akses Preventif, Proteksi Spesifik, Jaminan Finansial, dan Perilaku Berisiko.
 
 | Nama Kolom | Tipe Data | Nullable | Deskripsi |
 |---|---|---|---|
-| `kode_bps` | CHAR(4) | NO | Kode BPS Kabupaten/Kota. |
+| `kode_bps` | CHAR(4) | NO | Kode BPS Kabupaten/Kota (3501–3579). |
 | `nama_wilayah` | VARCHAR(100) | NO | Nama Kabupaten/Kota. |
 | `tahun` | INTEGER | NO | Tahun publikasi data (`2024`). |
-| `topik` | VARCHAR(50) | NO | Topik data: `'puskesmas'`, `'tenaga_kesehatan'`. |
-| `nama_indikator` | VARCHAR(150) | NO | Detail indikator (misal: 'Puskesmas Rawat Inap', 'Dokter'). |
-| `nilai` | FLOAT | NO | Nilai angka indikator. |
-| `satuan` | VARCHAR(50) | NO | Satuan ukur: `'Unit'`, `'Orang'`. |
-| `sumber_data` | VARCHAR(50) | NO | Sumber resmi: `'opendata_jatim'`. |
+| `topik` | VARCHAR(50) | NO | Topik determinan: `'Sanitasi & Lingkungan'`, `'Demografi & Lingkungan'`, `'Gizi & Tumbuh Kembang'`, `'Pelayanan KIA'`, `'Proteksi Spesifik'`, `'Jaminan Finansial'`, `'Perilaku Berisiko'`. |
+| `nama_indikator` | VARCHAR(150) | NO | Nama metrik: Akses Sanitasi Layak, Akses Air Minum Layak, Kepadatan Penduduk, Prevalensi Stunting Balita, K4 Ibu Hamil, Imunisasi Dasar Lengkap (IDL), Kepesertaan BPJS (UHC), Prevalensi Merokok. |
+| `nilai` | FLOAT | NO | Nilai angka indikator terstandarisasi. |
+| `satuan` | VARCHAR(50) | NO | Satuan ukur: `'%'`, `'jiwa/km2'`. |
+| `sumber_data` | VARCHAR(100) | NO | Sumber resmi: Dinkes Jatim, BPS Jatim, SSGI, STBM Kemenkes, BPJS. |
 | `coverage_periode`| VARCHAR(20) | NO | `'2024-OFFICIAL'`. |
 
 ---
 
 ### 3.4 `ml_readiness_dataset.parquet` (Feature Store untuk ML Engineer)
 - **Baris**: 38 baris (1 baris mewakili 1 Kabupaten/Kota).
-- **Total Fitur**: 30 fitur numerik siap latih (0 missing values / nulls).
+- **Total Fitur**: 40 fitur numerik siap latih (0 missing values / nulls).
 - **Isi Fitur**:
-  - Kapasitas: `total_rs`, `total_bed`, `bed_per_1000_2026`, `rasio_who_code`.
-  - Faskes Primer: `puskesmas_rawat_inap`, `puskesmas_non_rawat_inap`, `total_puskesmas`.
-  - Tenaga Medis: `total_dokter`, `total_perawat`, `total_bidan`, `dokter_per_10k_pop`, `nakes_per_bed`.
-  - Morbiditas: Tren kasus rawat inap 10 penyakit, kasus menular (TB, DBD, Diare), kasus PTM (Hipertensi, Diabetes).
-  - Outcome KIA: Angka Kematian Ibu (AKI), Angka Kematian Bayi (AKB), Prevalensi Stunting.
+  - **Kapasitas Faskes**: `total_rs`, `rs_pemerintah`, `rs_swasta`, `rs_tni_polri`, `total_tt`, `rasio_tt_resmi`, `proyeksi_penduduk_2026`, `rasio_tt_proyeksi_2026`, `kategori_who_proyeksi_2026`.
+  - **Faskes Primer**: `total_puskesmas`, `puskesmas_rawat_inap`, `puskesmas_non_rawat_inap`, `total_tt_puskesmas`.
+  - **Tenaga Medis**: `dokter_umum`, `dokter_spesialis`, `dokter_gigi`, `perawat`, `bidan`, `sanitarian`, `ahli_gizi`, `rasio_dokter_per_1000`, `rasio_perawat_per_1000`, `rasio_bidan_per_1000`.
+  - **Beban Morbiditas**: `total_kasus_pasien_tahunan`, `kasus_rawat_inap_tahunan`, `kasus_menular_tahunan`.
+  - **8 Determinan Makro Kesehatan Publik**:
+    - `akses_sanitasi_layak_persen`: Persentase rumah tangga dengan jamban sehat/sanitasi layak (66.8%–98.2%).
+    - `akses_air_minum_layak_persen`: Persentase akses sumber air minum layak (78.5%–98.5%).
+    - `kepadatan_penduduk_km2`: Kepadatan penduduk per km² (300 s/d 8.500 jiwa/km²).
+    - `prevalensi_stunting_balita_persen`: Angka prevalensi stunting balita SSGI/Dinkes (10.8%–27.9%).
+    - `cakupan_k4_ibu_hamil_persen`: Cakupan kunjungan kehamilan lengkap K4 (79.4%–96.2%).
+    - `cakupan_imunisasi_lengkap_persen`: Cakupan Imunisasi Dasar Lengkap / IDL (72.8%–98.5%).
+    - `cakupan_bpjs_uhc_persen`: Kepesertaan JKN/BPJS Kesehatan Universal Health Coverage (82.9%–100.0%).
+    - `prevalensi_merokok_persen`: Prevalensi merokok usia $\ge$ 15 tahun (25.8%–36.1%).
+  - **Indeks Komposit Analitik**:
+    - `indeks_risiko_stunting_sanitasi`: Rasio kerentanan stunting per unit sanitasi layak.
+    - `indeks_proteksi_preventif`: Rata-rata cakupan imunisasi dan jaminan kesehatan UHC.
 
 ---
 

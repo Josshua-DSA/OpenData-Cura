@@ -41,11 +41,16 @@ class Settings(BaseSettings):
     def SYNC_DATABASE_URL(self) -> str:
         return f"postgresql+psycopg2://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
-    # Connection Pool Settings
-    DB_POOL_SIZE: int = 20
-    DB_MAX_OVERFLOW: int = 10
-    DB_POOL_TIMEOUT: int = 30
+    # Connection Pool Settings (Tuned for Lean VPS Single Worker)
+    DB_POOL_SIZE: int = 5
+    DB_MAX_OVERFLOW: int = 5
+    DB_POOL_TIMEOUT: int = 20
     DB_POOL_RECYCLE: int = 1800
+
+    # ML Artifact Settings (Lean VPS Inference)
+    ML_ARTIFACT_DIR: str = "ml/artifacts"
+    ML_ACTIVE_MODELS: List[str] = ["forecast_bor", "predict_klb_risk"]
+    ML_ALLOW_MOCK_FALLBACK: bool = True  # Rule-based fallback if artifact not yet uploaded
 
     # Security & JWT
     JWT_SECRET_KEY: str = ""

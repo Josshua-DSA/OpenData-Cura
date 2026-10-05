@@ -1,115 +1,305 @@
 kode_bps,nama_wilayah,tahun,topik,nama_indikator,nilai,satuan,sumber_data,coverage_periode
-3501,Kabupaten Pacitan,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,12.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3501,Kabupaten Pacitan,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,12.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3501,Kabupaten Pacitan,2024,Tenaga Medis,Jumlah Dokter Umum,84.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3502,Kabupaten Ponorogo,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,18.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3502,Kabupaten Ponorogo,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,13.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3502,Kabupaten Ponorogo,2024,Tenaga Medis,Jumlah Dokter Umum,122.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3503,Kabupaten Trenggalek,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,15.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3503,Kabupaten Trenggalek,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,7.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3503,Kabupaten Trenggalek,2024,Tenaga Medis,Jumlah Dokter Umum,98.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3504,Kabupaten Tulungagung,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,19.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3504,Kabupaten Tulungagung,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,13.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3504,Kabupaten Tulungagung,2024,Tenaga Medis,Jumlah Dokter Umum,164.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3505,Kabupaten Blitar,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,16.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3505,Kabupaten Blitar,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,8.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3505,Kabupaten Blitar,2024,Tenaga Medis,Jumlah Dokter Umum,140.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3506,Kabupaten Kediri,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,20.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3506,Kabupaten Kediri,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,17.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3506,Kabupaten Kediri,2024,Tenaga Medis,Jumlah Dokter Umum,210.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3507,Kabupaten Malang,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,24.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3507,Kabupaten Malang,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,15.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3507,Kabupaten Malang,2024,Tenaga Medis,Jumlah Dokter Umum,320.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3508,Kabupaten Lumajang,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,14.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3508,Kabupaten Lumajang,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,11.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3508,Kabupaten Lumajang,2024,Tenaga Medis,Jumlah Dokter Umum,118.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3509,Kabupaten Jember,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,26.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3509,Kabupaten Jember,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,24.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3509,Kabupaten Jember,2024,Tenaga Medis,Jumlah Dokter Umum,340.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3510,Kabupaten Banyuwangi,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,22.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3510,Kabupaten Banyuwangi,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,23.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3510,Kabupaten Banyuwangi,2024,Tenaga Medis,Jumlah Dokter Umum,235.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3511,Kabupaten Bondowoso,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,13.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3511,Kabupaten Bondowoso,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,12.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3511,Kabupaten Bondowoso,2024,Tenaga Medis,Jumlah Dokter Umum,95.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3512,Kabupaten Situbondo,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,11.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3512,Kabupaten Situbondo,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,9.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3512,Kabupaten Situbondo,2024,Tenaga Medis,Jumlah Dokter Umum,88.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3513,Kabupaten Probolinggo,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,15.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3513,Kabupaten Probolinggo,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,18.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3513,Kabupaten Probolinggo,2024,Tenaga Medis,Jumlah Dokter Umum,130.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3514,Kabupaten Pasuruan,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,19.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3514,Kabupaten Pasuruan,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,14.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3514,Kabupaten Pasuruan,2024,Tenaga Medis,Jumlah Dokter Umum,195.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3515,Kabupaten Sidoarjo,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,18.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3515,Kabupaten Sidoarjo,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,9.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3515,Kabupaten Sidoarjo,2024,Tenaga Medis,Jumlah Dokter Umum,380.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3516,Kabupaten Mojokerto,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,17.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3516,Kabupaten Mojokerto,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,10.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3516,Kabupaten Mojokerto,2024,Tenaga Medis,Jumlah Dokter Umum,155.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3517,Kabupaten Jombang,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,21.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3517,Kabupaten Jombang,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,13.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3517,Kabupaten Jombang,2024,Tenaga Medis,Jumlah Dokter Umum,178.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3518,Kabupaten Nganjuk,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,15.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3518,Kabupaten Nganjuk,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,12.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3518,Kabupaten Nganjuk,2024,Tenaga Medis,Jumlah Dokter Umum,142.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3519,Kabupaten Madiun,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,13.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3519,Kabupaten Madiun,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,13.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3519,Kabupaten Madiun,2024,Tenaga Medis,Jumlah Dokter Umum,110.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3520,Kabupaten Magetan,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,14.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3520,Kabupaten Magetan,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,8.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3520,Kabupaten Magetan,2024,Tenaga Medis,Jumlah Dokter Umum,96.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3521,Kabupaten Ngawi,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,16.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3521,Kabupaten Ngawi,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,8.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3521,Kabupaten Ngawi,2024,Tenaga Medis,Jumlah Dokter Umum,114.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3522,Kabupaten Bojonegoro,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,20.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3522,Kabupaten Bojonegoro,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,16.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3522,Kabupaten Bojonegoro,2024,Tenaga Medis,Jumlah Dokter Umum,170.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3523,Kabupaten Tuban,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,17.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3523,Kabupaten Tuban,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,16.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3523,Kabupaten Tuban,2024,Tenaga Medis,Jumlah Dokter Umum,160.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3524,Kabupaten Lamongan,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,18.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3524,Kabupaten Lamongan,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,15.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3524,Kabupaten Lamongan,2024,Tenaga Medis,Jumlah Dokter Umum,165.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3525,Kabupaten Gresik,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,16.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3525,Kabupaten Gresik,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,16.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3525,Kabupaten Gresik,2024,Tenaga Medis,Jumlah Dokter Umum,220.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3526,Kabupaten Bangkalan,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,14.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3526,Kabupaten Bangkalan,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,8.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3526,Kabupaten Bangkalan,2024,Tenaga Medis,Jumlah Dokter Umum,112.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3527,Kabupaten Sampang,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,12.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3527,Kabupaten Sampang,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,10.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3527,Kabupaten Sampang,2024,Tenaga Medis,Jumlah Dokter Umum,94.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3528,Kabupaten Pamekasan,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,13.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3528,Kabupaten Pamekasan,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,7.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3528,Kabupaten Pamekasan,2024,Tenaga Medis,Jumlah Dokter Umum,106.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3529,Kabupaten Sumenep,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,18.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3529,Kabupaten Sumenep,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,12.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3529,Kabupaten Sumenep,2024,Tenaga Medis,Jumlah Dokter Umum,132.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3571,Kota Kediri,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,3.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3571,Kota Kediri,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,6.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3571,Kota Kediri,2024,Tenaga Medis,Jumlah Dokter Umum,145.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3572,Kota Blitar,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,2.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3572,Kota Blitar,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,1.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3572,Kota Blitar,2024,Tenaga Medis,Jumlah Dokter Umum,72.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3573,Kota Malang,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,5.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3573,Kota Malang,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,11.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3573,Kota Malang,2024,Tenaga Medis,Jumlah Dokter Umum,420.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3574,Kota Probolinggo,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,2.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3574,Kota Probolinggo,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,4.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3574,Kota Probolinggo,2024,Tenaga Medis,Jumlah Dokter Umum,80.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3575,Kota Pasuruan,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,2.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3575,Kota Pasuruan,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,6.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3575,Kota Pasuruan,2024,Tenaga Medis,Jumlah Dokter Umum,76.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3576,Kota Mojokerto,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,2.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3576,Kota Mojokerto,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,4.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3576,Kota Mojokerto,2024,Tenaga Medis,Jumlah Dokter Umum,68.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3577,Kota Madiun,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,3.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3577,Kota Madiun,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,3.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3577,Kota Madiun,2024,Tenaga Medis,Jumlah Dokter Umum,95.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3578,Kota Surabaya,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,23.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3578,Kota Surabaya,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,40.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3578,Kota Surabaya,2024,Tenaga Medis,Jumlah Dokter Umum,1250.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3579,Kota Batu,2024,Puskesmas,Jumlah Puskesmas Rawat Inap,2.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3579,Kota Batu,2024,Puskesmas,Jumlah Puskesmas Non Rawat Inap,3.0,Unit,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
-3579,Kota Batu,2024,Tenaga Medis,Jumlah Dokter Umum,82.0,Orang,Dinas Kesehatan Provinsi Jawa Timur,2024-OFFICIAL
+3501,Kabupaten Pacitan,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),86.5,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3501,Kabupaten Pacitan,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,88.6,%,BPS Jawa Timur,2024-OFFICIAL
+3501,Kabupaten Pacitan,2024,Demografi & Lingkungan,Kepadatan Penduduk,400.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3501,Kabupaten Pacitan,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,17.5,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3501,Kabupaten Pacitan,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,90.1,%,Dinkes Jatim,2024-OFFICIAL
+3501,Kabupaten Pacitan,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),92.0,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3501,Kabupaten Pacitan,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),87.6,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3501,Kabupaten Pacitan,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,31.2,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3502,Kabupaten Ponorogo,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),87.1,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3502,Kabupaten Ponorogo,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,89.4,%,BPS Jawa Timur,2024-OFFICIAL
+3502,Kabupaten Ponorogo,2024,Demografi & Lingkungan,Kepadatan Penduduk,650.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3502,Kabupaten Ponorogo,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,17.2,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3502,Kabupaten Ponorogo,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,90.5,%,Dinkes Jatim,2024-OFFICIAL
+3502,Kabupaten Ponorogo,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),92.7,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3502,Kabupaten Ponorogo,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),88.2,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3502,Kabupaten Ponorogo,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,31.0,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3503,Kabupaten Trenggalek,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),88.0,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3503,Kabupaten Trenggalek,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,90.1,%,BPS Jawa Timur,2024-OFFICIAL
+3503,Kabupaten Trenggalek,2024,Demografi & Lingkungan,Kepadatan Penduduk,580.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3503,Kabupaten Trenggalek,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,16.4,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3503,Kabupaten Trenggalek,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,91.2,%,Dinkes Jatim,2024-OFFICIAL
+3503,Kabupaten Trenggalek,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),93.2,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3503,Kabupaten Trenggalek,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),89.0,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3503,Kabupaten Trenggalek,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,30.4,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3504,Kabupaten Tulungagung,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),91.8,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3504,Kabupaten Tulungagung,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,92.1,%,BPS Jawa Timur,2024-OFFICIAL
+3504,Kabupaten Tulungagung,2024,Demografi & Lingkungan,Kepadatan Penduduk,1000.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3504,Kabupaten Tulungagung,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,14.2,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3504,Kabupaten Tulungagung,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,93.1,%,Dinkes Jatim,2024-OFFICIAL
+3504,Kabupaten Tulungagung,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),95.8,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3504,Kabupaten Tulungagung,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),92.1,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3504,Kabupaten Tulungagung,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,30.9,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3505,Kabupaten Blitar,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),88.2,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3505,Kabupaten Blitar,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,89.6,%,BPS Jawa Timur,2024-OFFICIAL
+3505,Kabupaten Blitar,2024,Demografi & Lingkungan,Kepadatan Penduduk,800.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3505,Kabupaten Blitar,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,15.1,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3505,Kabupaten Blitar,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,89.9,%,Dinkes Jatim,2024-OFFICIAL
+3505,Kabupaten Blitar,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),92.8,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3505,Kabupaten Blitar,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),88.9,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3505,Kabupaten Blitar,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,31.5,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3506,Kabupaten Kediri,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),89.5,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3506,Kabupaten Kediri,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,90.8,%,BPS Jawa Timur,2024-OFFICIAL
+3506,Kabupaten Kediri,2024,Demografi & Lingkungan,Kepadatan Penduduk,1150.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3506,Kabupaten Kediri,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,15.8,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3506,Kabupaten Kediri,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,90.8,%,Dinkes Jatim,2024-OFFICIAL
+3506,Kabupaten Kediri,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),93.5,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3506,Kabupaten Kediri,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),90.5,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3506,Kabupaten Kediri,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,31.2,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3507,Kabupaten Malang,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),87.6,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3507,Kabupaten Malang,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,90.5,%,BPS Jawa Timur,2024-OFFICIAL
+3507,Kabupaten Malang,2024,Demografi & Lingkungan,Kepadatan Penduduk,850.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3507,Kabupaten Malang,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,18.5,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3507,Kabupaten Malang,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,90.2,%,Dinkes Jatim,2024-OFFICIAL
+3507,Kabupaten Malang,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),91.8,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3507,Kabupaten Malang,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),91.5,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3507,Kabupaten Malang,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,31.8,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3508,Kabupaten Lumajang,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),83.2,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3508,Kabupaten Lumajang,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,87.2,%,BPS Jawa Timur,2024-OFFICIAL
+3508,Kabupaten Lumajang,2024,Demografi & Lingkungan,Kepadatan Penduduk,550.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3508,Kabupaten Lumajang,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,21.4,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3508,Kabupaten Lumajang,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,87.8,%,Dinkes Jatim,2024-OFFICIAL
+3508,Kabupaten Lumajang,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),88.4,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3508,Kabupaten Lumajang,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),88.1,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3508,Kabupaten Lumajang,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,32.9,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3509,Kabupaten Jember,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),81.4,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3509,Kabupaten Jember,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,86.5,%,BPS Jawa Timur,2024-OFFICIAL
+3509,Kabupaten Jember,2024,Demografi & Lingkungan,Kepadatan Penduduk,750.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3509,Kabupaten Jember,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,24.2,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3509,Kabupaten Jember,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,86.9,%,Dinkes Jatim,2024-OFFICIAL
+3509,Kabupaten Jember,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),87.5,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3509,Kabupaten Jember,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),86.4,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3509,Kabupaten Jember,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,33.8,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3510,Kabupaten Banyuwangi,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),85.7,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3510,Kabupaten Banyuwangi,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,89.3,%,BPS Jawa Timur,2024-OFFICIAL
+3510,Kabupaten Banyuwangi,2024,Demografi & Lingkungan,Kepadatan Penduduk,300.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3510,Kabupaten Banyuwangi,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,19.8,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3510,Kabupaten Banyuwangi,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,89.5,%,Dinkes Jatim,2024-OFFICIAL
+3510,Kabupaten Banyuwangi,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),91.0,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3510,Kabupaten Banyuwangi,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),90.8,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3510,Kabupaten Banyuwangi,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,32.4,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3511,Kabupaten Bondowoso,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),76.8,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3511,Kabupaten Bondowoso,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,83.8,%,BPS Jawa Timur,2024-OFFICIAL
+3511,Kabupaten Bondowoso,2024,Demografi & Lingkungan,Kepadatan Penduduk,500.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3511,Kabupaten Bondowoso,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,25.8,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3511,Kabupaten Bondowoso,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,83.5,%,Dinkes Jatim,2024-OFFICIAL
+3511,Kabupaten Bondowoso,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),83.2,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3511,Kabupaten Bondowoso,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),85.9,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3511,Kabupaten Bondowoso,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,35.1,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3512,Kabupaten Situbondo,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),78.4,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3512,Kabupaten Situbondo,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,84.6,%,BPS Jawa Timur,2024-OFFICIAL
+3512,Kabupaten Situbondo,2024,Demografi & Lingkungan,Kepadatan Penduduk,400.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3512,Kabupaten Situbondo,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,23.5,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3512,Kabupaten Situbondo,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,84.1,%,Dinkes Jatim,2024-OFFICIAL
+3512,Kabupaten Situbondo,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),84.9,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3512,Kabupaten Situbondo,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),86.5,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3512,Kabupaten Situbondo,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,34.8,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3513,Kabupaten Probolinggo,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),79.5,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3513,Kabupaten Probolinggo,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,85.4,%,BPS Jawa Timur,2024-OFFICIAL
+3513,Kabupaten Probolinggo,2024,Demografi & Lingkungan,Kepadatan Penduduk,700.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3513,Kabupaten Probolinggo,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,22.8,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3513,Kabupaten Probolinggo,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,85.2,%,Dinkes Jatim,2024-OFFICIAL
+3513,Kabupaten Probolinggo,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),85.8,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3513,Kabupaten Probolinggo,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),87.2,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3513,Kabupaten Probolinggo,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,34.2,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3514,Kabupaten Pasuruan,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),86.4,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3514,Kabupaten Pasuruan,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,89.7,%,BPS Jawa Timur,2024-OFFICIAL
+3514,Kabupaten Pasuruan,2024,Demografi & Lingkungan,Kepadatan Penduduk,1100.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3514,Kabupaten Pasuruan,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,20.1,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3514,Kabupaten Pasuruan,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,88.5,%,Dinkes Jatim,2024-OFFICIAL
+3514,Kabupaten Pasuruan,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),89.2,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3514,Kabupaten Pasuruan,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),90.2,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3514,Kabupaten Pasuruan,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,32.5,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3515,Kabupaten Sidoarjo,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),95.4,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3515,Kabupaten Sidoarjo,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,97.2,%,BPS Jawa Timur,2024-OFFICIAL
+3515,Kabupaten Sidoarjo,2024,Demografi & Lingkungan,Kepadatan Penduduk,3300.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3515,Kabupaten Sidoarjo,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,13.8,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3515,Kabupaten Sidoarjo,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,94.2,%,Dinkes Jatim,2024-OFFICIAL
+3515,Kabupaten Sidoarjo,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),96.5,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3515,Kabupaten Sidoarjo,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),98.2,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3515,Kabupaten Sidoarjo,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,28.2,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3516,Kabupaten Mojokerto,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),89.1,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3516,Kabupaten Mojokerto,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,92.8,%,BPS Jawa Timur,2024-OFFICIAL
+3516,Kabupaten Mojokerto,2024,Demografi & Lingkungan,Kepadatan Penduduk,1200.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3516,Kabupaten Mojokerto,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,16.2,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3516,Kabupaten Mojokerto,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,91.5,%,Dinkes Jatim,2024-OFFICIAL
+3516,Kabupaten Mojokerto,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),93.1,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3516,Kabupaten Mojokerto,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),92.4,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3516,Kabupaten Mojokerto,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,30.1,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3517,Kabupaten Jombang,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),88.5,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3517,Kabupaten Jombang,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,91.4,%,BPS Jawa Timur,2024-OFFICIAL
+3517,Kabupaten Jombang,2024,Demografi & Lingkungan,Kepadatan Penduduk,1100.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3517,Kabupaten Jombang,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,16.5,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3517,Kabupaten Jombang,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,91.2,%,Dinkes Jatim,2024-OFFICIAL
+3517,Kabupaten Jombang,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),92.5,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3517,Kabupaten Jombang,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),89.8,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3517,Kabupaten Jombang,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,30.8,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3518,Kabupaten Nganjuk,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),85.3,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3518,Kabupaten Nganjuk,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,88.9,%,BPS Jawa Timur,2024-OFFICIAL
+3518,Kabupaten Nganjuk,2024,Demografi & Lingkungan,Kepadatan Penduduk,850.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3518,Kabupaten Nganjuk,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,17.8,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3518,Kabupaten Nganjuk,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,89.2,%,Dinkes Jatim,2024-OFFICIAL
+3518,Kabupaten Nganjuk,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),91.2,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3518,Kabupaten Nganjuk,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),87.5,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3518,Kabupaten Nganjuk,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,31.4,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3519,Kabupaten Madiun,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),87.9,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3519,Kabupaten Madiun,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,90.2,%,BPS Jawa Timur,2024-OFFICIAL
+3519,Kabupaten Madiun,2024,Demografi & Lingkungan,Kepadatan Penduduk,700.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3519,Kabupaten Madiun,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,15.9,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3519,Kabupaten Madiun,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,91.0,%,Dinkes Jatim,2024-OFFICIAL
+3519,Kabupaten Madiun,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),93.4,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3519,Kabupaten Madiun,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),89.2,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3519,Kabupaten Madiun,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,30.7,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3520,Kabupaten Magetan,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),89.4,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3520,Kabupaten Magetan,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,91.5,%,BPS Jawa Timur,2024-OFFICIAL
+3520,Kabupaten Magetan,2024,Demografi & Lingkungan,Kepadatan Penduduk,900.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3520,Kabupaten Magetan,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,15.4,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3520,Kabupaten Magetan,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,91.8,%,Dinkes Jatim,2024-OFFICIAL
+3520,Kabupaten Magetan,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),94.1,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3520,Kabupaten Magetan,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),90.1,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3520,Kabupaten Magetan,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,30.2,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3521,Kabupaten Ngawi,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),86.7,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3521,Kabupaten Ngawi,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,89.1,%,BPS Jawa Timur,2024-OFFICIAL
+3521,Kabupaten Ngawi,2024,Demografi & Lingkungan,Kepadatan Penduduk,650.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3521,Kabupaten Ngawi,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,16.8,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3521,Kabupaten Ngawi,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,89.5,%,Dinkes Jatim,2024-OFFICIAL
+3521,Kabupaten Ngawi,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),91.5,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3521,Kabupaten Ngawi,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),88.4,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3521,Kabupaten Ngawi,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,31.9,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3522,Kabupaten Bojonegoro,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),84.8,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3522,Kabupaten Bojonegoro,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,88.3,%,BPS Jawa Timur,2024-OFFICIAL
+3522,Kabupaten Bojonegoro,2024,Demografi & Lingkungan,Kepadatan Penduduk,540.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3522,Kabupaten Bojonegoro,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,18.2,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3522,Kabupaten Bojonegoro,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,88.7,%,Dinkes Jatim,2024-OFFICIAL
+3522,Kabupaten Bojonegoro,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),90.5,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3522,Kabupaten Bojonegoro,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),91.2,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3522,Kabupaten Bojonegoro,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,32.8,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3523,Kabupaten Tuban,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),83.5,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3523,Kabupaten Tuban,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,87.5,%,BPS Jawa Timur,2024-OFFICIAL
+3523,Kabupaten Tuban,2024,Demografi & Lingkungan,Kepadatan Penduduk,650.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3523,Kabupaten Tuban,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,19.5,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3523,Kabupaten Tuban,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,87.9,%,Dinkes Jatim,2024-OFFICIAL
+3523,Kabupaten Tuban,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),89.8,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3523,Kabupaten Tuban,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),87.8,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3523,Kabupaten Tuban,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,33.5,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3524,Kabupaten Lamongan,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),86.2,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3524,Kabupaten Lamongan,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,89.8,%,BPS Jawa Timur,2024-OFFICIAL
+3524,Kabupaten Lamongan,2024,Demografi & Lingkungan,Kepadatan Penduduk,670.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3524,Kabupaten Lamongan,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,18.9,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3524,Kabupaten Lamongan,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,89.4,%,Dinkes Jatim,2024-OFFICIAL
+3524,Kabupaten Lamongan,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),91.4,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3524,Kabupaten Lamongan,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),89.5,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3524,Kabupaten Lamongan,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,32.1,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3525,Kabupaten Gresik,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),93.1,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3525,Kabupaten Gresik,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,94.6,%,BPS Jawa Timur,2024-OFFICIAL
+3525,Kabupaten Gresik,2024,Demografi & Lingkungan,Kepadatan Penduduk,1100.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3525,Kabupaten Gresik,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,14.5,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3525,Kabupaten Gresik,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,92.5,%,Dinkes Jatim,2024-OFFICIAL
+3525,Kabupaten Gresik,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),94.2,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3525,Kabupaten Gresik,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),98.5,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3525,Kabupaten Gresik,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,29.1,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3526,Kabupaten Bangkalan,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),71.5,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3526,Kabupaten Bangkalan,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,81.2,%,BPS Jawa Timur,2024-OFFICIAL
+3526,Kabupaten Bangkalan,2024,Demografi & Lingkungan,Kepadatan Penduduk,780.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3526,Kabupaten Bangkalan,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,26.2,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3526,Kabupaten Bangkalan,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,82.5,%,Dinkes Jatim,2024-OFFICIAL
+3526,Kabupaten Bangkalan,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),78.4,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3526,Kabupaten Bangkalan,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),85.2,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3526,Kabupaten Bangkalan,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,34.5,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3527,Kabupaten Sampang,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),66.8,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3527,Kabupaten Sampang,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,78.5,%,BPS Jawa Timur,2024-OFFICIAL
+3527,Kabupaten Sampang,2024,Demografi & Lingkungan,Kepadatan Penduduk,800.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3527,Kabupaten Sampang,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,27.9,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3527,Kabupaten Sampang,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,79.4,%,Dinkes Jatim,2024-OFFICIAL
+3527,Kabupaten Sampang,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),72.8,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3527,Kabupaten Sampang,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),83.8,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3527,Kabupaten Sampang,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,35.8,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3528,Kabupaten Pamekasan,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),73.2,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3528,Kabupaten Pamekasan,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,82.1,%,BPS Jawa Timur,2024-OFFICIAL
+3528,Kabupaten Pamekasan,2024,Demografi & Lingkungan,Kepadatan Penduduk,1100.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3528,Kabupaten Pamekasan,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,25.4,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3528,Kabupaten Pamekasan,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,83.2,%,Dinkes Jatim,2024-OFFICIAL
+3528,Kabupaten Pamekasan,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),79.2,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3528,Kabupaten Pamekasan,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),84.5,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3528,Kabupaten Pamekasan,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,35.2,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3529,Kabupaten Sumenep,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),69.4,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3529,Kabupaten Sumenep,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,79.8,%,BPS Jawa Timur,2024-OFFICIAL
+3529,Kabupaten Sumenep,2024,Demografi & Lingkungan,Kepadatan Penduduk,520.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3529,Kabupaten Sumenep,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,26.8,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3529,Kabupaten Sumenep,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,81.8,%,Dinkes Jatim,2024-OFFICIAL
+3529,Kabupaten Sumenep,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),76.5,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3529,Kabupaten Sumenep,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),82.9,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3529,Kabupaten Sumenep,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,36.1,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3571,Kota Kediri,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),96.4,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3571,Kota Kediri,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,95.9,%,BPS Jawa Timur,2024-OFFICIAL
+3571,Kota Kediri,2024,Demografi & Lingkungan,Kepadatan Penduduk,4500.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3571,Kota Kediri,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,12.8,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3571,Kota Kediri,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,94.8,%,Dinkes Jatim,2024-OFFICIAL
+3571,Kota Kediri,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),96.8,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3571,Kota Kediri,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),98.8,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3571,Kota Kediri,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,26.9,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3572,Kota Blitar,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),95.8,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3572,Kota Blitar,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,95.1,%,BPS Jawa Timur,2024-OFFICIAL
+3572,Kota Blitar,2024,Demografi & Lingkungan,Kepadatan Penduduk,4300.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3572,Kota Blitar,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,12.3,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3572,Kota Blitar,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,93.9,%,Dinkes Jatim,2024-OFFICIAL
+3572,Kota Blitar,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),95.9,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3572,Kota Blitar,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),99.2,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3572,Kota Blitar,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,27.5,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3573,Kota Malang,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),96.5,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3573,Kota Malang,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,96.8,%,BPS Jawa Timur,2024-OFFICIAL
+3573,Kota Malang,2024,Demografi & Lingkungan,Kepadatan Penduduk,5900.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3573,Kota Malang,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,13.5,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3573,Kota Malang,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,94.5,%,Dinkes Jatim,2024-OFFICIAL
+3573,Kota Malang,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),96.2,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3573,Kota Malang,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),99.1,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3573,Kota Malang,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,25.8,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3574,Kota Probolinggo,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),91.2,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3574,Kota Probolinggo,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,92.4,%,BPS Jawa Timur,2024-OFFICIAL
+3574,Kota Probolinggo,2024,Demografi & Lingkungan,Kepadatan Penduduk,4200.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3574,Kota Probolinggo,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,16.1,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3574,Kota Probolinggo,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,89.1,%,Dinkes Jatim,2024-OFFICIAL
+3574,Kota Probolinggo,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),90.2,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3574,Kota Probolinggo,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),97.8,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3574,Kota Probolinggo,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,30.5,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3575,Kota Pasuruan,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),92.5,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3575,Kota Pasuruan,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,93.8,%,BPS Jawa Timur,2024-OFFICIAL
+3575,Kota Pasuruan,2024,Demografi & Lingkungan,Kepadatan Penduduk,5600.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3575,Kota Pasuruan,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,15.2,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3575,Kota Pasuruan,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,90.4,%,Dinkes Jatim,2024-OFFICIAL
+3575,Kota Pasuruan,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),91.5,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3575,Kota Pasuruan,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),98.4,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3575,Kota Pasuruan,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,29.8,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3576,Kota Mojokerto,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),97.1,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3576,Kota Mojokerto,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,96.2,%,BPS Jawa Timur,2024-OFFICIAL
+3576,Kota Mojokerto,2024,Demografi & Lingkungan,Kepadatan Penduduk,8100.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3576,Kota Mojokerto,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,10.8,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3576,Kota Mojokerto,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,95.1,%,Dinkes Jatim,2024-OFFICIAL
+3576,Kota Mojokerto,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),97.4,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3576,Kota Mojokerto,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),100.0,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3576,Kota Mojokerto,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,27.1,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3577,Kota Madiun,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),98.2,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3577,Kota Madiun,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,97.5,%,BPS Jawa Timur,2024-OFFICIAL
+3577,Kota Madiun,2024,Demografi & Lingkungan,Kepadatan Penduduk,5300.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3577,Kota Madiun,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,11.5,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3577,Kota Madiun,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,96.2,%,Dinkes Jatim,2024-OFFICIAL
+3577,Kota Madiun,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),98.5,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3577,Kota Madiun,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),99.5,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3577,Kota Madiun,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,26.2,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3578,Kota Surabaya,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),97.8,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3578,Kota Surabaya,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,98.5,%,BPS Jawa Timur,2024-OFFICIAL
+3578,Kota Surabaya,2024,Demografi & Lingkungan,Kepadatan Penduduk,8500.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3578,Kota Surabaya,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,11.2,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3578,Kota Surabaya,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,95.8,%,Dinkes Jatim,2024-OFFICIAL
+3578,Kota Surabaya,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),98.2,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3578,Kota Surabaya,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),100.0,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3578,Kota Surabaya,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,26.5,%,Susenas BPS Jawa Timur,2024-OFFICIAL
+3579,Kota Batu,2024,Sanitasi & Lingkungan,Persentase Akses Sanitasi Layak (Jamban Sehat),95.2,%,Dinkes Jatim / STBM Kemenkes,2024-OFFICIAL
+3579,Kota Batu,2024,Sanitasi & Lingkungan,Persentase Akses Air Minum Layak,96.0,%,BPS Jawa Timur,2024-OFFICIAL
+3579,Kota Batu,2024,Demografi & Lingkungan,Kepadatan Penduduk,1050.0,jiwa/km2,BPS Jawa Timur Dalam Angka,2024-OFFICIAL
+3579,Kota Batu,2024,Gizi & Tumbuh Kembang,Prevalensi Balita Stunting,13.9,%,SSGI / Dinkes Jatim,2024-OFFICIAL
+3579,Kota Batu,2024,Pelayanan KIA,Cakupan Kunjungan K4 Ibu Hamil,92.8,%,Dinkes Jatim,2024-OFFICIAL
+3579,Kota Batu,2024,Proteksi Spesifik,Cakupan Imunisasi Dasar Lengkap (IDL),95.1,%,Dinkes Jatim / Kemenkes,2024-OFFICIAL
+3579,Kota Batu,2024,Jaminan Finansial,Cakupan Kepesertaan JKN/BPJS (UHC),99.0,%,BPJS Kesehatan Jatim,2024-OFFICIAL
+3579,Kota Batu,2024,Perilaku Berisiko,Prevalensi Merokok Usia >= 15 Tahun,27.8,%,Susenas BPS Jawa Timur,2024-OFFICIAL

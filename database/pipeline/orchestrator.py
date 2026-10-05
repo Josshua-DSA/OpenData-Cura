@@ -212,6 +212,14 @@ def execute_full_etl() -> Dict[str, Any]:
         df_alerts = evaluate_active_alerts(exports_dir)
         alert_events_records = df_alerts.to_dict(orient="records")
 
+        # Step 4I: Evaluate Regional Health KPI & Prescriptive Recommendations
+        logger.info("Step 4I: Evaluating Regional Health KPI & Prescriptive Recommendations...")
+        try:
+            from etl.transform.evaluate_recommendations import evaluate_regional_kpi_recommendations
+            evaluate_regional_kpi_recommendations(exports_dir)
+        except Exception as e:
+            logger.warning(f"[KPI Recommendations] Failed to evaluate regional recommendations: {e}")
+
         # Step 5: Load to PostgreSQL/PostGIS
         logger.info("Step 5: Loading all processed datasets to PostgreSQL/PostGIS...")
         penduduk_records = []

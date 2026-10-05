@@ -1,0 +1,12 @@
+# ==============================================================================
+# Crontab Template for Cura HealthTrust (Lean VPS Single Node)
+# Install into host user crontab:
+#   crontab -e
+#   (copy-paste lines below, adjust path /home/josjiez/Documents/HealthTrust)
+# ==============================================================================
+
+# Daily at 03:00 WIB: Sync RS & Alert Evaluation
+0 3 * * * /bin/bash /home/josjiez/Documents/HealthTrust/deploy/cron/run_etl_sync_rs.sh
+
+# Weekly on Sunday at 01:00 WIB: Open Data Jawa Timur, KPI, and Feature Store
+0 1 * * 0 /bin/bash /home/josjiez/Documents/HealthTrust/deploy/cron/run_etl_opendata_weekly.sh

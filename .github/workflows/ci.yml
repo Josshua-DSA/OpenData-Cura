@@ -65,6 +65,7 @@ jobs:
           PYTHONPATH=database python database/cli.py seed-kia
           PYTHONPATH=database python database/cli.py seed-surveillance
           PYTHONPATH=database python database/cli.py seed-alert-rules
+          PYTHONPATH=database python database/cli.py seed-indicators
           PYTHONPATH=database python database/cli.py run-etl
 
       - name: Run Data Pipeline Tests (database/tests)
