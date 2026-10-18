@@ -16,7 +16,7 @@ import json
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import KMeans, AgglomerativeClustering, DBSCAN
+from sklearn.cluster import KMeans, AgglomerativeClustering, DBSCAN, OPTICS
 from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
 from sklearn.decomposition import PCA
 
@@ -73,6 +73,31 @@ def run_clustering_models(df: pd.DataFrame):
     dbscan = DBSCAN(eps=1.8, min_samples=3)
     dbscan_labels = dbscan.fit_predict(X_scaled)
 
+    # 4. OPTICS (Multi-density Hierarchical Density Clustering)
+    optics = OPTICS(min_samples=3, xi=0.05, min_cluster_size=3)
+    optics_labels = optics.fit_predict(X_scaled)
+
+    # Helper evaluasi metrik berbasis densitas
+    def eval_density_clustering(X, labels):
+        labs = np.array(labels)
+        ncl = len(set(labs)) - (1 if -1 in labs else 0)
+        nnoise = int((labs == -1).sum()) if -1 in labs else 0
+        sil_full = round(float(silhouette_score(X, labs)), 4) if len(set(labs)) >= 2 else None
+        mask = labs != -1
+        sil_nonnoise, db, ch = None, None, None
+        if ncl >= 2 and mask.sum() > ncl and len(set(labs[mask])) >= 2:
+            sil_nonnoise = round(float(silhouette_score(X[mask], labs[mask])), 4)
+            db = round(float(davies_bouldin_score(X[mask], labs[mask])), 4)
+            ch = round(float(calinski_harabasz_score(X[mask], labs[mask])), 2)
+        return {
+            "n_clusters": ncl,
+            "n_noise": nnoise,
+            "silhouette_score_full": sil_full,
+            "silhouette_score_non_noise": sil_nonnoise,
+            "davies_bouldin_index": db,
+            "calinski_harabasz_score": ch
+        }
+
     # Evaluasi Metrik
     sil_km = silhouette_score(X_scaled, kmeans_labels)
     db_km = davies_bouldin_score(X_scaled, kmeans_labels)
@@ -81,6 +106,9 @@ def run_clustering_models(df: pd.DataFrame):
     sil_agg = silhouette_score(X_scaled, agg_labels)
     db_agg = davies_bouldin_score(X_scaled, agg_labels)
 
+    dbscan_metrics = eval_density_clustering(X_scaled, dbscan_labels)
+    optics_metrics = eval_density_clustering(X_scaled, optics_labels)
+
     # PCA 2D untuk visualisasi proyeksi
     pca = PCA(n_components=2, random_state=42)
     X_pca = pca.fit_transform(X_scaled)
@@ -88,6 +116,7 @@ def run_clustering_models(df: pd.DataFrame):
     df['cluster_kmeans'] = kmeans_labels
     df['cluster_agg'] = agg_labels
     df['cluster_dbscan'] = dbscan_labels
+    df['cluster_optics'] = optics_labels
     df['pca_1'] = X_pca[:, 0].round(3)
     df['pca_2'] = X_pca[:, 1].round(3)
 
@@ -140,6 +169,8 @@ def run_clustering_models(df: pd.DataFrame):
             "silhouette_score": round(float(sil_agg), 4),
             "davies_bouldin_index": round(float(db_agg), 4)
         },
+        "dbscan": dbscan_metrics,
+        "optics": optics_metrics,
         "pca_explained_variance_ratio": [round(float(v), 4) for v in pca.explained_variance_ratio_],
         "total_pca_variance": round(float(pca.explained_variance_ratio_.sum()), 4)
     }
@@ -149,6 +180,8 @@ def run_clustering_models(df: pd.DataFrame):
 def export_clustering_results(df: pd.DataFrame, eval_results: dict):
     """Menyimpan data hasil clustering."""
     out_dir = "Cura/OpenData-Cura/experiments/data"
+    if not os.path.exists(out_dir):
+        out_dir = "experiments/data"
     os.makedirs(out_dir, exist_ok=True)
 
     csv_path = os.path.join(out_dir, "regional_clusters.csv")
