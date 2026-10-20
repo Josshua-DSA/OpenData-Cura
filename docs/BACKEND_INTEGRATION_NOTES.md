@@ -121,13 +121,46 @@ Skrip ini akan secara otomatis:
 
 ---
 
-## 💡 4. Saran Tambahan untuk Backend
+## 💡 4. Saran & Usulan Rute Endpoint untuk Backend (FastAPI)
+
+Agar tim Frontend (Sovia) dapat langsung mengambil data ini via REST API, disarankan menambahkan rute-rute berikut pada `backend/app/api/v1/endpoints/wilayah.py`:
+
+| Method & Route | Target File di `database/exports/` | Kegunaan di Frontend / Figma |
+|---|---|---|
+| `GET /api/v1/wilayah/rekomendasi` | `regional_program_recommendations.parquet` | Mengisi tabel halaman *Program Recommendations*. |
+| `GET /api/v1/wilayah/skor` | `regional_health_index_scores.parquet` | Mengisi kartu KPI *Overview* dan chart komparasi 5 pilar (*Compare Region*). |
+| `GET /api/v1/wilayah/clusters` | `regional_clusters.parquet` | Layer choropleth klaster ketahanan kesehatan di *Health Map*. |
+| `GET /api/v1/wilayah/proyeksi-bed` | `bed_demand_forecast_2026.parquet` | Layer choropleth kebutuhan & gap ranjang WHO 2026. |
+
+### Contoh Snippet Implementasi Cepat di FastAPI:
+```python
+import pandas as pd
+from fastapi import APIRouter
+from backend.app.schemas.common import APIResponse
+
+# Joshua bisa membaca langsung file parquet bersih yang telah diekspor:
+@router.get("/rekomendasi", response_model=APIResponse[list])
+async def get_program_recommendations():
+    df = pd.read_parquet("database/exports/regional_program_recommendations.parquet")
+    return APIResponse(
+        success=True,
+        message="Rekomendasi program intervensi 38 wilayah berhasil diambil.",
+        data=df.to_dict(orient="records"),
+        meta={"total": len(df)}
+    )
+```
+
+---
+
+## 🚀 5. Tindak Lanjut Kolaborasi Tim
 
 1. **Seeding ke PostgreSQL:**
    Jika ingin membuat tabel baru untuk data ini di PostGIS, kolom `kode_bps` (VARCHAR 4) dapat dijadikan Foreign Key ke tabel referensi `ref_wilayah_jatim`.
 2. **Context Enrichment AI Insight (`/api/v1/ask`):**
    Tambahkan data dari `bayesian_top_risk_per_region` dan `regional_clusters` ke dalam prompt context builder agar jawaban bot analitik lebih kaya dan kontekstual.
-3. **Pull Request:**
+3. **Koordinasi Frontend:**
+   Dokumen panduan khusus untuk Sovia telah disiapkan di `docs/FRONTEND_INTEGRATION_NOTES.md`.
+4. **Pull Request:**
    Semua perubahan ini berada di branch `JovanML` dan siap dilakukan *merge/PR* ke branch `main`.
 
 ---
