@@ -45,6 +45,14 @@ const DEFAULT_FILTERS: RegionFilters = {
 };
 
 const PAGE_SIZE = 5;
+type RegionSortOrder = "priority" | "score-asc" | "score-desc" | "name";
+
+const STATUS_PRIORITY: Record<RegionScoreRow["status"], number> = {
+  "Prioritas Tinggi": 0,
+  "Perlu Intervensi": 1,
+  "Perlu Dipantau": 2,
+  Baik: 3,
+};
 
 const SCORE_LEGEND = [
   { range: "80–100", label: "Baik", level: "good" },
@@ -61,6 +69,7 @@ export default function AllRegionsPage({
 }: AllRegionsPageProps) {
   const [draftFilters, setDraftFilters] = useState<RegionFilters>(DEFAULT_FILTERS);
   const [appliedFilters, setAppliedFilters] = useState<RegionFilters>(DEFAULT_FILTERS);
+  const [sortOrder, setSortOrder] = useState<RegionSortOrder>("priority");
   const [page, setPage] = useState(0);
   const [selectedRegion, setSelectedRegion] = useState<RegionScoreRow | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -93,9 +102,16 @@ export default function AllRegionsPage({
           (appliedFilters.status === "Semua Status" || row.status === appliedFilters.status) &&
           matchesIndicator
         );
+      }).sort((a, b) => {
+        if (sortOrder === "priority") {
+          return STATUS_PRIORITY[a.status] - STATUS_PRIORITY[b.status] || a.score - b.score;
+        }
+        if (sortOrder === "score-asc") return a.score - b.score;
+        if (sortOrder === "score-desc") return b.score - a.score;
+        return a.name.localeCompare(b.name, "id");
       });
     },
-    [appliedFilters],
+    [appliedFilters, sortOrder],
   );
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
@@ -141,6 +157,7 @@ export default function AllRegionsPage({
     setAppliedFilters(DEFAULT_FILTERS);
     setIsLoading(false);
     setShowSuccess(false);
+    setSortOrder("priority");
     setPage(0);
   };
 
@@ -351,7 +368,25 @@ export default function AllRegionsPage({
               <div className="data-panel-title">Daftar Kondisi Kesehatan Wilayah</div>
               <div className="data-page-subtitle">Data kabupaten dan kota berdasarkan skor kesehatan komposit.</div>
             </div>
-            <span>{filtered.length} wilayah ditemukan</span>
+            <div className="data-table-tools">
+              <label className="data-table-sort">
+                <span>Urutkan</span>
+                <select
+                  value={sortOrder}
+                  onChange={(event) => {
+                    setSortOrder(event.target.value as RegionSortOrder);
+                    setPage(0);
+                  }}
+                  aria-label="Urutkan daftar wilayah"
+                >
+                  <option value="priority">Prioritas tertinggi</option>
+                  <option value="score-asc">Skor terendah</option>
+                  <option value="score-desc">Skor tertinggi</option>
+                  <option value="name">Nama A–Z</option>
+                </select>
+              </label>
+              <span>{filtered.length} wilayah ditemukan</span>
+            </div>
           </div>
           <div className="data-table-scroll">
             <table className="data-table">

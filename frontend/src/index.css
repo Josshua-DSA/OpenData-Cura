@@ -1392,6 +1392,32 @@ button,
   font-size: var(--font-size-caption);
 }
 
+.data-table-tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.data-table-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-caption);
+}
+
+.data-table-sort select {
+  min-height: 38px;
+  padding: 0 34px 0 12px;
+  color: var(--color-text-primary);
+  background: var(--color-card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font: inherit;
+}
+
 .data-search {
   width: min(calc(var(--spacing-3xl) * 7), 100%);
   height: calc(var(--spacing-2xl) + var(--spacing-sm));
