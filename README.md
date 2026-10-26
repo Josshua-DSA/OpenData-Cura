@@ -60,9 +60,9 @@ Cura dibangun bukan sekadar sebagai katalog rumah sakit, melainkan **Read-First 
 
 **Early Warning Engine (data layer)** — `alert_rules`, `alert_events`, dan CLI `evaluate-alerts` menghasilkan `active_alerts` dari rasio TT, lonjakan kasus, dan stunting. **Belum ada notifikasi push** (harus di-poll).
 
-### B. Direncanakan (🚧 — belum ada kode)
+### B. Frontend dan Fitur Lanjutan
 
-**Portal Publik (HTML/CSS/JS + Leaflet + ECharts)** — `/faskes`, `/map`, `/penyakit`, `/kia`, `/wilayah`, `/ask`, `/katalog`. Saat ini `frontend/` berisi placeholder `.gitkeep`.
+**Portal Publik (Next.js + React)** — kerangka UI dari Figma Make tersedia di `frontend/`, mencakup overview, peta, fasilitas, penyakit, perbandingan wilayah, rekomendasi program, AI Insight, dan Open Data. Ringkasan menggunakan endpoint statistik backend; AI Insight menggunakan `/api/v1/ask`; rekomendasi serta unduhan menggunakan CSV dari `database/exports/`. Beberapa visualisasi masih memakai data contoh dan perlu disambungkan ke endpoint atau export terkait.
 
 **Dashboard Manajemen (Next.js + login JWT)** — belum dibangun.
 
@@ -196,7 +196,26 @@ PYTHONPATH=. uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 * **Swagger API Documentation**: Buka `http://localhost:8000/docs` di browser.
 
-### 4. Menjalankan Verifikasi Testing
+### 4. Menjalankan Frontend
+Jalankan backend API terlebih dahulu agar ringkasan dan AI Insight dapat mengambil data. Buka terminal baru dari root repository:
+
+```powershell
+cd frontend
+npm install
+$env:NEXT_PUBLIC_API_BASE_URL = "http://localhost:8000"
+npm run dev
+```
+
+Buka **http://localhost:3001**. Export CSV tersedia dari `frontend/public/data/`, sehingga halaman Open Data dan rekomendasi dapat memakai data lokal. Untuk build produksi:
+
+```powershell
+npm run build
+npm run start
+```
+
+Docker Compose memetakan host port `3001` ke port `3000` di container frontend.
+
+### 5. Menjalankan Verifikasi Testing
 ```bash
 # Eksekusi seluruh 48 unit tests (Database Quality Gates + API Endpoints)
 PYTHONPATH=. pytest database/tests backend/tests -v
