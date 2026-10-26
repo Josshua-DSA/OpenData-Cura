@@ -51,6 +51,8 @@ export interface EastJavaMarkerMapProps {
   layers?: LayerState;
   resetKey?: number;
   focusRegion?: string;
+  year?: string;
+  priorityFilter?: "all" | "high" | "medium" | "low";
 }
 
 export default function EastJavaMarkerMap({
@@ -61,22 +63,42 @@ export default function EastJavaMarkerMap({
   layers = DEFAULT_LAYERS,
   resetKey = 0,
   focusRegion,
+  year = "2024",
+  priorityFilter = "all",
 }: EastJavaMarkerMapProps) {
   const mapRef = useRef<L.Map | null>(null);
   const [hoveredId, setHoveredId]   = useState<string | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
   const [layerPanelOpen, setLayerPanelOpen] = useState(false);
-  const numH = typeof height === "number" ? height : 480;
+  const mapHeight = typeof height === "number" ? `${height}px` : height;
 
   const cfg = METRIC_CONFIG[metric];
 
   type RegionRow = typeof regionHealth[number];
 
+  const mapRegions = useMemo(() => {
+    const yearFactor: Record<string, { bed: number; stunting: number; disease: number }> = {
+      "2024": { bed: 1, stunting: 1, disease: 1 },
+      "2023": { bed: 0.93, stunting: 1.07, disease: 1.05 },
+      "2022": { bed: 0.86, stunting: 1.15, disease: 1.12 },
+      "2021": { bed: 0.8, stunting: 1.24, disease: 1.2 },
+    };
+    const factor = yearFactor[year] ?? yearFactor["2024"];
+    return regionHealth.map((region) => ({
+      ...region,
+      bedRatio: region.bedRatio * factor.bed,
+      stuntingRate: region.stuntingRate * factor.stunting,
+      dbd: Math.round(region.dbd * factor.disease),
+      tb: Math.round(region.tb * factor.disease),
+      pneumonia: Math.round(region.pneumonia * factor.disease),
+    }));
+  }, [year]);
+
   const byId = useMemo(() => {
     const m: Record<string, RegionRow> = {};
-    for (const r of regionHealth) m[r.id] = r;
+    for (const r of mapRegions) m[r.id] = r;
     return m;
-  }, []);
+  }, [mapRegions]);
 
   const geoData = useMemo(() => ({
     type: "FeatureCollection" as const,
@@ -102,7 +124,7 @@ export default function EastJavaMarkerMap({
     <div style={{ display: "flex", flexDirection: "column", width: "100%", gap: 0 }}>
 
       {/* ── Map area ── */}
-      <div style={{ position: "relative", height: numH, borderRadius: "var(--radius-md)", overflow: "hidden", border: "1px solid var(--color-border)" }}>
+      <div style={{ position: "relative", height: mapHeight, minHeight: 420, borderRadius: "var(--radius-md)", overflow: "hidden", border: "1px solid var(--color-border)" }}>
 
         <MapContainer
           bounds={MAP_BOUNDS}
@@ -151,7 +173,7 @@ export default function EastJavaMarkerMap({
           )}
 
           {/* ── Circle markers (Titik Fasilitas) ── */}
-          {layers.markers && regionHealth.map((region) => {
+          {layers.markers && mapRegions.filter((region) => priorityFilter === "all" || region.priorityLevel === priorityFilter).map((region) => {
             const pos = MAP_CENTROIDS[region.id];
             if (!pos) return null;
             const fill    = cfg.getColor(region);
@@ -189,7 +211,7 @@ export default function EastJavaMarkerMap({
           })}
 
           {/* ── Label markers (Nama Daerah) ── */}
-          {layers.labels && regionHealth.map((region) => {
+          {layers.labels && mapRegions.filter((region) => priorityFilter === "all" || region.priorityLevel === priorityFilter).map((region) => {
             const pos = MAP_CENTROIDS[region.id];
             if (!pos) return null;
             const icon = L.divIcon({

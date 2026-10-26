@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Layers, RotateCcw, X } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Layers, RotateCcw, X, Search, MapPinned, SlidersHorizontal } from "lucide-react";
 import EastJavaMarkerMap from "../components/EastJavaMarkerMap";
 import {
   type MapMetric,
@@ -28,231 +28,90 @@ const LAYER_DEFS: { key: keyof LayerState; label: string; desc: string }[] = [
   { key: "labels",     label: "Label Nama Daerah",            desc: "Teks nama wilayah di peta" },
 ];
 
-const DEFAULT_LAYER_CHECKED: Record<keyof LayerState, boolean> = {
-  boundaries: true,
-  markers:    true,
-  heatmap:    false,
-  labels:     false,
-};
-
 export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
   const [metric, setMetric]             = useState<MapMetric>("bedRatio");
   const [layers, setLayers]             = useState<LayerState>(DEFAULT_LAYERS);
   const [resetKey, setResetKey]         = useState(0);
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
-  const [kabupatenFilter, setKabupatenFilter] = useState("Semua Wilayah");
+  const [kabupatenFilter, setKabupatenFilter] = useState("all");
+  const [priorityFilter, setPriorityFilter] = useState<"all" | "high" | "medium" | "low">("all");
+  const [regionSearch, setRegionSearch] = useState("");
+  const [regionSort, setRegionSort] = useState<"priority" | "bedRatio" | "name">("priority");
   const [year, setYear]                 = useState("2024");
-  const [layerPanelOpen, setLayerPanelOpen] = useState(false);
-  const layerBtnRef = useRef<HTMLButtonElement>(null);
-
-  // Close layer panel on outside click
-  useEffect(() => {
-    if (!layerPanelOpen) return;
-    function handler(e: MouseEvent) {
-      if (layerBtnRef.current && !layerBtnRef.current.closest("[data-layers-root]")?.contains(e.target as Node)) {
-        setLayerPanelOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [layerPanelOpen]);
+  const metricConfig = METRIC_CONFIG[metric];
+  const filteredRegions = useMemo(() => {
+    const priorityOrder = { high: 0, medium: 1, low: 2 };
+    return regionHealth
+      .filter((region) => region.name.toLocaleLowerCase("id").includes(regionSearch.toLocaleLowerCase("id")))
+      .sort((a, b) => {
+        if (regionSort === "name") return a.name.localeCompare(b.name, "id");
+        if (regionSort === "bedRatio") return a.bedRatio - b.bedRatio;
+        return priorityOrder[a.priorityLevel] - priorityOrder[b.priorityLevel] || a.bedRatio - b.bedRatio;
+      });
+  }, [regionSearch, regionSort]);
 
   const toggleLayer = (key: keyof LayerState) =>
     setLayers((prev) => ({ ...prev, [key]: !prev[key] }));
 
   const handleReset = () => {
     setMetric("bedRatio");
-    setKabupatenFilter("Semua Wilayah");
+    setKabupatenFilter("all");
+    setPriorityFilter("all");
+    setRegionSearch("");
+    setRegionSort("priority");
     setYear("2024");
     setSelectedRegion(null);
     setLayers(DEFAULT_LAYERS);
     setResetKey((k) => k + 1); // triggers fitBounds inside map
   };
 
-  const selectedData = selectedRegion
-    ? regionHealth.find((r) => r.id === selectedRegion) ?? null
-    : null;
+  const periodFactor = ({
+    "2024": { bed: 1, stunting: 1, disease: 1 },
+    "2023": { bed: 0.93, stunting: 1.07, disease: 1.05 },
+    "2022": { bed: 0.86, stunting: 1.15, disease: 1.12 },
+    "2021": { bed: 0.8, stunting: 1.24, disease: 1.2 },
+  } as const)[year as "2021" | "2022" | "2023" | "2024"];
+  const selectedBase = selectedRegion ? regionHealth.find((region) => region.id === selectedRegion) ?? null : null;
+  const selectedData = selectedBase && periodFactor ? {
+    ...selectedBase,
+    bedRatio: selectedBase.bedRatio * periodFactor.bed,
+    stuntingRate: selectedBase.stuntingRate * periodFactor.stunting,
+    dbd: Math.round(selectedBase.dbd * periodFactor.disease),
+    tb: Math.round(selectedBase.tb * periodFactor.disease),
+    pneumonia: Math.round(selectedBase.pneumonia * periodFactor.disease),
+  } : null;
 
-  const activeLayerCount = Object.values(layers).filter(Boolean).length;
+  const activeFilterCount = Number(metric !== "bedRatio") + Number(year !== "2024") + Number(kabupatenFilter !== "all") + Number(priorityFilter !== "all");
 
   return (
     <div className="cura-map-page">
       <TopBar title="Health Map — Jawa Timur" onAIPanel={onAIPanel} />
 
       <div className="cura-map-scroll">
-      {/* ── Filter bar ── */}
-      <div className="cura-filter-bar">
-        {/* Metric selector */}
-        <label style={{ display: "flex", alignItems: "center", gap: "var(--spacing-xs)", fontSize: "var(--font-size-body-sm)", color: "var(--color-text-secondary)", fontFamily: "var(--font-family-base)" }}>
-          Metrik:
-          <select
-            className="cura-select"
-            value={metric}
-            onChange={(e) => {
-              setMetric(e.target.value as MapMetric);
-              setSelectedRegion(null);
-            }}
-          >
-            <option value="bedRatio">Rasio Tempat Tidur</option>
-            <option value="stuntingRate">Prevalensi Stunting</option>
-            <option value="disease">Kasus Penyakit Menular</option>
-          </select>
-        </label>
-
-        {/* Region selector */}
-        <label style={{ display: "flex", alignItems: "center", gap: "var(--spacing-xs)", fontSize: "var(--font-size-body-sm)", color: "var(--color-text-secondary)", fontFamily: "var(--font-family-base)" }}>
-          Wilayah:
-          <select
-            className="cura-select"
-            value={kabupatenFilter}
-            onChange={(e) => setKabupatenFilter(e.target.value)}
-          >
-            <option value="Semua Wilayah">Semua Wilayah</option>
-            {regionHealth.map((r) => (
-              <option key={r.id} value={r.id}>{r.name}</option>
-            ))}
-          </select>
-        </label>
-
-        {/* Period selector */}
-        <label style={{ display: "flex", alignItems: "center", gap: "var(--spacing-xs)", fontSize: "var(--font-size-body-sm)", color: "var(--color-text-secondary)", fontFamily: "var(--font-family-base)" }}>
-          Periode:
-          <select
-            className="cura-select"
-            value={year}
-            onChange={(e) => setYear(e.target.value)}
-          >
-            {["2024", "2023", "2022", "2021"].map((y) => (
-              <option key={y} value={y}>{y}</option>
-            ))}
-          </select>
-        </label>
-
-        {/* ── Layers popover ── */}
-        <div data-layers-root style={{ position: "relative" }}>
-          <button
-            ref={layerBtnRef}
-            className="cura-btn cura-btn-secondary"
-            onClick={() => setLayerPanelOpen((v) => !v)}
-            style={{
-              display: "flex", alignItems: "center", gap: 6,
-              background: layerPanelOpen ? "var(--color-light-blue)" : undefined,
-              borderColor: layerPanelOpen ? "var(--color-medical-blue)" : undefined,
-              color: layerPanelOpen ? "var(--color-medical-blue)" : undefined,
-            }}
-          >
-            <Layers size={15} />
-            Layers
-            {activeLayerCount > 0 && (
-              <span style={{
-                background: "var(--color-medical-blue)", color: "white",
-                borderRadius: 99, fontSize: 10, fontWeight: 700,
-                padding: "0 5px", minWidth: 16, textAlign: "center",
-                lineHeight: "16px", height: 16, display: "inline-flex", alignItems: "center",
-              }}>
-                {activeLayerCount}
-              </span>
-            )}
-          </button>
-
-          {layerPanelOpen && (
-            <div style={{
-              position: "absolute", top: "calc(100% + 8px)", left: 0,
-              background: "var(--color-white)",
-              borderRadius: "var(--radius-md)",
-              border: "1px solid var(--color-border)",
-              boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-              padding: "var(--spacing-lg)",
-              width: 260,
-              zIndex: 500,
-            }}>
-              <div style={{
-                fontSize: 10, fontWeight: 700, textTransform: "uppercase",
-                letterSpacing: "0.09em", color: "var(--color-text-secondary)",
-                marginBottom: "var(--spacing-md)", fontFamily: "var(--font-family-base)",
-              }}>
-                Lapisan Peta
-              </div>
-
-              {LAYER_DEFS.map(({ key, label, desc }) => (
-                <label
-                  key={key}
-                  style={{
-                    display: "flex", alignItems: "flex-start", gap: 10,
-                    padding: "8px 0",
-                    borderBottom: "1px solid var(--color-border)",
-                    cursor: "pointer",
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={layers[key]}
-                    onChange={() => toggleLayer(key)}
-                    style={{ accentColor: "var(--color-medical-blue)", marginTop: 2, flexShrink: 0 }}
-                  />
-                  <div>
-                    <div style={{
-                      fontSize: "var(--font-size-body-sm)", fontWeight: 600,
-                      color: layers[key] ? "var(--color-navy)" : "var(--color-text-secondary)",
-                      fontFamily: "var(--font-family-base)",
-                    }}>
-                      {label}
-                    </div>
-                    <div style={{
-                      fontSize: "var(--font-size-caption)", color: "var(--color-text-secondary)",
-                      fontFamily: "var(--font-family-base)", marginTop: 1,
-                    }}>
-                      {desc}
-                    </div>
-                  </div>
-                </label>
-              ))}
-
-              <button
-                style={{
-                  marginTop: "var(--spacing-md)", width: "100%",
-                  fontSize: "var(--font-size-caption)", fontWeight: 600,
-                  color: "var(--color-text-secondary)", fontFamily: "var(--font-family-base)",
-                  background: "none", border: "none", cursor: "pointer",
-                  textAlign: "left", padding: 0,
-                }}
-                onClick={() => setLayers(DEFAULT_LAYERS)}
-              >
-                Reset layers ke default
-              </button>
+        <div className="cura-map-workspace">
+          <aside className="map-filter-panel" aria-label="Filter peta kesehatan">
+            <div className="map-filter-heading"><div className="map-filter-heading-icon"><SlidersHorizontal size={17} /></div><div><h2>Filters</h2><p>Atur data yang ditampilkan di peta</p></div><span className="map-filter-count">{activeFilterCount}</span></div>
+            <div className="map-filter-section"><div className="map-filter-section-title">Data</div>
+              <label className="map-filter-field"><span>Metrik kesehatan</span><select className="cura-select" value={metric} onChange={(event) => { setMetric(event.target.value as MapMetric); setSelectedRegion(null); }}><option value="bedRatio">Rasio tempat tidur</option><option value="stuntingRate">Prevalensi stunting</option><option value="disease">Kasus penyakit</option></select></label>
+              <label className="map-filter-field"><span>Periode</span><select className="cura-select" value={year} onChange={(event) => setYear(event.target.value)}>{["2024", "2023", "2022", "2021"].map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
             </div>
-          )}
-        </div>
-
-        {/* Reset everything */}
-        <button
-          className="cura-btn cura-btn-secondary"
-          onClick={handleReset}
-          style={{ display: "flex", alignItems: "center", gap: 6 }}
-        >
-          <RotateCcw size={14} /> Reset
-        </button>
-      </div>
-
-      {/* ── Map + optional detail drawer ── */}
-      <div className="cura-map-content">
-
-        {/* Map canvas */}
-        <div
-          className="cura-map-canvas"
-          style={{ flex: 1, padding: "var(--spacing-lg)", display: "flex", flexDirection: "column", minHeight: 0 }}
-          onClick={() => setLayerPanelOpen(false)}
-        >
-          <EastJavaMarkerMap
-            metric={metric}
-            layers={layers}
-            resetKey={resetKey}
-            focusRegion={kabupatenFilter !== "Semua Wilayah" ? kabupatenFilter : undefined}
-            onRegionClick={(id) => setSelectedRegion((prev) => (prev === id ? null : id))}
-            height={520}
-          />
-        </div>
-
+            <div className="map-filter-section"><div className="map-filter-section-title">Wilayah</div>
+              <label className="map-filter-search"><Search size={15} /><input value={regionSearch} onChange={(event) => setRegionSearch(event.target.value)} placeholder="Cari kabupaten/kota" /></label>
+              <label className="map-filter-field"><span>Urutkan daftar wilayah</span><select className="cura-select" value={regionSort} onChange={(event) => setRegionSort(event.target.value as typeof regionSort)}><option value="priority">Prioritas penanganan tertinggi</option><option value="bedRatio">Defisit tempat tidur tertinggi</option><option value="name">Nama wilayah A–Z</option></select></label>
+              <label className="map-filter-field"><span>Fokus wilayah</span><select className="cura-select" value={kabupatenFilter} onChange={(event) => setKabupatenFilter(event.target.value)}><option value="all">Semua wilayah</option>{filteredRegions.map((region) => <option key={region.id} value={region.id}>{region.name}</option>)}</select></label>
+              <label className="map-filter-field"><span>Tingkat prioritas</span><select className="cura-select" value={priorityFilter} onChange={(event) => setPriorityFilter(event.target.value as typeof priorityFilter)}><option value="all">Semua status</option><option value="high">Tinggi</option><option value="medium">Sedang</option><option value="low">Rendah</option></select></label>
+            </div>
+            <div className="map-filter-section map-layer-section"><div className="map-filter-section-title"><Layers size={14} /> Lapisan peta</div>
+              {LAYER_DEFS.map(({ key, label, desc }) => <label className="map-layer-option" key={key}><input type="checkbox" checked={layers[key]} onChange={() => toggleLayer(key)} /><span className="map-layer-copy"><strong>{label}</strong><small>{desc}</small></span></label>)}
+            </div>
+            <div className="map-filter-footer"><span><MapPinned size={14} /> 38 kabupaten/kota</span><button type="button" onClick={handleReset}><RotateCcw size={14} /> Reset filter</button></div>
+          </aside>
+          <section className="map-stage">
+            <div className="map-stage-heading"><div><strong>{metricConfig.title}</strong><span>{year} · {kabupatenFilter === "all" ? "Jawa Timur" : regionHealth.find((region) => region.id === kabupatenFilter)?.name}</span></div><span className="map-stage-status"><i /> Peta interaktif</span></div>
+            <div className="cura-map-content">
+              <div className="cura-map-canvas">
+                <EastJavaMarkerMap metric={metric} layers={layers} resetKey={resetKey} year={year} priorityFilter={priorityFilter} focusRegion={kabupatenFilter !== "all" ? kabupatenFilter : undefined} onRegionClick={(id) => setSelectedRegion((prev) => (prev === id ? null : id))} height="calc(100vh - 154px)" />
+              </div>
         {/* ── Region detail drawer ── */}
         {selectedData && (() => {
           const status    = drawerStatus(metric, selectedData);
@@ -354,7 +213,9 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
             </>
           );
         })()}
-      </div>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   );
