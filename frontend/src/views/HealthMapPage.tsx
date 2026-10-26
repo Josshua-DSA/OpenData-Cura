@@ -97,7 +97,17 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
             </div>
             <div className="map-filter-section"><div className="map-filter-section-title">Wilayah</div>
               <label className="map-filter-search"><Search size={15} /><input value={regionSearch} onChange={(event) => setRegionSearch(event.target.value)} placeholder="Cari kabupaten/kota" /></label>
-              <label className="map-filter-field"><span>Urutkan daftar wilayah</span><select className="cura-select" value={regionSort} onChange={(event) => setRegionSort(event.target.value as typeof regionSort)}><option value="priority">Prioritas penanganan tertinggi</option><option value="bedRatio">Defisit tempat tidur tertinggi</option><option value="name">Nama wilayah A–Z</option></select></label>
+              <label className="map-filter-field"><span>Urutkan daftar wilayah</span><select className="cura-select" value={regionSort} onChange={(event) => {
+                const nextSort = event.target.value as typeof regionSort;
+                const firstRegion = [...filteredRegions].sort((a, b) => {
+                  if (nextSort === "name") return a.name.localeCompare(b.name, "id");
+                  if (nextSort === "bedRatio") return a.bedRatio - b.bedRatio;
+                  const priorityOrder = { high: 0, medium: 1, low: 2 };
+                  return priorityOrder[a.priorityLevel] - priorityOrder[b.priorityLevel] || a.bedRatio - b.bedRatio;
+                })[0];
+                setRegionSort(nextSort);
+                if (firstRegion) setKabupatenFilter(firstRegion.id);
+              }}><option value="priority">Prioritas penanganan tertinggi</option><option value="bedRatio">Defisit tempat tidur tertinggi</option><option value="name">Nama wilayah A–Z</option></select></label>
               <label className="map-filter-field"><span>Fokus wilayah</span><select className="cura-select" value={kabupatenFilter} onChange={(event) => setKabupatenFilter(event.target.value)}><option value="all">Semua wilayah</option>{filteredRegions.map((region) => <option key={region.id} value={region.id}>{region.name}</option>)}</select></label>
               <label className="map-filter-field"><span>Tingkat prioritas</span><select className="cura-select" value={priorityFilter} onChange={(event) => setPriorityFilter(event.target.value as typeof priorityFilter)}><option value="all">Semua status</option><option value="high">Tinggi</option><option value="medium">Sedang</option><option value="low">Rendah</option></select></label>
             </div>
