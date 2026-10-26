@@ -18,40 +18,69 @@ Semua dataset telah dibersihkan (0 missing values, 38 Kab/Kota Jawa Timur tersta
 
 ---
 
+## ⚠️ PANDUAN PENTING: Lokasi Data & FAQ Repositori untuk Frontend
+
+> **CATATAN UNTUK SOVIA (Frontend Engineer):**  
+> Jika Anda melihat struktur direktori atau file `.gitignore` dan bertanya:  
+> *"Kenapa folder `database/logs/`, `database/raw/`, dan `data/pgdata/` tidak ada di repositori?"*
+
+### ❓ FAQ: Mengapa 3 Folder Tersebut Tidak Ada di Git?
+1. **`database/raw/` (Sengaja Diabaikan / .gitignore):**  
+   Folder ini adalah *staging cache* sementara untuk menampung file mentah kotor hasil crawling/scraping dari SIRS Kemenkes sebelum dibersihkan. Sesuai *best practice* data engineering, file mentah kotor tidak pernah di-commit ke Git agar repo tidak membengkak. **Frontend tidak perlu dan dilarang menggunakan data mentah ini.**
+2. **`data/pgdata/` (Sengaja Diabaikan / .gitignore):**  
+   Folder ini adalah file biner fisik internal database PostgreSQL. Pada `docker-compose.yml`, data database dikelola otomatis oleh Docker melalui *Named Volume* (`pgdata`), bukan disimpan sebagai folder biasa di workspace. File biner database dilarang di-commit ke Git karena spesifik mesin OS dan rawan corrupt.
+3. **`database/logs/` (Sengaja Diabaikan / .gitignore):**  
+   Folder ini hanya berisi log teks eksekusi script lokal (`*.log`). Diabaikan oleh Git agar tim pengembang tidak saling bertabrakan (*git merge conflict*) setiap kali menjalankan skrip.
+
+---
+
+### 📍 Peta Akses: Mana yang Harus Dipakai vs Mana yang Tidak Perlu Disentuh
+
+| Lokasi di Repositori | Status untuk Frontend | Fungsi & Cara Penggunaan |
+|---|:---:|---|
+| ✅ **`database/exports/`** | **SUMBER DATA STATIS UTAMA** | Berisi file dataset bersih (`.csv` dan `.parquet`) hasil kurasi dan output model ML. Bebas dicopy ke `frontend/public/data/` untuk bahan mock/slicing tanpa perlu menyalakan database. |
+| ✅ **`database/seeds/jatim_districts.geojson`** | **SUMBER PETA SPASIAL** | File poligon batas wilayah resmi 38 Kabupaten/Kota se-Jawa Timur untuk dirender langsung di Leaflet.js / Mapbox pada halaman *Health Map*. |
+| ✅ **REST API (`http://localhost:8000/api/v1/*`)** | **SUMBER DATA DINAMIS** | Endpoint FastAPI dari Joshua & Jovan untuk konsumsi live data via `fetch()` / `axios`. |
+| ❌ `database/raw/`, `database/logs/`, `data/pgdata/` | **ABAIKAN (JANGAN DICARI)** | Khusus operasional internal pipeline backend & Docker engine. |
+
+---
+
 ## 🗺️ 1. Pemetaan Komponen UI Figma ke Sumber Data
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                                 CURA DASHBOARD (FIGMA)                                 │
-├─────────────────────┬──────────────────────────┬───────────────────────────────────────┤
-│ Frame Figma         │ Komponen Visual          │ Sumber Data ML / API Backend          │
-├─────────────────────┼──────────────────────────┼───────────────────────────────────────┤
-│ 1. Overview         │ • 4 Kartu KPI Utama      │ • regional_health_index_scores.*      │
-│                     │ • Peta Mini Jatim        │ • bed_demand_forecast_2026.*          │
-│                     │ • List Wilayah Prioritas │ • disease_morbidity_trends.*          │
-│                     │ • Tren Penyakit Utama    │                                       │
-├─────────────────────┼──────────────────────────┼───────────────────────────────────────┤
-│ 2. Health Map       │ • Choropleth 38 Wilayah  │ • GET /api/v1/wilayah/choropleth      │
-│                     │ • Switcher Layer Peta    │ • regional_vulnerability_predictions.*│
-│                     │ • Legend Baku WHO        │ • regional_clusters.*                 │
-├─────────────────────┼──────────────────────────┼───────────────────────────────────────┤
-│ 3. Compare Region   │ • Dropdown Pilih 2 Kabko │ • regional_health_index_scores.*      │
-│                     │ • Bar Chart 5 Pilar      │   (pilar_fasilitas, nakes, kia,       │
-│                     │ • Kartu Selisih Metrik   │    morbiditas, program)               │
-├─────────────────────┼──────────────────────────┼───────────────────────────────────────┤
-│ 4. Program          │ • Tabel Rekomendasi Aksi │ • regional_program_recommendations.*  │
-│    Recommendation   │ • Badge Tingkat Urgensi  │   (38 Kab/Kota lengkap dengan aksi,   │
-│                     │ • Filter Status          │    target capaian, & program Jatim)   │
-├─────────────────────┼──────────────────────────┼───────────────────────────────────────┤
-│ 5. Disease & KIA    │ • Tren 10 Penyakit Utama │ • disease_morbidity_trends.*          │
-│                     │ • KPI Stunting & KIA     │ • indicators_jatim.*                  │
-├─────────────────────┼──────────────────────────┼───────────────────────────────────────┤
-│ 6. What-If ML Sim   │ • Form Slider Parameter  │ • POST /api/v1/prediksi/klb           │
-│    (Interactive)    │ • Gauge Risiko & SHAP    │ • POST /api/v1/prediksi/bor           │
-├─────────────────────┼──────────────────────────┼───────────────────────────────────────┤
-│ 7. AI Insight       │ • Chatbot Analitik       │ • POST /api/v1/ask                    │
-│                     │                          │ • bayesian_top_risk_per_region.*      │
-└─────────────────────┴──────────────────────────┴───────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                        CURA DASHBOARD (FIGMA)                                          │
+├─────────────────────┬──────────────────────────┬───────────────────────────────────────────────────────┤
+│ Frame Figma         │ Komponen Visual          │ Sumber Data Lokal (database/exports/) & REST API      │
+├─────────────────────┼──────────────────────────┼───────────────────────────────────────────────────────┤
+│ 1. Overview         │ • 4 Kartu KPI Utama      │ • database/exports/regional_health_index_scores.csv   │
+│                     │ • Peta Mini Jatim        │ • database/exports/bed_demand_forecast_2026.csv       │
+│                     │ • List Wilayah Prioritas │ • database/exports/disease_morbidity_trends.csv       │
+│                     │ • Tren Penyakit Utama    │ • API: GET /api/v1/statistik/ringkasan                │
+├─────────────────────┼──────────────────────────┼───────────────────────────────────────────────────────┤
+│ 2. Health Map       │ • Choropleth 38 Wilayah  │ • database/seeds/jatim_districts.geojson              │
+│                     │ • Switcher Layer Peta    │ • database/exports/regional_vulnerability_predictions.*│
+│                     │ • Legend Baku WHO        │ • database/exports/regional_clusters.csv              │
+│                     │                          │ • API: GET /api/v1/wilayah/choropleth                 │
+├─────────────────────┼──────────────────────────┼───────────────────────────────────────────────────────┤
+│ 3. Compare Region   │ • Dropdown Pilih 2 Kabko │ • database/exports/regional_health_index_scores.csv   │
+│                     │ • Bar Chart 5 Pilar      │   (Kolom: pilar_fasilitas, nakes, kia,                │
+│                     │ • Kartu Selisih Metrik   │    morbiditas, program)                               │
+├─────────────────────┼──────────────────────────┼───────────────────────────────────────────────────────┤
+│ 4. Program          │ • Tabel Rekomendasi Aksi │ • database/exports/regional_program_recommendations.csv│
+│    Recommendation   │ • Badge Tingkat Urgensi  │   (38 Kab/Kota lengkap dengan aksi,                   │
+│                     │ • Filter Status          │    target capaian, & program resmi Jatim)             │
+├─────────────────────┼──────────────────────────┼───────────────────────────────────────────────────────┤
+│ 5. Disease & KIA    │ • Tren 10 Penyakit Utama │ • database/exports/disease_morbidity_trends.csv       │
+│                     │ • KPI Stunting & KIA     │ • database/exports/indicators_jatim.csv               │
+│                     │                          │ • API: GET /api/v1/penyakit/tren                      │
+├─────────────────────┼──────────────────────────┼───────────────────────────────────────────────────────┤
+│ 6. What-If ML Sim   │ • Form Slider Parameter  │ • POST /api/v1/prediksi/klb                           │
+│    (Interactive)    │ • Gauge Risiko & SHAP    │ • POST /api/v1/prediksi/bor                           │
+├─────────────────────┼──────────────────────────┼───────────────────────────────────────────────────────┤
+│ 7. AI Insight       │ • Chatbot Analitik       │ • POST /api/v1/ask                                    │
+│                     │                          │ • database/exports/bayesian_top_risk_per_region.csv   │
+└─────────────────────┴──────────────────────────┴───────────────────────────────────────────────────────┘
 ```
 
 ---
