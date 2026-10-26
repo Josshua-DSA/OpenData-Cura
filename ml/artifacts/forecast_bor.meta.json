@@ -1,19 +1,21 @@
 {
   "model_name": "forecast_bor",
-  "version": "v1.0.0-lean",
-  "algorithm": "RidgeRegression/LightGBM-Compact",
-  "trained_at": "2026-10-04T12:00:00Z",
+  "version": "v1.1.0-prod",
+  "algorithm": "RidgeRegression-Compact",
+  "trained_at": "2026-10-18T13:10:25.820732+00:00",
   "metrics": {
-    "mae": 2.1,
-    "rmse": 3.4
+    "mae": 1.87,
+    "rmse": 2.35,
+    "r2_score": 0.96
   },
-  "sha256": "107899d1d5674ad3e32b8f0ecb39d8923d2dfcf8b5428c8f8eb0e7f7c46aa76c",
+  "sha256": "8cf5cc80ce53edfb626ad7a7215983ff0ddd49ffebf45f8584b6fb73018ced1b",
   "features": [
     "bor_saat_ini",
     "total_tempat_tidur"
   ],
   "shap_summary": {
-    "bor_saat_ini": 0.65,
-    "total_tempat_tidur": 0.22
-  }
+    "bor_saat_ini": 0.82,
+    "total_tempat_tidur": 0.18
+  },
+  "disclaimer": "Proyeksi kapasitas ranjang berbasis tren statistik faskes, bukan jaminan okupansi riil."
 }

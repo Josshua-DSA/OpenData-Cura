@@ -1,0 +1,7 @@
+model,rmse,mae,mape_pct,lulus_target_mape_15pct
+Random Forest Regressor,233.56,167.56,13.6,True
+XGBoost Regressor,240.15,175.58,15.6,False
+SARIMAX Seasonal,264.33,197.76,15.49,False
+Ridge Regression,252.5,195.22,18.85,False
+VAR (Vector AR),940.1,940.1,1.96,True
+LSTM (PyTorch),28.06,24.08,8.49,True
