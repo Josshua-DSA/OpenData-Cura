@@ -1,4 +1,4 @@
-import { regionHealth } from "./healthData";
+import { regionHealth } from "./healthData.ts";
 
 export type RegionScoreStatus =
   | "Baik"

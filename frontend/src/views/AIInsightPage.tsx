@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { BrainCircuit, Send, Sparkles, MapPinned, Activity, Building2, Baby, ClipboardList } from "lucide-react";
 import TopBar from "../components/TopBar";
+import AiMessage from "../components/AiMessage";
 import { apiRequest, type ApiEnvelope } from "../lib/api";
 
 interface AIInsightPageProps {
@@ -11,6 +12,7 @@ interface AIInsightPageProps {
 interface ChatMessage {
   role: "ai" | "user";
   text: string;
+  animate?: boolean;
 }
 
 const prompts = [
@@ -26,30 +28,64 @@ type AskResult = { answer: string };
 
 export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPageProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: "ai", text: `Selamat datang di Tilik Jatim AI. Saya siap membantu membaca data kesehatan Jawa Timur tahun ${year}. Pilih pertanyaan analitik atau tuliskan pertanyaan Anda.` },
+    {
+      role: "ai",
+      text: `Selamat datang di Tilik Jatim AI. Saya siap membantu membaca data kesehatan Jawa Timur tahun ${year}. Pilih pertanyaan analitik atau tuliskan pertanyaan Anda.`,
+      animate: false,
+    },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const isBusy = isLoading || isTyping;
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isLoading]);
 
   async function ask(question: string) {
     const value = question.trim();
-    if (!value || isLoading) return;
+    if (!value || isBusy) return;
+
     setIsLoading(true);
     setInput("");
     setMessages((current) => [
-      ...current,
-      { role: "user", text: value },
+      ...current.map((m) => ({ ...m, animate: false })),
+      { role: "user", text: value, animate: false },
     ]);
+
     try {
       const result = await apiRequest<ApiEnvelope<AskResult>>("/api/v1/ask", {
         method: "POST",
-        body: JSON.stringify({ query: value, include_context_domains: ["faskes", "indikator", "sdm"] }),
+        body: JSON.stringify({
+          query: value,
+          history: messages.slice(-6).map((m) => ({ role: m.role, text: m.text })),
+          include_context_domains: ["faskes", "indikator", "sdm"],
+        }),
       });
-      setMessages((current) => [...current, { role: "ai", text: result.data.answer }]);
-    } catch {
-      setMessages((current) => [...current, { role: "ai", text: "API belum dapat dihubungi. Pastikan backend berjalan di http://localhost:8000, lalu coba lagi." }]);
-    } finally {
       setIsLoading(false);
+      setIsTyping(true);
+      setMessages((current) => [
+        ...current.map((m) => ({ ...m, animate: false })),
+        { role: "ai", text: result.data.answer, animate: true },
+      ]);
+    } catch {
+      setIsLoading(false);
+      setIsTyping(true);
+      setMessages((current) => [
+        ...current.map((m) => ({ ...m, animate: false })),
+        {
+          role: "ai",
+          text: "API belum dapat dihubungi. Pastikan server berjalan, lalu coba lagi.",
+          animate: true,
+        },
+      ]);
     }
   }
 
@@ -76,7 +112,13 @@ export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPag
             </div>
             <div className="ai-prompt-list">
               {prompts.map(({ icon: Icon, label, question }) => (
-                <button type="button" className="ai-prompt-button" key={label} onClick={() => ask(question)}>
+                <button
+                  type="button"
+                  className="ai-prompt-button"
+                  key={label}
+                  disabled={isBusy}
+                  onClick={() => ask(question)}
+                >
                   <Icon size={18} />
                   <span><strong>{label}</strong><small>{question}</small></span>
                 </button>
@@ -100,20 +142,62 @@ export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPag
                   {message.role === "ai" && <div className="ai-message-avatar"><Sparkles size={15} /></div>}
                   <div>
                     <span>{message.role === "ai" ? "Tilik Jatim AI" : "Anda"}</span>
-                    <p>{message.text}</p>
+                    <p>
+                      {message.role === "ai" ? (
+                        <AiMessage
+                          text={message.text}
+                          animate={message.animate}
+                          onUpdate={scrollToBottom}
+                          onDone={() => {
+                            setIsTyping(false);
+                            setMessages((prev) =>
+                              prev.map((m, i) => (i === index ? { ...m, animate: false } : m))
+                            );
+                          }}
+                        />
+                      ) : (
+                        message.text
+                      )}
+                    </p>
                   </div>
                 </div>
               ))}
+
+              {/* Indikator "sedang mengetik" saat menunggu respon API */}
+              {isLoading && (
+                <div className="ai-message ai-message-ai">
+                  <div className="ai-message-avatar"><Sparkles size={15} /></div>
+                  <div>
+                    <span>Tilik Jatim AI</span>
+                    <p className="typing-bubble">
+                      <span className="typing">
+                        <span className="dot" />
+                        <span className="dot" />
+                        <span className="dot" />
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              <div ref={messagesEndRef} />
             </div>
+
             <div className="ai-chat-composer">
               <input
                 value={input}
+                disabled={isBusy}
                 onChange={(event) => setInput(event.target.value)}
-                onKeyDown={(event) => event.key === "Enter" && ask(input)}
+                onKeyDown={(event) => event.key === "Enter" && !isBusy && ask(input)}
                 placeholder="Tanyakan wilayah, penyakit, fasilitas, skor, stunting, atau program..."
               />
-              <button type="button" className="data-primary-action" onClick={() => ask(input)}>
-                <Send size={16} /> {isLoading ? "Memuat…" : "Kirim"}
+              <button
+                type="button"
+                className="data-primary-action"
+                disabled={isBusy}
+                onClick={() => ask(input)}
+              >
+                <Send size={16} /> {isLoading ? "Memuat…" : isTyping ? "Mengetik…" : "Kirim"}
               </button>
             </div>
             <div className="ai-disclaimer">Insight merupakan dukungan keputusan berbasis data dan perlu divalidasi bersama konteks program daerah.</div>
