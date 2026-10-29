@@ -73,15 +73,18 @@ class Settings(BaseSettings):
     BACKEND_CORS_ORIGINS: List[str] = [
         "http://localhost",
         "http://localhost:3000",
+        "http://localhost:3001",
         "http://localhost:8000",
         "http://localhost:8080",
         "http://127.0.0.1:3000",
+        "http://127.0.0.1:3001",
         "http://127.0.0.1:8000",
     ]
 
     # External APIs
     API_CO_ID_KEY: str = ""
     ANTHROPIC_API_KEY: str = ""
+    GEMINI_API_KEY: str = ""
     NOMINATIM_USER_AGENT: str = "cura-healthtrust/2.0"
 
 

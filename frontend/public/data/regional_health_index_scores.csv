@@ -1,0 +1,39 @@
+kode_bps,nama_wilayah,rank_provinsi,skor_kesehatan,pilar_fasilitas,pilar_nakes,pilar_kia,pilar_morbiditas,pilar_program,kategori_status,warna_indikator,keterangan_tindakan,rasio_tt_proyeksi_2026,rasio_dokter_per_1000,prevalensi_stunting,aki,akb
+3501,Kabupaten Pacitan,8,55.05,46.96,58.31,60.29,89.27,21.23,Tangguh / Mandiri,hijau,Kondisi Baik,0.59,0.172,13.34,107.1,10.0
+3502,Kabupaten Ponorogo,15,50.36,54.62,47.43,44.03,34.19,73.88,Waspada,kuning,Perlu Dipantau Berkala,1.26,0.15,19.8,97.2,9.8
+3503,Kabupaten Trenggalek,21,45.55,40.83,28.67,60.23,51.11,45.87,Waspada,kuning,Perlu Dipantau Berkala,0.93,0.13,16.31,87.2,10.1
+3504,Kabupaten Tulungagung,22,44.98,57.76,34.13,75.49,15.94,16.36,Waspada,kuning,Perlu Dipantau Berkala,1.91,0.143,12.55,81.4,10.3
+3505,Kabupaten Blitar,19,46.5,20.31,65.94,57.01,40.97,52.21,Waspada,kuning,Perlu Dipantau Berkala,0.75,0.212,12.86,101.7,12.3
+3506,Kabupaten Kediri,17,48.45,24.74,38.68,65.36,38.24,83.01,Waspada,kuning,Perlu Dipantau Berkala,0.82,0.167,15.79,83.4,9.7
+3507,Kabupaten Malang,34,37.23,17.94,11.9,33.31,82.26,64.64,Prioritas Intervensi,merah,Membutuhkan Intervensi Mendesak,1.09,0.133,20.96,91.4,12.7
+3508,Kabupaten Lumajang,24,42.56,29.68,57.75,35.09,13.24,85.54,Waspada,kuning,Perlu Dipantau Berkala,1.0,0.162,16.58,119.8,12.2
+3509,Kabupaten Jember,31,39.11,18.54,36.4,52.44,32.58,61.3,Prioritas Intervensi,merah,Membutuhkan Intervensi Mendesak,0.84,0.189,12.04,106.1,13.8
+3510,Kabupaten Banyuwangi,23,42.83,29.96,83.37,12.87,55.79,47.19,Waspada,kuning,Perlu Dipantau Berkala,0.92,0.213,23.07,115.9,12.8
+3511,Kabupaten Bondowoso,25,41.8,34.2,42.24,47.72,58.2,27.63,Waspada,kuning,Perlu Dipantau Berkala,0.75,0.129,12.83,108.0,14.1
+3512,Kabupaten Situbondo,36,35.89,40.57,14.0,46.93,30.01,44.73,Prioritas Intervensi,merah,Membutuhkan Intervensi Mendesak,1.09,0.128,16.79,103.6,11.0
+3513,Kabupaten Probolinggo,37,34.16,27.57,35.39,29.27,50.64,35.16,Prioritas Intervensi,merah,Membutuhkan Intervensi Mendesak,0.76,0.147,22.87,113.0,8.6
+3514,Kabupaten Pasuruan,29,39.76,24.31,36.47,43.58,57.98,45.28,Prioritas Intervensi,merah,Membutuhkan Intervensi Mendesak,1.0,0.134,19.91,87.7,11.3
+3515,Kabupaten Sidoarjo,6,55.73,28.05,53.74,59.73,92.83,60.73,Tangguh / Mandiri,hijau,Kondisi Baik,1.81,0.185,17.06,83.9,10.0
+3516,Kabupaten Mojokerto,28,40.89,40.22,34.61,38.44,52.51,42.86,Waspada,kuning,Perlu Dipantau Berkala,1.42,0.139,16.88,94.1,14.9
+3517,Kabupaten Jombang,16,49.46,38.38,29.33,49.44,69.78,74.48,Waspada,kuning,Perlu Dipantau Berkala,1.19,0.15,20.62,77.7,10.4
+3518,Kabupaten Nganjuk,18,47.38,31.52,31.34,52.63,76.09,57.72,Waspada,kuning,Perlu Dipantau Berkala,0.86,0.137,22.22,73.4,8.5
+3519,Kabupaten Madiun,14,51.01,58.19,62.99,57.51,17.12,46.12,Waspada,kuning,Perlu Dipantau Berkala,1.33,0.201,14.45,105.8,9.9
+3520,Kabupaten Magetan,27,41.15,44.06,60.1,57.4,3.39,21.71,Waspada,kuning,Perlu Dipantau Berkala,0.78,0.193,18.07,76.6,10.8
+3521,Kabupaten Ngawi,35,36.11,40.01,33.39,36.05,47.67,21.76,Prioritas Intervensi,merah,Membutuhkan Intervensi Mendesak,1.05,0.127,15.59,103.2,15.5
+3522,Kabupaten Bojonegoro,2,61.5,42.29,94.75,55.62,59.84,60.66,Tangguh / Mandiri,hijau,Kondisi Baik,1.26,0.217,15.01,115.4,8.4
+3523,Kabupaten Tuban,26,41.79,29.38,39.95,40.51,56.6,52.27,Waspada,kuning,Perlu Dipantau Berkala,0.71,0.163,12.9,114.2,15.2
+3524,Kabupaten Lamongan,11,53.69,54.9,92.29,36.15,9.26,73.86,Waspada,kuning,Perlu Dipantau Berkala,1.99,0.207,20.18,103.3,10.8
+3525,Kabupaten Gresik,20,46.21,47.49,45.55,27.12,57.59,65.39,Waspada,kuning,Perlu Dipantau Berkala,1.96,0.185,20.84,86.6,15.4
+3526,Kabupaten Bangkalan,32,38.8,32.04,53.24,31.55,42.64,39.07,Prioritas Intervensi,merah,Membutuhkan Intervensi Mendesak,1.12,0.207,16.2,111.0,15.0
+3527,Kabupaten Sampang,33,37.31,18.02,30.93,23.11,94.32,44.64,Prioritas Intervensi,merah,Membutuhkan Intervensi Mendesak,0.63,0.179,23.27,75.8,15.8
+3528,Kabupaten Pamekasan,7,55.71,27.05,65.69,70.34,45.01,76.47,Tangguh / Mandiri,hijau,Kondisi Baik,0.87,0.197,14.28,72.2,11.5
+3529,Kabupaten Sumenep,38,33.29,30.97,48.48,29.23,25.53,31.42,Prioritas Intervensi,merah,Membutuhkan Intervensi Mendesak,0.76,0.21,22.18,106.0,10.4
+3571,Kota Kediri,1,63.52,68.92,63.71,63.69,72.64,44.88,Tangguh / Mandiri,hijau,Kondisi Baik,5.23,0.184,11.25,111.7,10.4
+3572,Kota Blitar,4,59.61,74.4,29.92,71.73,52.07,61.87,Tangguh / Mandiri,hijau,Kondisi Baik,4.56,0.149,8.68,95.8,13.1
+3573,Kota Malang,10,53.92,55.64,56.26,53.56,64.01,38.41,Waspada,kuning,Perlu Dipantau Berkala,4.61,0.163,11.64,114.3,12.6
+3574,Kota Probolinggo,9,55.02,54.47,16.01,82.58,54.47,62.59,Tangguh / Mandiri,hijau,Kondisi Baik,2.43,0.117,12.14,72.5,10.0
+3575,Kota Pasuruan,13,51.83,42.29,58.76,57.2,40.61,60.79,Waspada,kuning,Perlu Dipantau Berkala,1.41,0.163,11.41,115.3,11.6
+3576,Kota Mojokerto,3,59.87,92.93,41.95,81.06,12.99,40.24,Tangguh / Mandiri,hijau,Kondisi Baik,6.09,0.149,10.29,83.6,10.6
+3577,Kota Madiun,5,59.12,83.89,85.75,48.25,11.11,48.48,Tangguh / Mandiri,hijau,Kondisi Baik,8.19,0.196,11.12,108.5,15.6
+3578,Kota Surabaya,12,52.78,60.15,48.77,67.92,42.23,31.19,Waspada,kuning,Perlu Dipantau Berkala,4.13,0.196,12.37,100.2,9.8
+3579,Kota Batu,30,39.42,67.58,3.01,46.51,47.01,21.63,Prioritas Intervensi,merah,Membutuhkan Intervensi Mendesak,2.86,0.12,15.26,99.6,13.3
