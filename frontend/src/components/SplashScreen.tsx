@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Activity, BarChart3, BedDouble, Building2, MapPinned, Stethoscope } from "lucide-react";
 import tilikJatimLogo from "../assets/tilik-jatim-logo.png";
 
@@ -7,6 +7,8 @@ interface SplashScreenProps {
 }
 
 const INTRO_DURATION = 2600;
+// Safety net: however the splash is reached, never trap the user on it.
+const AUTO_COMPLETE_DURATION = 8000;
 
 function Logo({ compact = false }: { compact?: boolean }) {
   return (
@@ -28,11 +30,38 @@ function PageIndicator({ activePage }: { activePage: 1 | 2 }) {
 export default function SplashScreen({ onComplete }: SplashScreenProps) {
   const [page, setPage] = useState<1 | 2>(1);
 
+  // Remember when the intro actually started. `App` passes an inline
+  // `onComplete` arrow, so that prop is a new function on every parent render.
+  // Keeping the start time in a ref (which survives the effect re-runs caused by
+  // that unstable prop) means the intro deadline is measured from the first
+  // mount, not from the last re-render.
+  const startedAtRef = useRef<number | null>(null);
+  if (startedAtRef.current === null) startedAtRef.current = Date.now();
+
+  // Always call the latest callback of the auto-complete fallback without making
+  // it a dependency, so a changing `onComplete` can never restart that timer.
+  const onCompleteRef = useRef(onComplete);
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
   useEffect(() => {
     if (page !== 1) return;
-    const timer = window.setTimeout(() => setPage(2), INTRO_DURATION);
+    // Derive the remaining time from the recorded start so a remount or a parent
+    // re-render cannot push the page 1 -> 2 transition further into the future.
+    const elapsed = Date.now() - (startedAtRef.current ?? Date.now());
+    const remaining = Math.max(0, INTRO_DURATION - elapsed);
+    const timer = window.setTimeout(() => setPage(2), remaining);
     return () => window.clearTimeout(timer);
   }, [page]);
+
+  // Fallback exit: if the user has not pressed anything after 8 s — Skip, "Mulai
+  // Jelajahi", or a page transition — close the splash on their behalf. Keyed on
+  // nothing but mount, so it fires exactly once per mounted splash.
+  useEffect(() => {
+    const timer = window.setTimeout(() => onCompleteRef.current(), AUTO_COMPLETE_DURATION);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   return (
     <div className="cura-splash" role="dialog" aria-modal="true" aria-label="Pengenalan Tilik Jatim">
@@ -41,6 +70,10 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
 
       {page === 1 ? (
         <section className="splash-panel splash-branding-panel" key="branding">
+          <button className="splash-skip-button" type="button" onClick={onComplete}>
+            Lewati
+          </button>
+
           <div className="splash-branding-content">
             <Logo />
             <div className="splash-eyebrow">Platform Kesehatan Publik Jawa Timur</div>

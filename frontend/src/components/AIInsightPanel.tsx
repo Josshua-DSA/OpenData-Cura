@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { BrainCircuit, X, Send } from "lucide-react";
+import AiMessage from "./AiMessage";
 import { apiRequest, type ApiEnvelope } from "../lib/api";
 
 interface Message {
   role: "ai" | "user";
   text: string;
+  animate?: boolean;
 }
 
 interface AIInsightPanelProps {
@@ -15,6 +17,7 @@ const INITIAL_MESSAGES: Message[] = [
   {
     role: "ai",
     text: "Halo! Saya Tilik Jatim AI. Saya dapat membantu Anda menganalisis data kesehatan Jawa Timur. Ada yang ingin Anda ketahui?",
+    animate: false,
   },
 ];
 
@@ -28,40 +31,68 @@ export default function AIInsightPanel({ onClose }: AIInsightPanelProps) {
   const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const isBusy = isLoading || isTyping;
+
+  const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isLoading]);
 
   async function sendMessage(text: string) {
     const trimmed = text.trim();
-    if (!trimmed || isLoading) return;
-    setIsLoading(true);
+    if (!trimmed || isBusy) return;
 
-    const userMsg: Message = { role: "user", text: trimmed };
-    setMessages((prev) => [...prev, userMsg]);
+    setIsLoading(true);
+    const userMsg: Message = { role: "user", text: trimmed, animate: false };
+    setMessages((prev) => [
+      ...prev.map((m) => ({ ...m, animate: false })),
+      userMsg,
+    ]);
     setInputValue("");
+
     try {
       const result = await apiRequest<ApiEnvelope<{ answer: string }>>("/api/v1/ask", {
         method: "POST",
-        body: JSON.stringify({ query: trimmed, include_context_domains: ["faskes", "indikator", "sdm"] }),
+        body: JSON.stringify({
+          query: trimmed,
+          history: messages.slice(-6).map((m) => ({ role: m.role, text: m.text })),
+          include_context_domains: ["faskes", "indikator", "sdm"],
+        }),
       });
-      setMessages((prev) => [...prev, { role: "ai", text: result.data.answer }]);
-    } catch {
-      setMessages((prev) => [...prev, { role: "ai", text: "API belum dapat dihubungi. Pastikan backend berjalan di http://localhost:8000." }]);
-    } finally {
       setIsLoading(false);
+      setIsTyping(true);
+      setMessages((prev) => [
+        ...prev.map((m) => ({ ...m, animate: false })),
+        { role: "ai", text: result.data.answer, animate: true },
+      ]);
+    } catch {
+      setIsLoading(false);
+      setIsTyping(true);
+      setMessages((prev) => [
+        ...prev.map((m) => ({ ...m, animate: false })),
+        {
+          role: "ai",
+          text: "API belum dapat dihubungi. Pastikan server berjalan, lalu coba lagi.",
+          animate: true,
+        },
+      ]);
     }
   }
 
   function handleSuggestedPrompt(prompt: string) {
+    if (isBusy) return;
     setInputValue(prompt);
     sendMessage(prompt);
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !isBusy) {
       sendMessage(inputValue);
     }
   }
@@ -109,9 +140,34 @@ export default function AIInsightPanel({ onClose }: AIInsightPanelProps) {
               key={i}
               className={`cura-bubble ${msg.role === "ai" ? "cura-bubble-ai" : "cura-bubble-user"}`}
             >
-              {msg.text}
+              {msg.role === "ai" ? (
+                <AiMessage
+                  text={msg.text}
+                  animate={msg.animate}
+                  onUpdate={scrollToBottom}
+                  onDone={() => {
+                    setIsTyping(false);
+                    setMessages((prev) =>
+                      prev.map((m, idx) => (idx === i ? { ...m, animate: false } : m))
+                    );
+                  }}
+                />
+              ) : (
+                msg.text
+              )}
             </div>
           ))}
+
+          {/* Indikator "sedang mengetik" saat menunggu respon API */}
+          {isLoading && (
+            <div className="cura-bubble cura-bubble-ai typing-bubble">
+              <span className="typing">
+                <span className="dot" />
+                <span className="dot" />
+                <span className="dot" />
+              </span>
+            </div>
+          )}
 
           {messages.length === 1 && (
             <div style={{ marginTop: "0.75rem" }}>
@@ -132,8 +188,9 @@ export default function AIInsightPanel({ onClose }: AIInsightPanelProps) {
                   <button
                     key={prompt}
                     className="cura-chip"
+                    disabled={isBusy}
                     onClick={() => handleSuggestedPrompt(prompt)}
-                    style={{ textAlign: "left", cursor: "pointer" }}
+                    style={{ textAlign: "left", cursor: isBusy ? "not-allowed" : "pointer", opacity: isBusy ? 0.6 : 1 }}
                   >
                     {prompt}
                   </button>
@@ -150,17 +207,34 @@ export default function AIInsightPanel({ onClose }: AIInsightPanelProps) {
             type="text"
             placeholder="Tanyakan tentang data kesehatan..."
             value={inputValue}
+            disabled={isBusy}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            style={{ flex: 1, background: "none", border: "none", outline: "none", color: "var(--color-text-primary)", fontSize: "var(--font-size-body-sm)" }}
+            style={{
+              flex: 1,
+              background: "none",
+              border: "none",
+              outline: "none",
+              color: "var(--color-text-primary)",
+              fontSize: "var(--font-size-body-sm)",
+              opacity: isBusy ? 0.7 : 1,
+            }}
           />
           <button
             className="cura-btn cura-btn-primary"
+            disabled={isBusy}
             onClick={() => sendMessage(inputValue)}
-            style={{ display: "flex", alignItems: "center", gap: "0.375rem", padding: "0.5rem 1rem" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.375rem",
+              padding: "0.5rem 1rem",
+              opacity: isBusy ? 0.65 : 1,
+              cursor: isBusy ? "not-allowed" : "pointer",
+            }}
           >
             <Send size={16} />
-            {isLoading ? "Memuat…" : "Kirim"}
+            {isLoading ? "Memuat…" : isTyping ? "Mengetik…" : "Kirim"}
           </button>
         </div>
       </div>

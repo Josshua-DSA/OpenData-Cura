@@ -228,7 +228,7 @@ export default function OverviewPage({
   return (
     <div className="cura-page">
       <TopBar
-        title="Overview — Jawa Timur"
+        title="Overview Jawa Timur"
         year={year}
         onYearChange={onYearChange}
         onAIPanel={onAIPanel}
@@ -242,7 +242,7 @@ export default function OverviewPage({
           border: "none", padding: "var(--spacing-2xl)", color: "white",
         }}>
           <div style={{ fontSize: "var(--font-size-caption)", textTransform: "uppercase", letterSpacing: "0.1em", opacity: 0.65, marginBottom: "var(--spacing-sm)", fontFamily: "var(--font-family-base)", fontWeight: 600 }}>
-            Tilik Jatim — HealthTrust Jatim
+            Tilik Jatim HealthTrust Jatim
           </div>
           <h1 style={{ fontSize: 26, fontWeight: 800, margin: "0 0 var(--spacing-md)", lineHeight: 1.25, fontFamily: "var(--font-family-base)", color: "white" }}>
             {selectedRegion ? `Profil Kesehatan ${regionLabel(selectedRegion)}` : "Memahami Kesehatan Jawa Timur\nMelalui Data"}
@@ -804,7 +804,7 @@ export default function OverviewPage({
 
         <footer className="overview-footer">
           <div>
-            <strong>Tilik Jatim — HealthTrust Jawa Timur</strong>
+            <strong>Tilik Jatim HealthTrust Jawa Timur</strong>
             <span>Dashboard intelijen kesehatan publik untuk 38 kabupaten/kota.</span>
           </div>
           <span>Data simulasi analitik · Tahun {year}</span>

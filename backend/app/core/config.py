@@ -84,6 +84,7 @@ class Settings(BaseSettings):
     # External APIs
     API_CO_ID_KEY: str = ""
     ANTHROPIC_API_KEY: str = ""
+    GEMINI_API_KEY: str = ""
     NOMINATIM_USER_AGENT: str = "cura-healthtrust/2.0"
 
 
