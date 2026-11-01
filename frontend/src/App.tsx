@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useCallback, useState, useEffect } from "react"
 import Layout from "./components/Layout"
 import OverviewPage from "./views/OverviewPage"
 import HealthMapPage from "./views/HealthMapPage"
@@ -23,6 +23,26 @@ export default function App() {
   const [region, setRegion] = useState("all")
   const [recommendationRegion, setRecommendationRegion] = useState<string | null>(null)
   const [toast, setToast] = useState<string | null>(null)
+
+  // Stable identity: an inline arrow here would hand SplashScreen a new
+  // `onComplete` on every App render and restart its timers.
+  const handleSplashComplete = useCallback(() => setShowSplash(false), [])
+
+  useEffect(() => {
+    const titles: Record<Page, string> = {
+      overview: "Overview",
+      healthmap: "Health Map",
+      facilities: "Facilities",
+      disease: "Disease & KIA",
+      compare: "Compare Region",
+      regions: "All Regions",
+      programs: "Program Recommendation",
+      aiinsight: "AI Insight",
+      opendata: "Open Data",
+      about: "About",
+    }
+    document.title = `${titles[currentPage]} Jawa Timur`
+  }, [currentPage])
 
   const handleNavigate = (page: string) => {
     if (page === "programs") setRecommendationRegion(null)
@@ -73,16 +93,18 @@ export default function App() {
 
   return (
     <div className="cura-layout">
-      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
-      <Layout
-        currentPage={currentPage}
-        onNavigate={handleNavigate}
-        onAIPanel={() => setAiPanelOpen(true)}
-        year={year}
-        onYearChange={handleYearChange}
-      >
-        {renderPage()}
-      </Layout>
+      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
+      {!showSplash && (
+        <Layout
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          onAIPanel={() => setAiPanelOpen(true)}
+          year={year}
+          onYearChange={handleYearChange}
+        >
+          {renderPage()}
+        </Layout>
+      )}
 
       {aiPanelOpen && <AIInsightPanel onClose={() => setAiPanelOpen(false)} />}
 

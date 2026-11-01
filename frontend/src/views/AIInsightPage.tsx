@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { BrainCircuit, Send, Sparkles, MapPinned, Activity, Building2, Baby, ClipboardList } from "lucide-react";
 import TopBar from "../components/TopBar";
 import AiMessage from "../components/AiMessage";
@@ -38,6 +38,7 @@ export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPag
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const isBusy = isLoading || isTyping;
 
@@ -48,6 +49,15 @@ export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPag
   useEffect(() => {
     scrollToBottom();
   }, [messages, isLoading]);
+
+  useLayoutEffect(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+    textarea.style.height = "52px";
+    const contentHeight = textarea.scrollHeight;
+    textarea.style.height = `${Math.min(160, Math.max(52, contentHeight))}px`;
+    textarea.style.overflowY = contentHeight > 160 ? "auto" : "hidden";
+  }, [input]);
 
   async function ask(question: string) {
     const value = question.trim();
@@ -184,17 +194,24 @@ export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPag
             </div>
 
             <div className="ai-chat-composer">
-              <input
+              <textarea
+                ref={textareaRef}
+                rows={1}
                 value={input}
                 disabled={isBusy}
                 onChange={(event) => setInput(event.target.value)}
-                onKeyDown={(event) => event.key === "Enter" && !isBusy && ask(input)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && !event.shiftKey) {
+                    event.preventDefault();
+                    if (!isBusy && input.trim()) ask(input);
+                  }
+                }}
                 placeholder="Tanyakan wilayah, penyakit, fasilitas, skor, stunting, atau program..."
               />
               <button
                 type="button"
                 className="data-primary-action"
-                disabled={isBusy}
+                disabled={isBusy || !input.trim()}
                 onClick={() => ask(input)}
               >
                 <Send size={16} /> {isLoading ? "Memuat…" : isTyping ? "Mengetik…" : "Kirim"}

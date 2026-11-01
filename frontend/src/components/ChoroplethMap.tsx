@@ -390,7 +390,7 @@ export default function ChoroplethMap({
               {cfg.fmt(cfg.max)}
             </span>
             <span style={{ fontSize: "var(--font-size-caption)", color: "var(--color-text-secondary)", fontFamily: "var(--font-family-base)" }}>
-              — {cfg.label}
+              {cfg.label}
             </span>
           </>
         )}

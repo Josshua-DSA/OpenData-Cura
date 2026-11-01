@@ -32,7 +32,7 @@ const DEFAULT_LAYER_CHECKED: Record<keyof LayerState, boolean> = {
   boundaries: true,
   markers:    true,
   heatmap:    false,
-  labels:     false,
+  labels:     true,
 };
 
 export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
@@ -43,7 +43,15 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
   const [kabupatenFilter, setKabupatenFilter] = useState("Semua Wilayah");
   const [year, setYear]                 = useState("2024");
   const [layerPanelOpen, setLayerPanelOpen] = useState(false);
+  // Bumped when the map canvas changes width (drawer open/close) so Leaflet
+  // re-measures itself and the province stays framed.
+  const [mapBumpKey, setMapBumpKey] = useState(0);
   const layerBtnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setMapBumpKey((k) => k + 1));
+    return () => cancelAnimationFrame(frame);
+  }, [selectedRegion, layerPanelOpen]);
 
   // Close layer panel on outside click
   useEffect(() => {
@@ -59,6 +67,16 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
 
   const toggleLayer = (key: keyof LayerState) =>
     setLayers((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  const handleRegionSelect = (id: string | null) => {
+    if (!id || id === "Semua Wilayah" || id === selectedRegion) {
+      setSelectedRegion(null);
+      setKabupatenFilter("Semua Wilayah");
+    } else {
+      setSelectedRegion(id);
+      setKabupatenFilter(id);
+    }
+  };
 
   const handleReset = () => {
     setMetric("bedRatio");
@@ -77,7 +95,7 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
 
   return (
     <div className="cura-map-page">
-      <TopBar title="Health Map — Jawa Timur" onAIPanel={onAIPanel} />
+      <TopBar title="Health Map Jawa Timur" onAIPanel={onAIPanel} />
 
       <div className="cura-map-scroll">
       {/* ── Filter bar ── */}
@@ -105,7 +123,7 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
           <select
             className="cura-select"
             value={kabupatenFilter}
-            onChange={(e) => setKabupatenFilter(e.target.value)}
+            onChange={(e) => handleRegionSelect(e.target.value)}
           >
             <option value="Semua Wilayah">Semua Wilayah</option>
             {regionHealth.map((r) => (
@@ -240,16 +258,17 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
         {/* Map canvas */}
         <div
           className="cura-map-canvas"
-          style={{ flex: 1, padding: "var(--spacing-lg)", display: "flex", flexDirection: "column", minHeight: 0 }}
+          style={{ flex: 1, padding: 0, display: "flex", flexDirection: "column", minHeight: 480, height: "100%", position: "relative" }}
           onClick={() => setLayerPanelOpen(false)}
         >
           <EastJavaMarkerMap
             metric={metric}
             layers={layers}
             resetKey={resetKey}
-            focusRegion={kabupatenFilter !== "Semua Wilayah" ? kabupatenFilter : undefined}
-            onRegionClick={(id) => setSelectedRegion((prev) => (prev === id ? null : id))}
-            height={520}
+            mapBumpKey={mapBumpKey}
+            focusRegion={selectedRegion ?? (kabupatenFilter !== "Semua Wilayah" ? kabupatenFilter : undefined)}
+            onRegionClick={handleRegionSelect}
+            height="100%"
           />
         </div>
 
@@ -265,7 +284,7 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
             <>
               <div
                 className="cura-drawer-overlay"
-                onClick={() => setSelectedRegion(null)}
+                onClick={() => handleRegionSelect(null)}
                 style={{ display: "none" }}
               />
               <aside style={{
@@ -285,7 +304,7 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
                     </div>
                   </div>
                   <button
-                    onClick={() => setSelectedRegion(null)}
+                    onClick={() => handleRegionSelect(null)}
                     style={{ background: "transparent", border: "none", cursor: "pointer", color: "var(--color-text-secondary)", padding: 4, minWidth: 36, minHeight: 36, display: "flex", alignItems: "center", justifyContent: "center" }}
                   >
                     <X size={18} />

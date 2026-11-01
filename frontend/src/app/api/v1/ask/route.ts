@@ -4,6 +4,7 @@ import {
   buildDataWilayahBlock,
   buildRanking,
   isRankingQuery,
+  resolveContext,
   type EnrichedRegion,
   type RankingResult,
 } from "@/lib/regionDetector";
@@ -67,6 +68,21 @@ ATURAN FORMAT JAWABAN
 4. Pisahkan setiap bagian dengan satu baris kosong.
 5. Struktur: kalimat pembuka yang langsung menjawab dan menyebut nama wilayah bila ditanyakan, isi utama singkat, lalu "Rekomendasi:" 1-3 kalimat bila relevan.
 6. Gunakan bahasa Indonesia yang formal, ringkas, dan mudah dipahami. Maksimal 150 kata kecuali diminta lebih detail.
+
+ATURAN PERTANYAAN MAJEMUK:
+1. Jika pengguna menanyakan lebih dari satu hal dalam satu pesan (misalnya tertinggi dan terendah), jawab SEMUA bagian dalam satu respons.
+2. Beri subjudul per bagian (contoh: 'Skor Tertinggi:' dan 'Skor Terendah:'), lalu daftar bernomor.
+3. Gunakan blok PERINGKAT yang tersedia untuk setiap bagian. Jangan melewatkan bagian mana pun.
+4. Patuhi jumlah yang diminta pengguna (misalnya 3 daerah berarti tepat 3 per bagian).
+5. Tutup dengan satu 'Rekomendasi:' yang mencakup seluruh bagian.
+6. Untuk pertanyaan majemuk, batas panjang boleh sampai 250 kata.
+
+ATURAN PERTANYAAN LANJUTAN:
+1. Pertanyaan singkat (misalnya "kalau top 10 nya", "kalau yang terendah", "kalau Sampang?") mewarisi indikator, arah, dan wilayah dari pertanyaan sebelumnya.
+2. Hanya bagian yang disebut pengguna yang berubah; bagian lain tetap sama.
+3. Dilarang berganti topik sendiri (misalnya mengganti indikator stunting menjadi skor kesehatan tanpa diminta).
+4. Patuhi jumlah N yang diminta pengguna (misalnya top 10 berarti tepat 10 wilayah).
+5. Jika pengguna secara eksplisit menyebut indikator atau wilayah baru, gunakan yang baru tersebut dan abaikan konteks lama untuk elemen itu.
 `;
 
 const NON_JATIM_AREAS = [
@@ -142,7 +158,8 @@ function getGroundedLocalAnswer(
   region?: EnrichedRegion,
   regions: EnrichedRegion[] = [],
   ranking?: RankingResult,
-  unrecognizedMention?: boolean
+  unrecognizedMention?: boolean,
+  inheritedRegion?: EnrichedRegion
 ): string {
   if (unrecognizedMention) {
     return UNRECOGNIZED_REGION_RESPONSE;
@@ -177,62 +194,93 @@ function getGroundedLocalAnswer(
 
   // 2. PERINGKAT ATAU URUTAN WILAYAH BERDASARKAN INDIKATOR
   if (ranking) {
-    const { indicator, directionLabel, order, items } = ranking;
-    let opening = "";
-    let rec = "";
+    const sections = ranking.sections ?? [
+      {
+        indicator: ranking.indicator,
+        directionLabel: ranking.directionLabel,
+        order: ranking.order,
+        items: ranking.items,
+        block: "",
+      },
+    ];
 
-    if (indicator.key === "stunting") {
-      if (order === "desc") {
-        opening = `Wilayah dengan prevalensi stunting tertinggi di Jawa Timur tahun 2024 dipimpin oleh ${items[0].region.name}.`;
-        rec = "Percepat pendampingan keluarga berisiko stunting (TPK), distribusikan makanan tambahan bergizi bagi balita dan ibu hamil, serta perbaiki akses sanitasi air bersih di desa lokus.";
-      } else {
-        opening = `Wilayah dengan prevalensi stunting terendah di Jawa Timur tahun 2024 dipimpin oleh ${items[0].region.name}.`;
-        rec = "Pertahankan keberhasilan intervensi gizi spesifik posyandu dan jadikan praktik baik pemantauan tumbuh kembang balita sebagai acuan bagi wilayah lain.";
-      }
-    } else if (indicator.key === "bedRatio") {
-      if (order === "asc") {
-        opening = `Wilayah dengan rasio tempat tidur rawat inap terendah di Jawa Timur tercatat pada ${items[0].region.name}.`;
-        rec = "Tingkatkan kapasitas ruang rawat inap di puskesmas penyangga dan percepat pemenuhan tempat tidur rumah sakit rujukan tipe C dan D.";
-      } else {
-        opening = `Wilayah dengan rasio tempat tidur rawat inap tertinggi di Jawa Timur dipimpin oleh ${items[0].region.name}.`;
-        rec = "Optimalkan integrasi sistem rujukan antardaerah agar kelebihan kapasitas dapat menyangga wilayah perbatasan yang kekurangan tempat tidur.";
-      }
-    } else if (indicator.key === "nakes") {
-      if (order === "asc") {
-        opening = `Wilayah dengan rasio tenaga kesehatan paling sedikit di Jawa Timur tercatat pada ${items[0].region.name}.`;
-        rec = "Berikan insentif khusus penempatan dokter spesialis dan redistribusi tenaga medis ke puskesmas kecamatan yang kekurangan nakes.";
-      } else {
-        opening = `Wilayah dengan rasio tenaga kesehatan tertinggi di Jawa Timur tercatat pada ${items[0].region.name}.`;
-        rec = "Pertahankan rasio ideal tenaga kesehatan dan perkuat pembinaan teknis layanan kesehatan terpadu ke wilayah sekitarnya.";
-      }
-    } else if (indicator.key === "facilities") {
-      if (order === "asc") {
-        opening = `Wilayah dengan jumlah fasilitas kesehatan paling sedikit di Jawa Timur tercatat pada ${items[0].region.name}.`;
-        rec = "Tingkatkan jaringan puskesmas pembantu dan poskesdes untuk menjangkau permukiman terpencil.";
-      } else {
-        opening = `Wilayah dengan jumlah fasilitas kesehatan terbanyak di Jawa Timur dipimpin oleh ${items[0].region.name}.`;
-        rec = "Tingkatkan integrasi layanan primer antar-faskes dan pemerataan standar peralatan medis dasar.";
-      }
-    } else {
-      // Skor Kesehatan
-      if (order === "desc") {
-        opening = `Wilayah dengan skor kesehatan tertinggi di Jawa Timur tahun 2024 dipimpin oleh ${items[0].region.name}.`;
-        rec = "Pertahankan sinergi program promotif-preventif dan jadikan model tata kelola kesehatan wilayah tersebut sebagai percontohan bagi daerah lain.";
-      } else {
-        opening = `Wilayah dengan skor kesehatan terendah yang menjadi prioritas perhatian di Jawa Timur adalah ${items[0].region.name}.`;
-        rec = "Fokuskan intervensi terpadu pada pemenuhan tempat tidur puskesmas, percepatan penurunan stunting, dan distribusi dokter spesialis ke rumah sakit rujukan.";
-      }
-    }
+    const getSectionText = (
+      indicator: (typeof sections)[0]["indicator"],
+      order: "asc" | "desc",
+      directionLabel: string,
+      items: (typeof sections)[0]["items"]
+    ) => {
+      let opening = "";
+      let rec = "";
 
-    const listText = items
-      .map((it) => `${it.rank}. ${it.region.name}: ${it.formattedValue}.`)
-      .join("\n");
+      if (indicator.key === "stunting") {
+        if (order === "desc") {
+          opening = `Wilayah dengan prevalensi stunting tertinggi di Jawa Timur tahun 2024 dipimpin oleh ${items[0].region.name}.`;
+          rec = "Percepat pendampingan keluarga berisiko stunting (TPK), distribusikan makanan tambahan bergizi bagi balita dan ibu hamil, serta perbaiki akses sanitasi air bersih di desa lokus.";
+        } else {
+          opening = `Wilayah dengan prevalensi stunting terendah di Jawa Timur tahun 2024 dipimpin oleh ${items[0].region.name}.`;
+          rec = "Pertahankan keberhasilan intervensi gizi spesifik posyandu dan jadikan praktik baik pemantauan tumbuh kembang balita sebagai acuan bagi wilayah lain.";
+        }
+      } else if (indicator.key === "bedRatio") {
+        if (order === "asc") {
+          opening = `Wilayah dengan rasio tempat tidur rawat inap terendah di Jawa Timur tercatat pada ${items[0].region.name}.`;
+          rec = "Tingkatkan kapasitas ruang rawat inap di puskesmas penyangga dan percepat pemenuhan tempat tidur rumah sakit rujukan tipe C dan D.";
+        } else {
+          opening = `Wilayah dengan rasio tempat tidur rawat inap tertinggi di Jawa Timur dipimpin oleh ${items[0].region.name}.`;
+          rec = "Optimalkan integrasi sistem rujukan antardaerah agar kelebihan kapasitas dapat menyangga wilayah perbatasan yang kekurangan tempat tidur.";
+        }
+      } else if (indicator.key === "nakes") {
+        if (order === "asc") {
+          opening = `Wilayah dengan rasio tenaga kesehatan paling sedikit di Jawa Timur tercatat pada ${items[0].region.name}.`;
+          rec = "Berikan insentif khusus penempatan dokter spesialis dan redistribusi tenaga medis ke puskesmas kecamatan yang kekurangan nakes.";
+        } else {
+          opening = `Wilayah dengan rasio tenaga kesehatan tertinggi di Jawa Timur tercatat pada ${items[0].region.name}.`;
+          rec = "Pertahankan rasio ideal tenaga kesehatan dan perkuat pembinaan teknis layanan kesehatan terpadu ke wilayah sekitarnya.";
+        }
+      } else if (indicator.key === "facilities") {
+        if (order === "asc") {
+          opening = `Wilayah dengan jumlah fasilitas kesehatan paling sedikit di Jawa Timur tercatat pada ${items[0].region.name}.`;
+          rec = "Tingkatkan jaringan puskesmas pembantu dan poskesdes untuk menjangkau permukiman terpencil.";
+        } else {
+          opening = `Wilayah dengan jumlah fasilitas kesehatan terbanyak di Jawa Timur dipimpin oleh ${items[0].region.name}.`;
+          rec = "Tingkatkan integrasi layanan primer antar-faskes dan pemerataan standar peralatan medis dasar.";
+        }
+      } else {
+        // Skor Kesehatan
+        if (order === "desc") {
+          opening = `Wilayah dengan skor kesehatan tertinggi di Jawa Timur tahun 2024 dipimpin oleh ${items[0].region.name}.`;
+          rec = "Pertahankan sinergi program promotif-preventif dan jadikan model tata kelola kesehatan wilayah tersebut sebagai percontohan bagi daerah lain.";
+        } else {
+          opening = `Wilayah dengan skor kesehatan terendah yang menjadi prioritas perhatian di Jawa Timur adalah ${items[0].region.name}.`;
+          rec = "Fokuskan intervensi terpadu pada pemenuhan tempat tidur puskesmas, percepatan penurunan stunting, dan distribusi dokter spesialis ke rumah sakit rujukan.";
+        }
+      }
+
+      const listText = items
+        .map((it) => `${it.rank}. ${it.region.name}: ${it.formattedValue}.`)
+        .join("\n");
+
+      const title = `${indicator.name} ${directionLabel}:`;
+      return { opening, rec, title, listText };
+    };
+
+    const sectionTexts = sections.map((s) =>
+      getSectionText(s.indicator, s.order, s.directionLabel, s.items)
+    );
+
+    const openingAll = sectionTexts.map((t) => t.opening).join(" ");
+    const bodyAll = sectionTexts
+      .map((t) => `${t.title}\n${t.listText}`)
+      .join("\n\n");
+    const recAll =
+      sectionTexts.length === 1
+        ? sectionTexts[0].rec
+        : "Fokuskan intervensi pada wilayah yang berada di sisi kritis (misalnya skor kesehatan terendah atau prevalensi stunting tertinggi), dan jadikan wilayah sisi terbaik sebagai acuan praktik baik bagi daerah lain.";
 
     return cleanPlainText(
-      `${opening}\n\n` +
-      `Peringkat ${items.length} Wilayah Berdasarkan ${indicator.name} (${directionLabel}):\n` +
-      `${listText}\n\n` +
-      `Rekomendasi: ${rec}`
+      `${openingAll}\n\n` +
+      `${bodyAll}\n\n` +
+      `Rekomendasi: ${recAll}`
     );
   }
 
@@ -271,8 +319,11 @@ function getGroundedLocalAnswer(
   }
 
   // 4. JIKA WILAYAH SPESIFIK TERDETEKSI (Kondisi / Masalah / Kekurangan / Kelebihan / Rekomendasi)
-  if (region) {
-    const r = region;
+  // Wilayah dari pesan terbaru menang; jika kosong, gunakan wilayah warisan riwayat
+  // (misal "program di Trenggalek" lalu "kalau Sampang?").
+  const effectiveRegion = region ?? inheritedRegion;
+  if (effectiveRegion) {
+    const r: EnrichedRegion = effectiveRegion;
     const isRecommendationQuery =
       q.includes("program") ||
       q.includes("rekomendasi") ||
@@ -469,7 +520,8 @@ async function callGeminiWithTimeout(
   regionOrRegions?: EnrichedRegion | EnrichedRegion[],
   rankingBlock?: string,
   history: ChatHistoryItem[] = [],
-  timeoutMs = 4000
+  timeoutMs = 4000,
+  contextLabel?: string
 ): Promise<string> {
   const models = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-flash-latest"];
   const regionBlock = regionOrRegions ? buildDataWilayahBlock(regionOrRegions) : "";
@@ -500,7 +552,7 @@ async function callGeminiWithTimeout(
   // Sesuai Tugas 5: Letakkan pertanyaan terbaru di akhir prompt dengan label "PERTANYAAN TERBARU (jawab ini saja)"
   const finalTurnText = `${SYSTEM_PROMPT}
 
-${rankingBlock ? rankingBlock + "\n\n" : ""}${regionBlock ? regionBlock + "\n\n" : ""}PERTANYAAN TERBARU (jawab ini saja):
+${contextLabel ? `KONTEKS PERCAKAPAN AKTIF (${contextLabel})\n\n` : ""}${rankingBlock ? rankingBlock + "\n\n" : ""}${regionBlock ? regionBlock + "\n\n" : ""}PERTANYAAN TERBARU (jawab ini saja):
 ${userQuery}
 
 Jawablah dengan tepat sesuai ATURAN PERINGKAT, PEMAHAMAN PERTANYAAN, ATURAN MENJAWAB PERTANYAAN WILAYAH, IDENTITAS, LINGKUP, BATASAN, dan ATURAN FORMAT JAWABAN:`;
@@ -563,11 +615,27 @@ export async function POST(req: Request) {
       );
     }
 
+    // 0. Selesaikan konteks dari riwayat: indikator/arah/wilayah/N yang kosong
+    //    pada pesan terbaru diwarisi dari pesan pengguna sebelumnya.
+    const context = resolveContext(query, history);
+
     // 1. Deteksi wilayah secara dinamis (mendukung multi-wilayah)
     const { region, regions = [], unrecognizedMention } = detectRegion(query);
 
-    // 2. Deteksi pemeringkatan indikator
-    const ranking = isRankingQuery(query) ? buildRanking(query) : undefined;
+    // 2. Deteksi pemeringkatan indikator, dengan indikator/arah hasil resolveContext
+    const ranking = isRankingQuery(query)
+      ? buildRanking(query, undefined, 5, {
+          indicators: context.indicators,
+          directions: context.directions,
+          limit: context.n ?? undefined,
+        })
+      : undefined;
+
+    // Wilayah warisan riwayat (dipakai jika pesan terbaru tidak menyebut wilayah)
+    const inheritedRegion =
+      !region && regions.length === 0 && context.regions.length > 0
+        ? context.regions[0]
+        : undefined;
 
     // 3. Fail-safe guardrail: Jika menyebut kabupaten/kota yang tidak ditemukan di Jawa Timur
     if (unrecognizedMention) {
@@ -595,14 +663,15 @@ export async function POST(req: Request) {
     const apiKey = process.env.GEMINI_API_KEY || "";
     if (apiKey) {
       try {
-        const targetRegions = regions.length > 0 ? regions : (region ? [region] : undefined);
+      const targetRegions = regions.length > 0 ? regions : (region ? [region] : undefined);
         const answer = await callGeminiWithTimeout(
           apiKey,
           query,
           targetRegions,
           ranking?.rankingBlock,
           history,
-          4000
+          4000,
+          context.contextLabel
         );
         return NextResponse.json({
           success: true,
@@ -617,7 +686,14 @@ export async function POST(req: Request) {
     }
 
     // 5. Grounded local fallback berbasis data akurat indikator/wilayah/provinsi
-    const localAnswer = getGroundedLocalAnswer(query, region, regions, ranking, unrecognizedMention);
+    const localAnswer = getGroundedLocalAnswer(
+      query,
+      region,
+      regions,
+      ranking,
+      unrecognizedMention,
+      inheritedRegion
+    );
 
     return NextResponse.json({
       success: true,

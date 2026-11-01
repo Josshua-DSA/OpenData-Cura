@@ -14,7 +14,7 @@ export const DEFAULT_LAYERS: LayerState = {
   markers: true,
   boundaries: true,
   heatmap: false,
-  labels: false,
+  labels: true,
 };
 
 // ── Geographic centroids for all 38 kabupaten/kota ───────────────────────────
@@ -82,13 +82,13 @@ function bedFill(v: number): string {
   return "#D94A4A";
 }
 function stuntingFill(v: number): string {
-  if (v < 15)  return "#2F9E72";
+  if (v < 15)  return "#1677C8";
   if (v < 20)  return "#76B6E8";
   if (v < 25)  return "#E5A33B";
   return "#D94A4A";
 }
 function diseaseFill(total: number): string {
-  if (total < 1000) return "#2F9E72";
+  if (total < 1000) return "#1677C8";
   if (total < 3000) return "#76B6E8";
   if (total < 5000) return "#E5A33B";
   return "#D94A4A";
@@ -127,7 +127,7 @@ export const METRIC_CONFIG: Record<MapMetric, MetricConfig> = {
     },
     getHeatColor: (r) => stuntingFill(r.stuntingRate),
     legend: [
-      { label: "Rendah", sublabel: "< 15%",  color: "#2F9E72" },
+      { label: "Rendah", sublabel: "< 15%",  color: "#1677C8" },
       { label: "Sedang", sublabel: "15–19%", color: "#76B6E8" },
       { label: "Tinggi", sublabel: "20–24%", color: "#E5A33B" },
       { label: "Parah",  sublabel: "≥ 25%",  color: "#D94A4A" },
@@ -149,7 +149,7 @@ export const METRIC_CONFIG: Record<MapMetric, MetricConfig> = {
     },
     getHeatColor: (r) => diseaseFill(r.dbd + r.tb + r.pneumonia),
     legend: [
-      { label: "Minimal", sublabel: "< 1.000 kasus",     color: "#2F9E72" },
+      { label: "Minimal", sublabel: "< 1.000 kasus",     color: "#1677C8" },
       { label: "Sedang",  sublabel: "1.000–2.999 kasus",  color: "#76B6E8" },
       { label: "Tinggi",  sublabel: "3.000–4.999 kasus",  color: "#E5A33B" },
       { label: "Kritis",  sublabel: "≥ 5.000 kasus",     color: "#D94A4A" },
