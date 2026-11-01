@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { BrainCircuit, Send, Sparkles, MapPinned, Activity, Building2, Baby, ClipboardList } from "lucide-react";
+import { BrainCircuit, Sparkles, MapPinned, Activity, Building2, Baby, ClipboardList } from "lucide-react";
 import TopBar from "../components/TopBar";
 import AiMessage from "../components/AiMessage";
+import ChatComposer from "../components/ChatComposer";
 import { apiRequest, type ApiEnvelope } from "../lib/api";
 
 interface AIInsightPageProps {
@@ -183,23 +184,15 @@ export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPag
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="ai-chat-composer">
-              <input
-                value={input}
-                disabled={isBusy}
-                onChange={(event) => setInput(event.target.value)}
-                onKeyDown={(event) => event.key === "Enter" && !isBusy && ask(input)}
-                placeholder="Tanyakan wilayah, penyakit, fasilitas, skor, stunting, atau program..."
-              />
-              <button
-                type="button"
-                className="data-primary-action"
-                disabled={isBusy}
-                onClick={() => ask(input)}
-              >
-                <Send size={16} /> {isLoading ? "Memuat…" : isTyping ? "Mengetik…" : "Kirim"}
-              </button>
-            </div>
+            <ChatComposer
+              value={input}
+              onChange={setInput}
+              onSend={ask}
+              disabled={isBusy}
+              isLoading={isLoading}
+              isTyping={isTyping}
+              placeholder="Tanyakan wilayah, penyakit, fasilitas, skor, stunting, atau program..."
+            />
             <div className="ai-disclaimer">Insight merupakan dukungan keputusan berbasis data dan perlu divalidasi bersama konteks program daerah.</div>
           </section>
         </div>

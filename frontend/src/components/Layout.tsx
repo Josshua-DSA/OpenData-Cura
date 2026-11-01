@@ -107,7 +107,7 @@ export default function Layout({ currentPage, onNavigate, children, onAIPanel, y
             <LogoMark />
             <div className="cura-sidebar-brand-copy">
               <div className="cura-sidebar-brand-name">Tilik Jatim</div>
-              <div className="cura-sidebar-brand-subtitle">HealthTrust Platform</div>
+              <div className="cura-sidebar-brand-subtitle">Platform Kesehatan Jawa Timur</div>
             </div>
           </div>
           <button
@@ -200,7 +200,7 @@ export default function Layout({ currentPage, onNavigate, children, onAIPanel, y
                 <LogoMark />
                 <div>
                   <div className="cura-mobile-brand-name">Tilik Jatim</div>
-                  <div className="cura-mobile-brand-region">HealthTrust Jatim</div>
+                  <div className="cura-mobile-brand-region">Tilik Jatim</div>
                 </div>
               </div>
               <button className="cura-mobile-menu-button" onClick={() => setMobileOpen(false)} aria-label="Tutup navigasi">

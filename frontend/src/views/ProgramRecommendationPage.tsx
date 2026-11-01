@@ -61,7 +61,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   mbg: {
     name: "MBG untuk Ibu Hamil, Ibu Menyusui, dan Balita",
     category: "Intervensi Gizi",
-    period: "Segera–Jangka Pendek · 0–12 bulan",
+    period: "Segera sampai Jangka Pendek · 0–12 bulan",
     problem: "Risiko kekurangan gizi pada ibu dan balita.",
     action: "Penyaluran makanan bergizi untuk kelompok 3B yang tepat sasaran.",
     target: "Meningkatkan status gizi ibu hamil, ibu menyusui, dan balita.",
@@ -133,7 +133,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   medicine: {
     name: "Tindak Lanjut Obat di Puskesmas",
     category: "Tata Laksana PTM",
-    period: "Segera–Jangka Pendek · 0–12 bulan",
+    period: "Segera sampai Jangka Pendek · 0–12 bulan",
     problem: "Pasien hasil skrining positif memerlukan tata laksana tanpa jeda.",
     action: "Pemberian obat, konseling, kontrol berkala, dan integrasi pembiayaan JKN.",
     target: "Meningkatkan pasien hipertensi dan diabetes yang terkendali.",
@@ -169,7 +169,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   immunization: {
     name: "Penguatan Imunisasi Dasar",
     category: "KIA & Imunisasi",
-    period: "Segera–Jangka Pendek · 0–12 bulan",
+    period: "Segera sampai Jangka Pendek · 0–12 bulan",
     problem: "Cakupan imunisasi dasar belum mencapai target wilayah.",
     action: "Pelayanan imunisasi terjadwal, sweeping sasaran, dan edukasi keluarga.",
     target: "Meningkatkan cakupan imunisasi dasar lengkap.",

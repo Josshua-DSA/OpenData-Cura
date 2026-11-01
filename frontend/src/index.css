@@ -211,7 +211,7 @@ button,
   flex-direction: column;
   align-items: stretch;
   height: auto;
-  min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   top: auto;
   align-self: stretch;
@@ -544,11 +544,10 @@ button,
 .cura-layout {
   display: flex;
   width: 100%;
-  max-width: var(--frame-desktop-width);
   min-width: 0;
-  min-height: 100vh;
+  min-height: 100dvh;
   height: auto;
-  margin: 0 auto;
+  margin: 0;
   align-items: stretch;
   overflow: visible;
 }
@@ -557,7 +556,7 @@ button,
   display: flex;
   width: 100%;
   min-width: 0;
-  min-height: var(--page-desktop-min-height);
+  min-height: 100dvh;
   align-items: stretch;
 }
 
@@ -565,7 +564,7 @@ button,
   position: sticky;
   top: 0;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   min-height: 0;
   display: flex;
   flex-direction: column;
@@ -573,10 +572,11 @@ button,
 
 .cura-main {
   flex: 1;
+  width: 100%;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  min-height: var(--page-desktop-min-height);
+  min-height: 100dvh;
   height: auto;
   overflow: visible;
   background-color: var(--color-page-bg);
@@ -593,7 +593,7 @@ button,
   display: flex;
   flex-direction: column;
   overflow: visible;
-  min-height: var(--page-desktop-min-height);
+  min-height: 100dvh;
 }
 
 /* ─── TopBar ─── */
@@ -2515,6 +2515,26 @@ button,
   overflow: hidden;
 }
 
+@media (min-width: 1200px) {
+  .ai-insight-page {
+    min-height: 100dvh;
+  }
+
+  .ai-insight-content {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .ai-workspace {
+    min-height: 0;
+  }
+
+  .ai-chat-card {
+    height: calc(100dvh - 210px);
+    min-height: 480px;
+  }
+}
+
 .ai-chat-header {
   padding: var(--spacing-lg) var(--spacing-xl);
   border-bottom: 1px solid var(--border-color);
@@ -2527,10 +2547,13 @@ button,
 
 .ai-chat-messages {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
   padding: var(--spacing-2xl);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--color-page-bg);
 }
 
@@ -2579,7 +2602,7 @@ button,
   line-height: 1.7;
   overflow-wrap: anywhere;
   word-break: break-word;
-  white-space: pre-line;
+  white-space: pre-wrap;
 }
 
 .ai-message-user p {
@@ -2593,30 +2616,52 @@ button,
 .ai-chat-composer {
   min-width: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: var(--spacing-md);
   padding: var(--spacing-lg);
   border-top: 1px solid var(--border-color);
 }
 
-.ai-chat-composer input {
+.ai-chat-composer textarea,
+.cura-ai-input textarea {
+  box-sizing: border-box;
   min-width: 0;
   flex: 1;
-  padding: 0 var(--spacing-lg);
+  width: 100%;
+  height: 52px;
+  min-height: 52px;
+  max-height: 160px;
+  padding: 14px 16px;
   color: var(--color-text-primary);
   background: var(--color-page-bg);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   outline: none;
+  resize: none;
+  overflow-y: hidden;
   font-family: var(--font-family-base);
-  font-size: var(--font-size-body-sm);
+  font-size: 15px;
+  line-height: 1.45;
 }
 
-.ai-chat-composer .data-primary-action {
+.ai-chat-composer textarea:focus,
+.cura-ai-input textarea:focus {
+  border-color: var(--color-medical-blue);
+  box-shadow: 0 0 0 3px var(--color-light-blue);
+}
+
+.ai-chat-composer textarea:disabled,
+.cura-ai-input textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.ai-chat-composer .data-primary-action,
+.ai-chat-composer .ai-composer-send,
+.cura-ai-input .ai-composer-send {
   flex-shrink: 0;
+  min-height: 52px;
 }
-
-.ai-chat-composer input:focus { border-color: var(--color-medical-blue); }
 
 .ai-disclaimer {
   padding: 0 var(--spacing-lg) var(--spacing-lg);
@@ -3791,7 +3836,7 @@ button,
   line-height: 1.6;
   overflow-wrap: anywhere;
   word-break: break-word;
-  white-space: pre-line;
+  white-space: pre-wrap;
 }
 
 .cura-bubble-ai { background: var(--color-light-blue); color: var(--color-text-primary); align-self: flex-start; border-bottom-left-radius: 2px; }
@@ -3802,23 +3847,8 @@ button,
   padding: var(--spacing-lg);
   border-top: 1px solid var(--border-color);
   display: flex;
+  align-items: flex-end;
   gap: var(--spacing-sm);
-}
-
-.cura-ai-input input {
-  min-width: 0;
-  flex: 1;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 8px var(--spacing-md);
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-body-sm);
-  outline: none;
-  background: var(--color-page-bg);
-}
-
-.cura-ai-input .cura-btn {
-  flex-shrink: 0;
 }
 
 /* ─── Map page ─── */
@@ -4837,7 +4867,7 @@ button,
   .ai-chat-card {
     grid-column: 1 / 9;
     grid-row: 1;
-    min-height: calc(var(--spacing-3xl) * 13);
+    min-height: 480px;
   }
 
   .ai-capability-section {

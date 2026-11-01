@@ -68,7 +68,7 @@ export default function AboutPage({ onNavigate, onAIPanel }: AboutPageProps) {
           Lebih Mudah Dipahami.
         </h1>
         <p style={{ fontSize: "var(--font-size-body)", lineHeight: 1.7, opacity: 0.85, maxWidth: 620, margin: "0 0 var(--spacing-xl)", fontFamily: "var(--font-family-base)" }}>
-          Tilik Jatim — HealthTrust Jatim adalah platform informasi kesehatan publik yang dirancang untuk membantu masyarakat,
+          Tilik Jatim adalah platform informasi kesehatan publik yang dirancang untuk membantu masyarakat,
           peneliti, mahasiswa, dan pemangku kebijakan memahami kondisi kesehatan di Jawa Timur melalui data yang
           terintegrasi, visualisasi interaktif, dan analisis berbasis wilayah.
         </p>
@@ -194,7 +194,7 @@ export default function AboutPage({ onNavigate, onAIPanel }: AboutPageProps) {
 
       {/* ── Footer note ── */}
       <div style={{ textAlign: "center", padding: "var(--spacing-md) 0 var(--spacing-sm)", fontSize: "var(--font-size-caption)", color: "var(--color-text-secondary)", fontFamily: "var(--font-family-base)" }}>
-        Tilik Jatim — HealthTrust Jatim · Platform Informasi Kesehatan Publik · Provinsi Jawa Timur, Indonesia
+        Tilik Jatim · Platform Informasi Kesehatan Publik · Provinsi Jawa Timur, Indonesia
         <br />Data tersedia: 2021–2024 · 38 Kabupaten/Kota
       </div>
     </div>

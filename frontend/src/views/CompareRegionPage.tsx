@@ -174,7 +174,7 @@ export default function CompareRegionPage({ onAIPanel }: CompareRegionPageProps)
         {/* Grouped Bar Chart */}
         <div className="cura-card" style={{ marginBottom: "var(--spacing-lg)" }}>
           <div className="cura-section-title" style={{ marginBottom: "var(--spacing-md)" }}>
-            Perbandingan Visual — {regionA.name} vs {regionB.name}
+            Perbandingan Visual: {regionA.name} vs {regionB.name}
           </div>
           <ResponsiveContainer width="100%" height={260}>
             <BarChart data={chartData} margin={{ top: 4, right: 16, bottom: 4, left: 0 }}>
