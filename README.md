@@ -1,4 +1,4 @@
-# 🏥 Cura — HealthTrust Facilities Platform (Jawa Timur)
+# 🏥 Tilik Jatim — HealthTrust Facilities Platform (Jawa Timur)
 
 [![CI Pipeline](https://github.com/Josshua-DSA/Cura-Healthtrust/actions/workflows/ci.yml/badge.svg)](https://github.com/Josshua-DSA/Cura-Healthtrust/actions/workflows/ci.yml)
 [![PostGIS](https://img.shields.io/badge/Database-PostgreSQL%2015%20%2B%20PostGIS%203.3-336791.svg?logo=postgresql&logoColor=white)](https://postgis.net/)
@@ -6,7 +6,7 @@
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-> **Cura — HealthTrust Platform** adalah platform analitik dan visualisasi geospasial kesehatan terpadu untuk Provinsi Jawa Timur. Platform ini menggabungkan kapasitas faskes (RS & Puskesmas), tenaga medis (dokter & perawat), tren beban pasien & morbiditas penyakit triwulanan, serta indikator kesehatan ibu & anak (KIA/stunting) guna mendukung pengambilan keputusan kebijakan kesehatan berbasis data riil dan proyeksi machine learning.
+> **Tilik Jatim (Cura — HealthTrust Platform)** adalah platform analitik dan visualisasi geospasial kesehatan terpadu untuk Provinsi Jawa Timur. Platform ini menggabungkan kapasitas faskes (RS & Puskesmas), tenaga medis (dokter & perawat), tren beban pasien & morbiditas penyakit triwulanan, serta indikator kesehatan ibu & anak (KIA/stunting) guna mendukung pengambilan keputusan kebijakan kesehatan berbasis data riil dan proyeksi machine learning.
 
 ---
 
