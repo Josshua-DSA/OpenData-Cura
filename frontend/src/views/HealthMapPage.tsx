@@ -22,17 +22,15 @@ function drawerStatus(metric: MapMetric, r: typeof regionHealth[number]) {
 }
 
 const LAYER_DEFS: { key: keyof LayerState; label: string; desc: string }[] = [
-  { key: "boundaries", label: "Batas Wilayah Kabupaten/Kota", desc: "Garis batas administratif" },
-  { key: "markers",    label: "Titik Fasilitas Kesehatan",    desc: "Marker per kabupaten/kota" },
-  { key: "heatmap",    label: "Heatmap Kepadatan Kasus",      desc: "Warna fill berdasarkan metrik" },
-  { key: "labels",     label: "Label Nama Daerah",            desc: "Teks nama wilayah di peta" },
+  { key: "fill",       label: "Warna Klaster",      desc: "Warna isi wilayah berdasarkan metrik" },
+  { key: "boundaries", label: "Batas Wilayah",      desc: "Garis batas antar kabupaten/kota" },
+  { key: "labels",     label: "Label Nama Daerah",  desc: "Teks nama wilayah di peta" },
 ];
 
 const DEFAULT_LAYER_CHECKED: Record<keyof LayerState, boolean> = {
+  fill:       true,
   boundaries: true,
-  markers:    true,
-  heatmap:    false,
-  labels:     false,
+  labels:     true,
 };
 
 export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
@@ -77,7 +75,7 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
 
   return (
     <div className="cura-map-page">
-      <TopBar title="Health Map — Jawa Timur" onAIPanel={onAIPanel} />
+      <TopBar title="Health Map Jawa Timur" onAIPanel={onAIPanel} />
 
       <div className="cura-map-scroll">
       {/* ── Filter bar ── */}
@@ -294,14 +292,14 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
 
                 <div className="cura-drawer-body" style={{ display: "flex", flexDirection: "column", gap: "var(--spacing-lg)" }}>
 
-                  {/* Status banner — color matches current metric */}
+                  {/* Status banner: color matches current metric */}
                   <div style={{ background: status.color + "18", borderRadius: "var(--radius-md)", padding: "var(--spacing-md) var(--spacing-lg)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <div>
                       <div style={{ fontSize: 11, color: "var(--color-text-secondary)", fontFamily: "var(--font-family-base)", marginBottom: 2 }}>
                         {cfg.title}
                       </div>
                       <div style={{ fontWeight: 700, fontSize: "var(--font-size-kpi)", color: status.color, fontFamily: "var(--font-family-base)" }}>
-                        {rows[0]?.[1] ?? "—"}
+                        {rows[0]?.[1] ?? "-"}
                       </div>
                     </div>
                     <span style={{ background: status.color, color: "white", padding: "3px 10px", borderRadius: 99, fontSize: 11, fontWeight: 700 }}>

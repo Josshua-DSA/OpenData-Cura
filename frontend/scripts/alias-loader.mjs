@@ -17,5 +17,16 @@ export async function resolve(specifier, context, nextResolve) {
     };
   }
 
+  // Import relatif tanpa ekstensi (gaya komponen Next.js, mis. "../data/healthData")
+  // tidak dikenali resolver ESM Node -> coba tambahkan ".ts".
+  if (specifier.startsWith("./") || specifier.startsWith("../")) {
+    try {
+      return await nextResolve(specifier, context);
+    } catch (error) {
+      if (error?.code !== "ERR_MODULE_NOT_FOUND") throw error;
+      return nextResolve(`${specifier}.ts`, context);
+    }
+  }
+
   return nextResolve(specifier, context);
 }

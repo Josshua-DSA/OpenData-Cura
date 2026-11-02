@@ -1,158 +1,209 @@
 import { regionHealth } from "./healthData";
 
-// ── Types ─────────────────────────────────────────────────────────────────────
+// -- Types --
 export type MapMetric = "bedRatio" | "stuntingRate" | "disease";
 
+// Layers: choropleth fill (warna klaster), batas wilayah, label nama daerah.
 export interface LayerState {
-  markers: boolean;
+  fill: boolean;
   boundaries: boolean;
-  heatmap: boolean;
   labels: boolean;
 }
 
 export const DEFAULT_LAYERS: LayerState = {
-  markers: true,
+  fill: true,
   boundaries: true,
-  heatmap: false,
-  labels: false,
+  labels: true,
 };
 
-// ── Geographic centroids for all 38 kabupaten/kota ───────────────────────────
-export const MAP_CENTROIDS: Record<string, [number, number]> = {
-  "pacitan":          [-8.18,  111.10],
-  "ponorogo":         [-7.87,  111.46],
-  "trenggalek":       [-8.05,  111.71],
-  "tulungagung":      [-8.07,  111.90],
-  "blitar-kab":       [-8.10,  112.10],
-  "kediri-kab":       [-7.82,  112.00],
-  "malang-kab":       [-8.16,  112.62],
-  "lumajang":         [-8.13,  113.22],
-  "jember":           [-8.17,  113.70],
-  "banyuwangi":       [-8.22,  114.37],
-  "bondowoso":        [-7.91,  113.82],
-  "situbondo":        [-7.70,  114.00],
-  "probolinggo-kab":  [-7.85,  113.18],
-  "pasuruan-kab":     [-7.65,  112.90],
-  "sidoarjo":         [-7.45,  112.72],
-  "mojokerto-kab":    [-7.47,  112.43],
-  "jombang":          [-7.55,  112.23],
-  "nganjuk":          [-7.60,  111.90],
-  "madiun-kab":       [-7.63,  111.52],
-  "magetan":          [-7.65,  111.34],
-  "ngawi":            [-7.40,  111.45],
-  "bojonegoro":       [-7.15,  111.88],
-  "tuban":            [-6.90,  111.90],
-  "lamongan":         [-7.12,  112.42],
-  "gresik":           [-7.16,  112.65],
-  "bangkalan":        [-7.04,  112.73],
-  "sampang":          [-7.18,  113.25],
-  "pamekasan":        [-7.16,  113.47],
-  "sumenep":          [-6.97,  113.87],
-  "surabaya":         [-7.25,  112.75],
-  "malang-kota":      [-7.98,  112.62],
-  "kediri-kota":      [-7.82,  112.01],
-  "blitar-kota":      [-8.10,  112.17],
-  "madiun-kota":      [-7.64,  111.53],
-  "mojokerto-kota":   [-7.46,  112.44],
-  "pasuruan-kota":    [-7.64,  112.91],
-  "probolinggo-kota": [-7.75,  113.21],
-  "batu":             [-7.87,  112.53],
+// -- Clusters (choropleth categories) --
+export type ClusterId = "adequate" | "stable" | "watch" | "critical" | "nodata";
+
+export interface ClusterStyle {
+  label: string;
+  color: string;
+}
+
+export const CLUSTER_STYLES: Record<ClusterId, ClusterStyle> = {
+  adequate: { label: "Adequate", color: "#1D4ED8" },
+  stable:   { label: "Stable",   color: "#7DB6EA" },
+  watch:    { label: "Watch",    color: "#F59E0B" },
+  critical: { label: "Critical", color: "#DC2626" },
+  nodata:   { label: "Tanpa Data", color: "#CBD5E1" },
 };
 
-export const MAP_BOUNDS: [[number, number], [number, number]] = [[-8.85, 111.0], [-6.7, 114.5]];
 
-// ── Color helpers ─────────────────────────────────────────────────────────────
-type RegionRow = typeof regionHealth[number];
-
-interface LegendItem { label: string; sublabel: string; color: string; }
+export interface LegendEntry {
+  cluster: ClusterId;
+  label: string;
+  threshold: string;
+  color: string;
+}
 
 export interface MetricConfig {
   title: string;
-  getColor: (r: RegionRow) => string;
-  getStatusLabel: (r: RegionRow) => { label: string; color: string };
-  getHeatColor: (r: RegionRow) => string;
-  legend: LegendItem[];
-  tooltipRows: (r: RegionRow) => [string, string][];
+  /** Raw value used for tooltip/search only - never for colouring. */
+  getValue: (r: (typeof regionHealth)[number]) => number;
+  getDisplay: (r: (typeof regionHealth)[number]) => string;
+  /** Choropleth cluster for a region. */
+  getCluster: (r: (typeof regionHealth)[number]) => ClusterId;
+  /** Summary metric shown in the region drawer. */
+  getStatusLabel: (r: (typeof regionHealth)[number]) => { label: string; color: string };
+  /** Rank / priority score (0-100) used by the cluster model. */
+  getPriorityScore: (r: (typeof regionHealth)[number]) => number;
+  legend: LegendEntry[];
+  tooltipRows: (r: (typeof regionHealth)[number]) => [string, string][];
 }
 
-function bedFill(v: number): string {
-  if (v >= 1.2)  return "#1677C8";
-  if (v >= 1.0)  return "#76B6E8";
-  if (v >= 0.75) return "#E5A33B";
-  return "#D94A4A";
+// Cluster decision helpers - thresholds define the legend and colours.
+function clamp(v: number): number {
+  return Math.max(0, Math.min(100, Math.round(v)));
 }
-function stuntingFill(v: number): string {
-  if (v < 15)  return "#2F9E72";
-  if (v < 20)  return "#76B6E8";
-  if (v < 25)  return "#E5A33B";
-  return "#D94A4A";
+
+// Ambang rasio tempat tidur. SATU sumber kebenaran untuk warna, tooltip,
+// panel drawer dan legenda (jangan menulis ulang angka di tempat lain).
+export const BED_RATIO_THRESHOLDS = {
+  adequate: 1.2, // >= 1,20
+  stable: 1.0,   // 1,00 - 1,19
+  watch: 0.75,   // 0,75 - 0,99
+  // < 0,75 = critical
+} as const;
+
+// Stunting prevalence thresholds (persen). Rendah = lebih baik.
+export const STUNTING_THRESHOLDS = {
+  adequate: 14, // < 14%
+  stable: 20,   // 14 - 19,9%
+  watch: 25,    // 20 - 24,9%
+  // >= 25% = critical
+} as const;
+
+// Ambang kasus penyakit menular (DBD + TB + Pneumonia). Dikalibrasi terhadap
+// rentang data saat ini (291-2.055 kasus) agar keempat klaster tetap terpakai;
+// dengan ambang lama (1.000/3.000/5.000) seluruh peta nyaris satu warna.
+export const DISEASE_THRESHOLDS = {
+  adequate: 500, // < 500 kasus
+  stable: 750,   // 500 - 749
+  watch: 1000,   // 750 - 999
+  // >= 1.000 = critical
+} as const;
+
+// Format angka ribuan gaya Indonesia untuk teks legenda.
+function num(value: number): string {
+  return value.toLocaleString("id-ID");
 }
-function diseaseFill(total: number): string {
-  if (total < 1000) return "#2F9E72";
-  if (total < 3000) return "#76B6E8";
-  if (total < 5000) return "#E5A33B";
-  return "#D94A4A";
+
+// Format rasio 2 desimal dengan koma (gaya Indonesia) untuk teks legenda.
+function ratio(value: number): string {
+  return value.toFixed(2).replace(".", ",");
+}
+
+// Format persen 1 desimal dengan koma untuk teks legenda.
+function pct(value: number): string {
+  return value.toFixed(1).replace(".", ",");
+}
+
+// Bed ratio adequacy: higher = better.
+function bedCluster(r: (typeof regionHealth)[number]): ClusterId {
+  const v = r.bedRatio;
+  if (!Number.isFinite(v)) return "nodata";
+  if (v >= BED_RATIO_THRESHOLDS.adequate) return "adequate";
+  if (v >= BED_RATIO_THRESHOLDS.stable) return "stable";
+  if (v >= BED_RATIO_THRESHOLDS.watch) return "watch";
+  return "critical";
+}
+
+// Stunting prevalence: lower = better.
+function stuntingCluster(r: (typeof regionHealth)[number]): ClusterId {
+  const v = r.stuntingRate;
+  if (!Number.isFinite(v)) return "nodata";
+  if (v < STUNTING_THRESHOLDS.adequate) return "adequate";
+  if (v < STUNTING_THRESHOLDS.stable) return "stable";
+  if (v < STUNTING_THRESHOLDS.watch) return "watch";
+  return "critical";
+}
+
+// Communicable disease burden (DBD + TB + Pneumonia): lower = better.
+function diseaseCluster(r: (typeof regionHealth)[number]): ClusterId {
+  const v = r.dbd + r.tb + r.pneumonia;
+  if (!Number.isFinite(v)) return "nodata";
+  if (v < DISEASE_THRESHOLDS.adequate) return "adequate";
+  if (v < DISEASE_THRESHOLDS.stable) return "stable";
+  if (v < DISEASE_THRESHOLDS.watch) return "watch";
+  return "critical";
+}
+
+function bedScore(r: (typeof regionHealth)[number]): number {
+  return clamp(14 + (1.6 - r.bedRatio) * 46);
+}
+
+function stuntingScore(r: (typeof regionHealth)[number]): number {
+  return clamp(14 + (r.stuntingRate - 10) * 3.4);
+}
+
+function diseaseScore(r: (typeof regionHealth)[number]): number {
+  return clamp(12 + ((r.dbd + r.tb + r.pneumonia) - 300) / 22);
 }
 
 export const METRIC_CONFIG: Record<MapMetric, MetricConfig> = {
   bedRatio: {
     title: "Rasio Tempat Tidur per 1.000 Penduduk",
-    getColor: (r) => bedFill(r.bedRatio),
+    getValue: (r) => r.bedRatio,
+    getDisplay: (r) => `${r.bedRatio.toFixed(2)} / 1.000`,
+    getCluster: bedCluster,
     getStatusLabel: (r) => {
-      const c = bedFill(r.bedRatio);
-      const l = r.bedRatio >= 1.2 ? "ADEQUATE" : r.bedRatio >= 1.0 ? "STABLE" : r.bedRatio >= 0.75 ? "WATCH" : "CRITICAL";
-      return { label: l, color: c };
+      const c = bedCluster(r);
+      return { label: CLUSTER_STYLES[c].label.toUpperCase(), color: CLUSTER_STYLES[c].color };
     },
-    getHeatColor: (r) => bedFill(r.bedRatio),
+    getPriorityScore: bedScore,
     legend: [
-      { label: "Adequate",  sublabel: "≥ 1.20",      color: "#1677C8" },
-      { label: "Stable",    sublabel: "1.00 – 1.19",  color: "#76B6E8" },
-      { label: "Watch",     sublabel: "0.75 – 0.99",  color: "#E5A33B" },
-      { label: "Critical",  sublabel: "< 0.75",       color: "#D94A4A" },
+      { cluster: "adequate", label: "Adequate", threshold: `>= ${ratio(BED_RATIO_THRESHOLDS.adequate)} / 1.000`, color: CLUSTER_STYLES.adequate.color },
+      { cluster: "stable",   label: "Stable",   threshold: `${ratio(BED_RATIO_THRESHOLDS.stable)} sampai ${ratio(BED_RATIO_THRESHOLDS.adequate - 0.01)}`, color: CLUSTER_STYLES.stable.color },
+      { cluster: "watch",    label: "Watch",    threshold: `${ratio(BED_RATIO_THRESHOLDS.watch)} sampai ${ratio(BED_RATIO_THRESHOLDS.stable - 0.01)}`, color: CLUSTER_STYLES.watch.color },
+      { cluster: "critical", label: "Critical", threshold: `< ${ratio(BED_RATIO_THRESHOLDS.watch)}`, color: CLUSTER_STYLES.critical.color },
     ],
     tooltipRows: (r) => [
-      ["Bed Ratio",     `${r.bedRatio.toFixed(2)} / 1.000`],
-      ["WHO Benchmark", "1,00 / 1.000"],
-      ["Rumah Sakit",   String(Math.round(r.facilityCount * 0.28))],
-      ["Puskesmas",     String(r.facilityCount - Math.round(r.facilityCount * 0.28))],
+      ["Rasio Tempat Tidur", `${r.bedRatio.toFixed(2)} / 1.000`],
+      ["Populasi",           r.population.toLocaleString("id-ID")],
+      ["Fasilitas",          r.facilityCount.toLocaleString("id-ID")],
     ],
   },
   stuntingRate: {
-    title: "Prevalensi Stunting Balita (%)",
-    getColor: (r) => stuntingFill(r.stuntingRate),
+    title: "Prevalensi Stunting",
+    getValue: (r) => r.stuntingRate,
+    getDisplay: (r) => `${r.stuntingRate.toFixed(1)}%`,
+    getCluster: stuntingCluster,
     getStatusLabel: (r) => {
-      const c = stuntingFill(r.stuntingRate);
-      const l = r.stuntingRate < 15 ? "RENDAH" : r.stuntingRate < 20 ? "SEDANG" : r.stuntingRate < 25 ? "TINGGI" : "PARAH";
-      return { label: l, color: c };
+      const c = stuntingCluster(r);
+      return { label: CLUSTER_STYLES[c].label.toUpperCase(), color: CLUSTER_STYLES[c].color };
     },
-    getHeatColor: (r) => stuntingFill(r.stuntingRate),
+    getPriorityScore: stuntingScore,
     legend: [
-      { label: "Rendah", sublabel: "< 15%",  color: "#2F9E72" },
-      { label: "Sedang", sublabel: "15–19%", color: "#76B6E8" },
-      { label: "Tinggi", sublabel: "20–24%", color: "#E5A33B" },
-      { label: "Parah",  sublabel: "≥ 25%",  color: "#D94A4A" },
+      { cluster: "adequate", label: "Adequate", threshold: `< ${pct(STUNTING_THRESHOLDS.adequate)}%`, color: CLUSTER_STYLES.adequate.color },
+      { cluster: "stable",   label: "Stable",   threshold: `${pct(STUNTING_THRESHOLDS.adequate)} sampai ${pct(STUNTING_THRESHOLDS.stable - 0.1)}%`, color: CLUSTER_STYLES.stable.color },
+      { cluster: "watch",    label: "Watch",    threshold: `${pct(STUNTING_THRESHOLDS.stable)} sampai ${pct(STUNTING_THRESHOLDS.watch - 0.1)}%`, color: CLUSTER_STYLES.watch.color },
+      { cluster: "critical", label: "Critical", threshold: `>= ${pct(STUNTING_THRESHOLDS.watch)}%`, color: CLUSTER_STYLES.critical.color },
     ],
     tooltipRows: (r) => [
       ["Prevalensi Stunting", `${r.stuntingRate.toFixed(1)}%`],
-      ["Target Nasional",     "< 14%"],
+      ["Target Nasional",     `< ${pct(STUNTING_THRESHOLDS.adequate)}%`],
       ["Populasi",            r.population.toLocaleString("id-ID")],
     ],
   },
   disease: {
     title: "Kasus Penyakit Menular (DBD + TB + Pneumonia)",
-    getColor: (r) => diseaseFill(r.dbd + r.tb + r.pneumonia),
+    getValue: (r) => r.dbd + r.tb + r.pneumonia,
+    getDisplay: (r) => (r.dbd + r.tb + r.pneumonia).toLocaleString("id-ID"),
+    getCluster: diseaseCluster,
     getStatusLabel: (r) => {
-      const total = r.dbd + r.tb + r.pneumonia;
-      const c = diseaseFill(total);
-      const l = total < 1000 ? "MINIMAL" : total < 3000 ? "SEDANG" : total < 5000 ? "TINGGI" : "KRITIS";
-      return { label: l, color: c };
+      const c = diseaseCluster(r);
+      return { label: CLUSTER_STYLES[c].label.toUpperCase(), color: CLUSTER_STYLES[c].color };
     },
-    getHeatColor: (r) => diseaseFill(r.dbd + r.tb + r.pneumonia),
+    getPriorityScore: diseaseScore,
     legend: [
-      { label: "Minimal", sublabel: "< 1.000 kasus",     color: "#2F9E72" },
-      { label: "Sedang",  sublabel: "1.000–2.999 kasus",  color: "#76B6E8" },
-      { label: "Tinggi",  sublabel: "3.000–4.999 kasus",  color: "#E5A33B" },
-      { label: "Kritis",  sublabel: "≥ 5.000 kasus",     color: "#D94A4A" },
+      { cluster: "adequate", label: "Adequate", threshold: `< ${num(DISEASE_THRESHOLDS.adequate)} kasus`, color: CLUSTER_STYLES.adequate.color },
+      { cluster: "stable",   label: "Stable",   threshold: `${num(DISEASE_THRESHOLDS.adequate)} sampai ${num(DISEASE_THRESHOLDS.stable - 1)}`, color: CLUSTER_STYLES.stable.color },
+      { cluster: "watch",    label: "Watch",    threshold: `${num(DISEASE_THRESHOLDS.stable)} sampai ${num(DISEASE_THRESHOLDS.watch - 1)}`, color: CLUSTER_STYLES.watch.color },
+      { cluster: "critical", label: "Critical", threshold: `>= ${num(DISEASE_THRESHOLDS.watch)} kasus`, color: CLUSTER_STYLES.critical.color },
     ],
     tooltipRows: (r) => [
       ["Total Kasus", (r.dbd + r.tb + r.pneumonia).toLocaleString("id-ID")],

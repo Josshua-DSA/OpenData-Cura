@@ -107,7 +107,7 @@ export default function Layout({ currentPage, onNavigate, children, onAIPanel, y
             <LogoMark />
             <div className="cura-sidebar-brand-copy">
               <div className="cura-sidebar-brand-name">Tilik Jatim</div>
-              <div className="cura-sidebar-brand-subtitle">Platform Kesehatan Jawa Timur</div>
+              <div className="cura-sidebar-brand-subtitle">HealthTrust Platform</div>
             </div>
           </div>
           <button
@@ -126,7 +126,7 @@ export default function Layout({ currentPage, onNavigate, children, onAIPanel, y
           <MapPinned size={15} />
           <div>
             <span>Wilayah aktif</span>
-            <strong>Jawa Timur · {year}</strong>
+            <strong>Jawa Timur, {year}</strong>
           </div>
         </div>
 

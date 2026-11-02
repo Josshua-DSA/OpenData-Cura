@@ -79,6 +79,8 @@
   --frame-desktop-height: 1040px;
   --page-desktop-min-height: 100vh;
   --map-desktop-min-height: calc(var(--spacing-3xl) * 19);
+  /* Tinggi bar filter Health Map (dipakai untuk calc tinggi peta). */
+  --map-filterbar-height: 64px;
   --overview-page-min-height: auto;
   --control-height: 36px;
   --control-height-touch: 44px;
@@ -352,6 +354,9 @@ button,
   color: var(--color-on-dark-muted);
   font-family: var(--font-family-base);
   font-size: var(--font-size-caption);
+  line-height: 1.35;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .cura-sidebar-toggle {
@@ -3249,6 +3254,50 @@ button,
 /* ─── Program recommendation analytics ─── */
 .program-page-content {
   gap: var(--spacing-xl);
+  width: 100%;
+  max-width: none;
+}
+
+/* Consistent two-column page shell: fluid main column + fixed 360px aside */
+.program-columns {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-xl);
+  width: 100%;
+}
+
+.program-main-column {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.program-side-column {
+  flex: 0 0 360px;
+  width: 360px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  align-self: flex-start;
+  position: sticky;
+  top: 24px;
+}
+
+/* Below 1200px collapse to a single column: aside drops under the main column */
+@media (max-width: 1199px) {
+  .program-columns {
+    flex-direction: column;
+  }
+
+  .program-side-column {
+    position: static;
+    top: auto;
+    width: 100%;
+    flex-basis: auto;
+  }
 }
 
 .program-region-selector {
@@ -3279,8 +3328,9 @@ button,
 
 .program-profile-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--spacing-md);
+  align-items: stretch;
 }
 
 .program-profile-score,
@@ -3330,6 +3380,10 @@ button,
   font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-semibold);
   line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .program-layout {
@@ -3340,7 +3394,7 @@ button,
 }
 
 .program-section-heading {
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: 0;
 }
 
 .program-card-grid {
@@ -3403,12 +3457,15 @@ button,
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
-  width: fit-content;
-  padding: var(--spacing-xs) var(--spacing-sm);
+  max-width: 100%;
+  padding: 4px 10px;
   border-radius: var(--radius-xl);
   font-family: var(--font-family-base);
-  font-size: var(--font-size-caption);
+  font-size: 12px;
   font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .program-category-badge {
@@ -3445,6 +3502,12 @@ button,
   font-family: var(--font-family-base);
   font-size: var(--font-size-body-sm);
   line-height: 1.6;
+}
+
+/* Thin rule separating Masalah and Target Indikator inside a program card */
+.program-card-detail + .program-card-detail {
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-color);
 }
 
 .program-card-footer {
@@ -3862,7 +3925,7 @@ button,
 }
 
 .cura-map-scroll {
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   min-width: 0;
   min-height: 0;
   display: flex;
@@ -3870,16 +3933,97 @@ button,
   overflow: visible;
 }
 
+/* Tinggi bar filter dihitung terpisah agar peta mengisi sisa layar. */
 .cura-map-content {
   min-width: 0;
-  min-height: var(--map-desktop-min-height);
+  /* calc(100dvh - topbar - filterbar), minimum 480px → tidak ada area kosong. */
+  min-height: max(
+    480px,
+    calc(100dvh - var(--topbar-height) - var(--map-filterbar-height))
+  );
   display: flex;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   position: relative;
   overflow: visible;
 }
 
-.cura-map-canvas { flex: 1; position: relative; background: var(--color-light-blue); overflow: hidden; }
+.cura-map-canvas { flex: 1; position: relative; background: var(--color-page-bg); overflow: hidden; }
+
+/* ── Choropleth map wrapper (klik & scroll harus tetap hidup) ── */
+/* Kartu peta: hanya border tipis, latar sama dengan halaman (tanpa blok biru). */
+.ejm-wrap {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  contain: layout paint;
+  z-index: 0;
+  background: var(--color-page-bg);
+}
+
+.ejm-map,
+.ejm-map .leaflet-container,
+.ejm-wrap .leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #eef2f7;
+  font-family: var(--font-family-base);
+  outline: none;
+}
+
+/* Pane order juga di-set di JS (PaneLayers); dicerminkan di sini untuk aman.
+   Catatan: Leaflet memberi class `leaflet-<nama dengan '-'dinormalisasi>-pane`
+   → `basemapPane` = `leaflet-basemap-pane`.
+   Poligon kini memakai `overlayPane` bawaan Leaflet (z-index 400, di-set
+   Leaflet sendiri) — tidak ada pane/posisi kustom untuk poligon. */
+.ejm-wrap .leaflet-basemap-pane { z-index: 200; pointer-events: none; }
+.ejm-wrap .leaflet-labels-pane { z-index: 500; pointer-events: none; }
+
+/* ── Renderer Leaflet di overlayPane bawaan ──────────────────────────────────
+   Posisi & ukuran <svg>/<canvas> poligon 100% diatur Leaflet: atribut
+   width/height plus `transform` inline dari Renderer._update /
+   Renderer._updateTransform. Karena itu TIDAK boleh ada transform/translate/
+   top/margin negatif/position dari CSS aplikasi pada map-pane, overlay-pane,
+   maupun svg/canvas di dalamnya — satu-satunya pengecualian yang dinetralkan
+   di sini adalah aturan global `svg { max-width: 100% }` dan
+   `canvas { max-width: 100%; height: auto }` di atas, yang bisa menyusutkan
+   renderer terhadap pane. */
+.ejm-wrap .leaflet-map-pane,
+.ejm-wrap .leaflet-map-pane svg,
+.ejm-wrap .leaflet-overlay-pane,
+.ejm-wrap .leaflet-overlay-pane svg,
+.ejm-wrap .leaflet-overlay-pane canvas {
+  max-width: none;
+  margin: 0;
+}
+
+/* Choropleth polygons */
+.ejm-wrap .ejm-region { cursor: pointer; transition: fill-opacity 120ms ease; }
+
+/* Basemap OSM: filter grayscale HANYA pada tile (basemap pane / gambar tile).
+   Tidak ada filter/opacity/transform pada overlayPane (poligon). */
+.ejm-wrap .leaflet-basemap-pane img,
+.ejm-wrap .ejm-basemap-tiles img {
+  filter: grayscale(1) brightness(1.05) contrast(0.9);
+}
+
+/* Zoom controls */
+.ejm-zoom-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+.ejm-zoom-btn:hover { background: var(--color-light-blue); }
+
+/* Labels (pointer-events none so hover passes through to polygons) */
+.ejm-wrap .ejm-label { pointer-events: none; }
 
 .cura-filter-bar {
   display: flex;
@@ -4396,8 +4540,7 @@ button,
   .responsive-chart-grid { grid-template-columns: minmax(0, 1fr) !important; }
   .score-category-panel { grid-template-columns: 1fr; }
   .score-category-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .program-profile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .program-layout { grid-template-columns: 1fr; }
+  .program-profile-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
   .recommendation-basis-panel { position: static; }
   .interactive-filter-panel,
   .analysis-overview-grid { grid-template-columns: 1fr; }
@@ -4815,40 +4958,20 @@ button,
     padding: var(--spacing-md);
   }
 
+  /* Program cards form a readable single-column list inside the main column */
   .program-card-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--spacing-md);
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-lg);
   }
 
   .program-page-content {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    align-items: start;
-  }
-
-  .program-page-content > .data-page-heading,
-  .program-page-content > .program-profile-grid,
-  .program-page-content > .program-layout {
-    grid-column: 1 / -1;
-  }
-
-  .program-page-content > .program-monitoring-section {
-    grid-column: span 8;
-  }
-
-  .program-page-content > .program-page-note {
-    grid-column: span 4;
-  }
-
-  .program-layout {
-    grid-template-columns: minmax(0, 3fr) minmax(calc(var(--spacing-3xl) * 5), 1fr);
-    gap: var(--spacing-md);
+    align-items: stretch;
   }
 
   .program-recommendation-card {
     min-height: calc(var(--spacing-3xl) * 5);
-    gap: var(--spacing-md);
-    padding: var(--spacing-md);
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
   }
 
   .program-monitoring-section {
