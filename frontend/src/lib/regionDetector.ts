@@ -195,9 +195,19 @@ export function detectRegion(query: string): DetectResult {
     };
   }
 
-  // Cek apakah pertanyaan menyebut 'kabupaten' atau 'kota' diikuti kata tertentu tetapi tidak terdaftar
-  const mentionsGovType = /\b(kabupaten|kab\.?|kota)\s+([a-zA-Z]+)/i.test(query);
-  if (mentionsGovType) {
+  // Cek hanya bila 'kabupaten' atau 'kota' diikuti nama wilayah yang benar-benar asing.
+  const genericWords = new Set([
+    "yang", "mana", "apa", "dengan", "paling", "di", "dan", "atau", "berapa",
+    "dalam", "untuk", "ter", "sebagai", "tersebut", "ini", "itu", "kota",
+    "kabupaten", "kab", "paling", "perlu", "memiliki", "tertinggi", "terendah",
+  ]);
+  const govMatches = [...query.matchAll(/\b(?:kabupaten|kab\.?|kota)\s+([a-zA-Z]+)/gi)];
+  const mentionsUnknownRegion = govMatches.some((match) => {
+    const candidate = match[1].toLowerCase();
+    return !genericWords.has(candidate);
+  });
+
+  if (mentionsUnknownRegion) {
     return { unrecognizedMention: true };
   }
 
@@ -286,298 +296,125 @@ export const INDICATOR_METAS: Record<IndicatorKey, IndicatorMeta> = {
 };
 
 /**
- * Mendeteksi indikator yang dimaksud dalam teks pertanyaan.
- * Jika tidak ada indikator spesifik, mengembalikan skor kesehatan.
+ * Mendeteksi seluruh indikator eksplisit yang dimaksud dalam pertanyaan.
+ * Mengembalikan array kosong bila pertanyaan tidak menyebut indikator.
  */
-/**
- * Mendeteksi SEMUA indikator yang dimaksud dalam teks pertanyaan (array).
- * Jika tidak ada indikator spesifik, mengembalikan [skor kesehatan].
- */
-/**
- * Versi strict: mengembalikan array KOSONG jika tidak ada kata kunci indikator
- * (tanpa default skor). Dipakai oleh resolveContext untuk membedakan
- * "pengguna menyebut indikator baru" vs "warisi dari riwayat".
- */
-export function detectIndicatorsStrict(text: string): IndicatorMeta[] {
+export function detectIndicatorKeys(text: string): IndicatorKey[] {
   const q = text.toLowerCase();
-  const found: IndicatorMeta[] = [];
+  const keys: IndicatorKey[] = [];
 
-  // 1. Stunting / Gizi Balita
   if (/\b(stunting|tengkes|gizi\s+buruk|gizi\s+kurang|gizi\s+balita)\b/i.test(q)) {
-    found.push(INDICATOR_METAS.stunting);
+    keys.push("stunting");
   }
 
-  // 2. Rasio Tempat Tidur / Ranjang / Kapasitas Rawat Inap
   if (/\b(tempat\s+tidur|ranjang|bed\s*ratio|kapasitas\s+rawat\s+inap|daya\s+tampung|rasio\s+tt)\b/i.test(q)) {
-    found.push(INDICATOR_METAS.bedRatio);
+    keys.push("bedRatio");
   }
 
-  // 3. Tenaga Kesehatan / Dokter / Medis
-  if (/\b(tenaga\s+kesehatan|nakes|dokter|tenaga\s+medis|paramedis|medis)\b/i.test(q)) {
-    found.push(INDICATOR_METAS.nakes);
+  if (/\b(tenaga\s+kesehatan|nakes|dokter|tenaga\s+medis|paramedis)\b/i.test(q)) {
+    keys.push("nakes");
   }
 
-  // 4. Jumlah Fasilitas Kesehatan / Puskesmas / Rumah Sakit
-  if (/\b(jumlah\s+fasilitas|fasilitas\s+kesehatan|faskes|puskesmas|rumah\s+sakit|sarana\s+kesehatan)\b/i.test(q)) {
-    found.push(INDICATOR_METAS.facilities);
+  if (/\b(jumlah\s+fasilitas|fasilitas|faskes|puskesmas|rumah\s+sakit|sarana\s+kesehatan)\b/i.test(q)) {
+    keys.push("facilities");
   }
 
-  // 5. Skor Kesehatan disebut eksplisit, atau default jika tidak ada indikator spesifik
-  if (/\b(skor|nilai\s+kesehatan|indeks\s+kesehatan)\b/i.test(q)) {
-    found.push(INDICATOR_METAS.score);
+  if (/\b(skor(?:\s+kesehatan)?|nilai\s+kesehatan)\b/i.test(q)) {
+    keys.push("score");
   }
 
-  // Hapus duplikat (pertahankan urutan)
-  return found.filter((m, i) => found.findIndex((x) => x.key === m.key) === i);
+  return keys;
 }
 
 /**
- * Mendeteksi SEMUA indikator yang dimaksud dalam teks pertanyaan (array).
- * Jika tidak ada indikator spesifik, mengembalikan [skor kesehatan].
+ * Mendeteksi indikator utama. Bila tidak ada indikator eksplisit,
+ * skor kesehatan menjadi indikator default.
  */
-export function detectIndicators(text: string): IndicatorMeta[] {
-  const found = detectIndicatorsStrict(text);
-  if (found.length === 0) {
-    found.push(INDICATOR_METAS.score);
-  }
-  return found;
-}
-
-/** Kompatibilitas mundur: indikator pertama yang terdeteksi. */
 export function detectIndicator(text: string): IndicatorMeta {
-  return detectIndicators(text)[0];
+  const keys = detectIndicatorKeys(text);
+  return INDICATOR_METAS[keys[0] ?? "score"];
 }
 
 export type RawDirection = "high" | "low" | "worst" | "best" | "default";
 
-/**
- * Mendeteksi SEMUA arah pemeringkatan dalam teks pertanyaan (array).
- * Definisi istilah (sesuai spesifikasi):
- * - "prioritas tertinggi" = skor kesehatan TERENDAH (paling butuh intervensi) -> arah "low"
- * - "prioritas terendah"  = skor kesehatan TERTINGGI -> arah "high"
- * - "skor tertinggi/terendah" = arti harfiah nilai skor.
- */
-export function detectDirectionsStrict(text: string): RawDirection[] {
-  const q = text.toLowerCase();
-  const dirs: RawDirection[] = [];
+const DIRECTION_PATTERN =
+  /\b(prioritas\s+tertinggi|prioritas\s+terendah|paling\s+tinggi|paling\s+banyak|paling\s+besar|paling\s+rendah|paling\s+sedikit|paling\s+kecil|paling\s+parah|paling\s+buruk|paling\s+kritis|paling\s+rentan|paling\s+baik|paling\s+bagus|paling\s+sehat|paling\s+bermasalah|tertinggi|terbanyak|terbesar|teratas|terendah|tersedikit|terkecil|terbawah|terparah|terburuk|terbaik|juara|unggul|perlu\s+diperhatikan|perlu\s+dibantu|bermasalah|prioritas)\b/gi;
 
-  // --- Klausa "prioritas ..." diproses lebih dulu agar kata arah di dalamnya
-  // --- tidak salah dipetakan (misal "prioritas tertinggi" = skor TERENDAH).
-  let qStripped = q;
-  const prioMatch = q.match(/\bprioritas\b([^\n.,;?]{0,80})/i);
-  if (prioMatch) {
-    const clause = prioMatch[1];
-    const prioHighHits = clause.match(/\b(tertinggi|terbanyak|terbesar|teratas|tinggi|utama)\b/gi) || [];
-    const prioLowHits = clause.match(/\b(terendah|tersedikit|terkecil|terbawah|rendah)\b/gi) || [];
-    if (prioHighHits.length > 0) {
-      // Prioritas tertinggi = skor kesehatan TERENDAH (paling butuh intervensi)
-      dirs.push("low");
-    }
-    if (prioLowHits.length > 0) {
-      // Prioritas terendah = skor kesehatan TERTINGGI
-      dirs.push("high");
-    }
-    if (prioHighHits.length === 0 && prioLowHits.length === 0) {
-      // "prioritas" tanpa arah -> dianggap paling kritis
-      dirs.push("worst");
-    }
-    // Hapus seluruh klausa prioritas agar kata arahnya tidak terdeteksi ulang
-    qStripped = q.replace(prioMatch[0], " ");
+function mapDirectionPhrase(phrase: string): RawDirection {
+  if (/^prioritas\s+tertinggi$/.test(phrase)) return "low";
+  if (/^prioritas\s+terendah$/.test(phrase)) return "high";
+  if (/^(terparah|terburuk|paling\s+parah|paling\s+buruk|paling\s+kritis|paling\s+rentan|perlu\s+diperhatikan|perlu\s+dibantu|bermasalah|prioritas)$/.test(phrase)) {
+    return "worst";
   }
-
-  if (/\b(tertinggi|terbanyak|terbesar|teratas|paling\s+tinggi|paling\s+banyak|paling\s+besar)\b/i.test(qStripped)) {
-    if (!dirs.includes("high")) dirs.push("high");
+  if (/^(terbaik|paling\s+baik|paling\s+bagus|paling\s+sehat|juara|unggul)$/.test(phrase)) {
+    return "best";
   }
-
-  if (/\b(terendah|tersedikit|terkecil|terbawah|paling\s+rendah|paling\s+sedikit|paling\s+kecil)\b/i.test(qStripped)) {
-    if (!dirs.includes("low")) dirs.push("low");
+  if (/^(tertinggi|terbanyak|terbesar|teratas|paling\s+tinggi|paling\s+banyak|paling\s+besar)$/.test(phrase)) {
+    return "high";
   }
-
-  if (
-    /\b(terparah|terburuk|paling\s+parah|paling\s+buruk|paling\s+kritis|paling\s+rentan|perlu\s+diperhatikan|perlu\s+dibantu|paling\s+bermasalah)\b/i.test(qStripped)
-  ) {
-    if (!dirs.includes("worst")) dirs.push("worst");
-  }
-
-  if (/\b(terbaik|paling\s+baik|paling\s+bagus|paling\s+sehat|juara|unggul)\b/i.test(qStripped)) {
-    if (!dirs.includes("best")) dirs.push("best");
-  }
-
-  return dirs;
+  return "low";
 }
 
 /**
- * Versi non-strict: mengembalikan ["default"] jika tidak ada arah terdeteksi.
+ * Mendeteksi seluruh arah yang disebut, sesuai urutan kemunculan.
  */
 export function detectDirections(text: string): RawDirection[] {
-  const dirs = detectDirectionsStrict(text);
-  return dirs.length === 0 ? ["default"] : dirs;
+  const q = text.toLowerCase();
+  const directions: RawDirection[] = [];
+  let match: RegExpExecArray | null;
+
+  DIRECTION_PATTERN.lastIndex = 0;
+  while ((match = DIRECTION_PATTERN.exec(q)) !== null) {
+    const direction = mapDirectionPhrase(match[1].trim());
+    if (!directions.includes(direction)) {
+      directions.push(direction);
+    }
+  }
+
+  return directions;
 }
 
-/** Kompatibilitas mundur: arah pertama yang terdeteksi. */
+/**
+ * Mendeteksi satu arah utama untuk kompatibilitas pemanggil lama.
+ */
 export function detectDirection(text: string): RawDirection {
-  return detectDirections(text)[0];
+  return detectDirections(text)[0] ?? "default";
 }
 
-/** Peta kata bilangan bahasa Indonesia 1 sampai 10. */
-const NUMBER_WORDS: Record<string, number> = {
-  satu: 1, dua: 2, tiga: 3, empat: 4, lima: 5,
-  enam: 6, tujuh: 7, delapan: 8, sembilan: 9, sepuluh: 10,
+const WORD_NUMBERS: Record<string, number> = {
+  satu: 1,
+  dua: 2,
+  tiga: 3,
+  empat: 4,
+  lima: 5,
+  enam: 6,
+  tujuh: 7,
+  delapan: 8,
+  sembilan: 9,
+  sepuluh: 10,
 };
 
+function parseNumberToken(token: string): number | undefined {
+  const normalized = token.toLowerCase().trim();
+  if (/^\d+$/.test(normalized)) {
+    return Number(normalized);
+  }
+  return WORD_NUMBERS[normalized];
+}
+
 /**
- * Membaca jumlah N dari pertanyaan secara strict.
- * Mengembalikan null jika tidak ada angka/kata bilangan (tanpa default).
- * Mendukung: "top 10", "10 nya", "sepuluh", "lima besar", "tiga wilayah", dll.
- * Hasil dibatasi maksimal 38 (jumlah kabupaten/kota di Jawa Timur).
+ * Mendeteksi N dari angka atau kata bilangan Indonesia 1 sampai 10.
  */
-export function detectNStrict(text: string): number | null {
+export function detectRankingLimit(text: string): number | undefined {
   const q = text.toLowerCase();
-
-  // 1. Angka eksplisit: "top 10", "10 nya", "5 besar", "3 daerah", "tambah jadi 8"
-  const matchDigits = q.match(
-    /\b(?:top\s*(\d+)|(\d+)\s*(?:nya|besar|wilayah|kabupaten|kota|daerah|teratas|terbawah|tertinggi|terendah|terbanyak|tersedikit|terbaik|terburuk))\b/i
+  const topMatch = q.match(/\btop\s*(\d+|satu|dua|tiga|empat|lima|enam|tujuh|delapan|sembilan|sepuluh)\b/);
+  const countMatch = q.match(
+    /\b(\d+|satu|dua|tiga|empat|lima|enam|tujuh|delapan|sembilan|sepuluh)\s*(?:wilayah|daerah|kabupaten|kota|teratas|terbawah|tertinggi|terendah|nya)\b/
   );
-  if (matchDigits) {
-    const n = parseInt(matchDigits[1] || matchDigits[2], 10);
-    if (n >= 1) return Math.min(n, 38);
-  }
 
-  // 1b. Angka telanjang pada pesan singkat: "tambah jadi 8", "8 dong"
-  const bareDigits = q.match(/\b(\d{1,2})\b/);
-  if (bareDigits) {
-    const n = parseInt(bareDigits[1], 10);
-    if (n >= 1) return Math.min(n, 38);
-  }
-
-  // 2. Kata bilangan 1-10: "sepuluh", "lima besar", "tiga wilayah"
-  const wordMatch = q.match(
-    /\b(sepuluh|sembilan|delapan|tujuh|enam|lima|empat|tiga|dua|satu)\s*(?:besar|nya|wilayah|kabupaten|kota|daerah|teratas|terbawah|tertinggi|terendah|terbanyak|tersedikit|terbaik|terburuk)?\b/i
-  );
-  if (wordMatch) {
-    const n = NUMBER_WORDS[wordMatch[1].toLowerCase()];
-    if (n) return Math.min(n, 38);
-  }
-
-  return null;
-}
-
-/**
- * Membaca jumlah N dari pertanyaan (non-strict, default 5).
- */
-export function detectLimit(text: string, defaultLimit = 5): number {
-  return detectNStrict(text) ?? defaultLimit;
-}
-
-export interface HistoryMessage {
-  role: string;
-  /** Mendukung field 'content' atau 'text' sesuai format riwayat klien. */
-  content?: string;
-  text?: string;
-}
-
-export interface ResolvedContext {
-  /** Indikator yang berlaku (sudah digabung riwayat; default skor jika riwayat kosong). */
-  indicators: IndicatorMeta[];
-  /** Arah yang berlaku (sudah digabung riwayat; default ["default"]). */
-  directions: RawDirection[];
-  /** Wilayah yang berlaku (pesan terbaru jika menyebut wilayah baru, jika tidak warisan riwayat). */
-  regions: EnrichedRegion[];
-  /** Wilayah yang disebut EKSPLISIT pada pesan terbaru (kosong jika tidak ada). */
-  explicitRegions: EnrichedRegion[];
-  /** Jumlah N yang berlaku (pesan terbaru > riwayat > null). */
-  n: number | null;
-  /** Nama indikator + label arah gabungan, untuk kebutuhan prompt. */
-  contextLabel: string;
-}
-
-/**
- * Menyelesaikan konteks pertanyaan lanjutan:
- * - Deteksi indikator/arah/wilayah/N dari pesan terbaru.
- * - Untuk elemen yang kosong, telusuri pesan pengguna sebelumnya (terbaru -> lama)
- *   dan warisi nilainya.
- * - Jika pengguna menyebut indikator/wilayah baru secara eksplisit, elemen itu
- *   TIDAK mewarisi konteks lama (topik berganti).
- * - Default skor kesehatan hanya dipakai jika seluruh riwayat tidak memuat indikator.
- */
-export function resolveContext(
-  userMessage: string,
-  history: HistoryMessage[] = []
-): ResolvedContext {
-  const userTurns = history
-    .filter((m) => m && m.role === "user")
-    .map((m) => (typeof m.content === "string" ? m.content : m.text) || "")
-    .filter((t) => t.trim().length > 0);
-
-  // --- Indikator: pesan terbaru dulu; jika kosong, warisi dari riwayat (terbaru -> lama).
-  let indicators = detectIndicatorsStrict(userMessage);
-  if (indicators.length === 0) {
-    for (let i = userTurns.length - 1; i >= 0; i--) {
-      const prev = detectIndicatorsStrict(userTurns[i]);
-      if (prev.length > 0) {
-        indicators = prev;
-        break;
-      }
-    }
-  }
-  if (indicators.length === 0) {
-    indicators = [INDICATOR_METAS.score];
-  }
-
-  // --- Arah: pesan terbaru dulu; jika kosong, warisi dari riwayat.
-  let directions = detectDirectionsStrict(userMessage);
-  if (directions.length === 0) {
-    for (let i = userTurns.length - 1; i >= 0; i--) {
-      const prev = detectDirectionsStrict(userTurns[i]);
-      if (prev.length > 0) {
-        directions = prev;
-        break;
-      }
-    }
-  }
-  if (directions.length === 0) {
-    directions = ["default"];
-  }
-
-  // --- Wilayah: pesan terbaru menang jika menyebut wilayah baru; jika tidak, warisi.
-  const explicitResult = detectRegion(userMessage);
-  const explicitRegions = explicitResult.regions ?? [];
-  let regions: EnrichedRegion[] = explicitRegions;
-  if (regions.length === 0) {
-    for (let i = userTurns.length - 1; i >= 0; i--) {
-      const prevRegions = detectRegion(userTurns[i]).regions ?? [];
-      if (prevRegions.length > 0) {
-        regions = prevRegions;
-        break;
-      }
-    }
-  }
-
-  // --- N: pesan terbaru dulu; jika kosong, warisi dari riwayat.
-  let n = detectNStrict(userMessage);
-  if (n === null) {
-    for (let i = userTurns.length - 1; i >= 0; i--) {
-      const prev = detectNStrict(userTurns[i]);
-      if (prev !== null) {
-        n = prev;
-        break;
-      }
-    }
-  }
-
-  const indicatorLabel = indicators.map((i) => i.name).join(" dan ");
-  const contextLabel = `Indikator aktif: ${indicatorLabel}; arah: ${directions.join(", ")}` +
-    (regions.length > 0 ? `; wilayah: ${regions.map((r) => r.name).join(", ")}` : "") +
-    (n !== null ? `; jumlah: ${n}` : "");
-
-  return {
-    indicators,
-    directions,
-    regions,
-    explicitRegions,
-    n,
-    contextLabel,
-  };
+  const parsed = parseNumberToken(topMatch?.[1] ?? countMatch?.[1] ?? "");
+  if (!parsed || parsed < 1) return undefined;
+  return Math.min(parsed, 38);
 }
 
 /**
@@ -602,122 +439,152 @@ export interface RankedItem {
   formattedValue: string;
 }
 
-export interface RankingSection {
+export interface RankingResult {
   indicator: IndicatorMeta;
   directionLabel: string;
   order: "asc" | "desc";
-  items: RankedItem[];
-  block: string;
-}
-
-export interface RankingResult {
-  indicator: IndicatorMeta; // indikator pertama (kompatibilitas mundur)
-  directionLabel: string; // label arah pertama (kompatibilitas mundur)
-  order: "asc" | "desc"; // urutan pertama (kompatibilitas mundur)
   limit: number;
-  items: RankedItem[]; // item bagian pertama (kompatibilitas mundur)
-  sections: RankingSection[];
+  items: RankedItem[];
   rankingBlock: string;
+  isCritical: boolean;
+  scopeLabel: string;
 }
 
-/** Pemetaan arah mentah -> urutan sortir dan label, berdasarkan worstIs indikator. */
 function resolveDirection(
-  rawDir: RawDirection,
-  indicator: IndicatorMeta
+  indicator: IndicatorMeta,
+  rawDirection: RawDirection
 ): { order: "asc" | "desc"; directionLabel: string } {
-  if (rawDir === "high") {
+  if (rawDirection === "high") {
     return {
       order: "desc",
       directionLabel: indicator.key === "facilities" ? "Terbanyak" : "Tertinggi",
     };
   }
-  if (rawDir === "low") {
+
+  if (rawDirection === "low") {
     return {
       order: "asc",
-      directionLabel:
-        indicator.key === "facilities" || indicator.key === "nakes" ? "Tersedikit" : "Terendah",
+      directionLabel: indicator.key === "facilities" || indicator.key === "nakes" ? "Tersedikit" : "Terendah",
     };
   }
-  if (rawDir === "worst") {
-    if (indicator.worstIs === "high") {
-      return { order: "desc", directionLabel: "Tertinggi (Paling Parah / Prioritas Intervensi)" };
-    }
-    return { order: "asc", directionLabel: "Terendah (Paling Kritis / Perlu Diperhatikan)" };
+
+  if (rawDirection === "worst") {
+    return {
+      order: indicator.worstIs === "high" ? "desc" : "asc",
+      directionLabel: "Terburuk",
+    };
   }
-  if (rawDir === "best") {
-    if (indicator.worstIs === "high") {
-      return { order: "asc", directionLabel: "Terendah (Terbaik)" };
-    }
-    return { order: "desc", directionLabel: "Tertinggi (Terbaik)" };
+
+  if (rawDirection === "best") {
+    return {
+      order: indicator.worstIs === "high" ? "asc" : "desc",
+      directionLabel: "Terbaik",
+    };
   }
-  // Default jika arah tidak spesifik
-  if (indicator.worstIs === "high") {
-    return { order: "desc", directionLabel: "Tertinggi" };
-  }
-  return { order: "asc", directionLabel: "Terendah (Prioritas)" };
+
+  return indicator.worstIs === "high"
+    ? { order: "desc", directionLabel: "Tertinggi" }
+    : { order: "asc", directionLabel: "Terendah" };
+}
+
+function createRanking(
+  text: string,
+  indicator: IndicatorMeta,
+  rawDirection: RawDirection,
+  regions: EnrichedRegion[],
+  defaultLimit: number,
+  isCritical: boolean
+): RankingResult {
+  const limit = Math.min(detectRankingLimit(text) ?? defaultLimit, regions.length);
+  const { order, directionLabel } = resolveDirection(indicator, rawDirection);
+  const scopeLabel = isCritical ? `${indicator.name} pada Klaster Critical` : indicator.name;
+
+  const sorted = [...regions].sort((a, b) => {
+    const valueA = indicator.getValue(a);
+    const valueB = indicator.getValue(b);
+    return order === "desc" ? valueB - valueA : valueA - valueB;
+  });
+
+  const items: RankedItem[] = sorted.slice(0, limit).map((region, index) => ({
+    rank: index + 1,
+    region,
+    value: indicator.getValue(region),
+    formattedValue: indicator.formatValue(region),
+  }));
+
+  const rankingBlock = [
+    `PERINGKAT (${scopeLabel}, ${directionLabel})`,
+    `Gunakan blok ini sebagai satu-satunya acuan urutan dan angka. Jangan mengurutkan ulang.`,
+    isCritical ? "Cakupan: klaster Critical rasio tempat tidur, yaitu wilayah dengan rasio di bawah 0,75 per 1.000 penduduk." : "",
+    `Jumlah wajib: ${items.length} wilayah.`,
+    ...items.map((item) => `${item.rank}. ${item.region.name}: ${item.formattedValue}`),
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  return {
+    indicator,
+    directionLabel,
+    order,
+    limit: items.length,
+    items,
+    rankingBlock,
+    isCritical,
+    scopeLabel,
+  };
 }
 
 /**
- * Membangun data dan teks blok "PERINGKAT" untuk SETIAP kombinasi
- * indikator x arah yang terdeteksi, lalu menggabungkannya.
+ * Membangun satu atau beberapa blok peringkat. Arah dan indikator yang
+ * disebut bersama akan menghasilkan blok terpisah, tanpa pengurutan oleh model.
+ */
+export function buildRankings(
+  text: string,
+  regions: EnrichedRegion[] = REGISTRY.regions,
+  defaultLimit = 5
+): RankingResult[] {
+  const q = text.toLowerCase();
+  const isCritical = /\bkritis\b/i.test(q);
+  const indicatorKeys = isCritical ? ["bedRatio" as IndicatorKey] : detectIndicatorKeys(q);
+  const effectiveKeys = indicatorKeys.length > 0 ? indicatorKeys : (["score"] as IndicatorKey[]);
+  const directions = detectDirections(q);
+  const effectiveDirections: RawDirection[] = directions.length > 0 ? directions : ["default"];
+
+  const sourceRegions = isCritical
+    ? regions.filter((region) => region.bedRatio < 0.75)
+    : regions;
+
+  if (sourceRegions.length === 0) {
+    return [];
+  }
+
+  const results: RankingResult[] = [];
+  for (const key of effectiveKeys) {
+    for (const direction of effectiveDirections) {
+      results.push(
+        createRanking(
+          q,
+          INDICATOR_METAS[key],
+          direction,
+          sourceRegions,
+          Math.max(1, Math.min(defaultLimit, 38)),
+          isCritical
+        )
+      );
+    }
+  }
+
+  return results;
+}
+
+/**
+ * Kompatibilitas pemanggil lama: mengambil blok peringkat pertama.
  */
 export function buildRanking(
   text: string,
   regions: EnrichedRegion[] = REGISTRY.regions,
-  defaultLimit = 5,
-  options?: { indicators?: IndicatorMeta[]; directions?: RawDirection[]; limit?: number }
+  defaultLimit = 5
 ): RankingResult {
-  const q = text.toLowerCase();
-  const indicators = options?.indicators ?? detectIndicators(q);
-  const directions = options?.directions ?? detectDirections(q);
-
-  // Baca jumlah N: eksplisit dari opsi (hasil resolveContext) > pesan > default.
-  let limit = options?.limit ?? detectLimit(q, defaultLimit);
-  if (!limit || limit < 1) limit = defaultLimit;
-  if (limit > regions.length) limit = regions.length;
-
-  const sections: RankingSection[] = [];
-
-  for (const indicator of indicators) {
-    for (const rawDir of directions) {
-      const { order, directionLabel } = resolveDirection(rawDir, indicator);
-
-      const sorted = [...regions].sort((a, b) => {
-        const valA = indicator.getValue(a);
-        const valB = indicator.getValue(b);
-        return order === "desc" ? valB - valA : valA - valB;
-      });
-
-      const items: RankedItem[] = sorted.slice(0, limit).map((r, i) => ({
-        rank: i + 1,
-        region: r,
-        value: indicator.getValue(r),
-        formattedValue: indicator.formatValue(r),
-      }));
-
-      const block = [
-        `Indikator: ${indicator.name}`,
-        `Arah Urutan: ${directionLabel}`,
-        `Daftar ${items.length} Wilayah Berdasarkan Data Resmi Jawa Timur 2024:`,
-        ...items.map((it) => `${it.rank}. ${it.region.name}: ${it.formattedValue}`),
-      ].join("\n");
-
-      sections.push({ indicator, directionLabel, order, items, block });
-    }
-  }
-
-  const first = sections[0];
-  const rankingBlock =
-    `BLOK PERINGKAT (Wajib Digunakan Sebagai Acuan Jawaban; jawab SEMUA bagian):\n` +
-    sections.map((s, i) => `[Bagian ${i + 1}]\n${s.block}`).join("\n\n");
-
-  return {
-    indicator: first.indicator,
-    directionLabel: first.directionLabel,
-    order: first.order,
-    limit,
-    items: first.items,
-    sections,
-    rankingBlock,
-  };
+  const rankings = buildRankings(text, regions, defaultLimit);
+  return rankings[0] ?? createRanking(text, INDICATOR_METAS.score, "default", regions, defaultLimit, false);
 }

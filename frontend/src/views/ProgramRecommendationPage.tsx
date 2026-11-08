@@ -52,7 +52,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   stunting: {
     name: "Percepatan Penurunan Stunting",
     category: "Gizi & KIA",
-    period: "Jangka Menengah · 1–3 tahun",
+    period: "Jangka Menengah, 1-3 tahun",
     problem: "Prevalensi stunting tinggi dan masih berada di atas target.",
     action: "Penguatan Posyandu, pemantauan balita berisiko, edukasi gizi keluarga, pemberian makanan tambahan, dan pendampingan ibu hamil.",
     target: "Menurunkan angka stunting dan meningkatkan cakupan pemantauan balita.",
@@ -61,7 +61,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   mbg: {
     name: "MBG untuk Ibu Hamil, Ibu Menyusui, dan Balita",
     category: "Intervensi Gizi",
-    period: "Segera–Jangka Pendek · 0–12 bulan",
+    period: "Segera sampai Jangka Pendek, 0-12 bulan",
     problem: "Risiko kekurangan gizi pada ibu dan balita.",
     action: "Penyaluran makanan bergizi untuk kelompok 3B yang tepat sasaran.",
     target: "Meningkatkan status gizi ibu hamil, ibu menyusui, dan balita.",
@@ -70,7 +70,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   family: {
     name: "Tim Pendamping Keluarga",
     category: "Pendampingan",
-    period: "Jangka Pendek · 3–12 bulan",
+    period: "Jangka Pendek, 3-12 bulan",
     problem: "Keluarga berisiko stunting membutuhkan pendampingan langsung.",
     action: "Pendampingan keluarga, edukasi kesehatan, pemantauan penerima bantuan, dan verifikasi kelompok berisiko.",
     target: "Meningkatkan ketepatan sasaran program dan kepatuhan pemantauan.",
@@ -79,7 +79,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   posyandu: {
     name: "Penimbangan Bulanan Posyandu",
     category: "Layanan Komunitas",
-    period: "Berkelanjutan · Rutin",
+    period: "Berkelanjutan, Rutin",
     problem: "Data pertumbuhan balita dan deteksi dini belum optimal.",
     action: "Penimbangan rutin, pencatatan pertumbuhan, pelaporan balita berisiko, dan tindak lanjut oleh Puskesmas.",
     target: "Meningkatkan cakupan pemantauan balita.",
@@ -88,7 +88,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   tbc: {
     name: "Eliminasi TBC",
     category: "Penyakit Menular",
-    period: "Segera · 0–3 bulan",
+    period: "Segera, 0-3 bulan",
     problem: "Penemuan kasus TBC dan keberhasilan pengobatan masih perlu ditingkatkan.",
     action: "Investigasi kontak, pelacakan kasus, pengobatan sesuai standar, dan pemantauan kepatuhan pasien.",
     target: "Meningkatkan penemuan kasus dan keberhasilan pengobatan TBC.",
@@ -97,7 +97,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   tbcScreening: {
     name: "Skrining Aktif TBC",
     category: "Deteksi Dini",
-    period: "Jangka Pendek · 3–12 bulan",
+    period: "Jangka Pendek, 3-12 bulan",
     problem: "Kelompok berisiko belum seluruhnya mendapatkan pemeriksaan TBC.",
     action: "Skrining kelompok kontak erat dan populasi berisiko melalui Puskesmas serta layanan bergerak.",
     target: "Meningkatkan cakupan skrining dan penemuan kasus lebih dini.",
@@ -106,7 +106,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   tbcTreatment: {
     name: "Tindak Lanjut Pengobatan TBC",
     category: "Tata Laksana",
-    period: "Berkelanjutan · Rutin",
+    period: "Berkelanjutan, Rutin",
     problem: "Risiko putus obat dapat menghambat keberhasilan eliminasi TBC.",
     action: "Pendampingan minum obat, pengingat kontrol, dan penelusuran pasien yang tidak hadir.",
     target: "Meningkatkan kepatuhan dan keberhasilan pengobatan.",
@@ -115,7 +115,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   ckg: {
     name: "Cek Kesehatan Gratis (CKG)",
     category: "Penyakit Tidak Menular",
-    period: "Segera · 0–3 bulan",
+    period: "Segera, 0-3 bulan",
     problem: "Deteksi dini hipertensi, diabetes, dan kolesterol belum merata.",
     action: "Memperluas skrining faktor risiko PTM dan memastikan hasil pemeriksaan tercatat.",
     target: "Meningkatkan cakupan skrining penduduk sasaran.",
@@ -124,7 +124,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   posbindu: {
     name: "Posbindu PTM",
     category: "Pencegahan PTM",
-    period: "Berkelanjutan · Rutin",
+    period: "Berkelanjutan, Rutin",
     problem: "Pemantauan faktor risiko penyakit tidak menular belum konsisten.",
     action: "Pemeriksaan tekanan darah, gula darah, edukasi, dan pemantauan faktor risiko secara rutin.",
     target: "Meningkatkan kendali faktor risiko PTM di masyarakat.",
@@ -133,7 +133,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   medicine: {
     name: "Tindak Lanjut Obat di Puskesmas",
     category: "Tata Laksana PTM",
-    period: "Segera–Jangka Pendek · 0–12 bulan",
+    period: "Segera sampai Jangka Pendek, 0-12 bulan",
     problem: "Pasien hasil skrining positif memerlukan tata laksana tanpa jeda.",
     action: "Pemberian obat, konseling, kontrol berkala, dan integrasi pembiayaan JKN.",
     target: "Meningkatkan pasien hipertensi dan diabetes yang terkendali.",
@@ -142,7 +142,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   primary: {
     name: "Integrasi Layanan Primer",
     category: "Akses Layanan",
-    period: "Jangka Menengah · 1–3 tahun",
+    period: "Jangka Menengah, 1-3 tahun",
     problem: "Akses dan kesinambungan layanan dasar belum merata.",
     action: "Mengintegrasikan layanan berbasis siklus hidup di Puskesmas, Pustu, dan Posyandu.",
     target: "Meningkatkan akses serta kontinuitas layanan kesehatan primer.",
@@ -151,7 +151,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   puskesmas: {
     name: "Penguatan Kapasitas Puskesmas",
     category: "Fasilitas Kesehatan",
-    period: "Jangka Menengah · 1–3 tahun",
+    period: "Jangka Menengah, 1-3 tahun",
     problem: "Kapasitas fasilitas dan tenaga layanan primer belum memadai.",
     action: "Pemenuhan alat, tenaga, jam layanan, dan dukungan layanan bergerak untuk daerah sulit.",
     target: "Meningkatkan ketersediaan dan mutu layanan primer.",
@@ -160,7 +160,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   referral: {
     name: "Penguatan Sistem Rujukan",
     category: "Sistem Rujukan",
-    period: "Jangka Pendek · 3–12 bulan",
+    period: "Jangka Pendek, 3-12 bulan",
     problem: "Keterlambatan rujukan dan ketidakseimbangan kapasitas layanan masih terjadi.",
     action: "Pemetaan kapasitas, koordinasi rujukan, dan pemantauan waktu respons pasien.",
     target: "Mempercepat rujukan dan meningkatkan utilisasi kapasitas layanan.",
@@ -169,7 +169,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   immunization: {
     name: "Penguatan Imunisasi Dasar",
     category: "KIA & Imunisasi",
-    period: "Segera–Jangka Pendek · 0–12 bulan",
+    period: "Segera sampai Jangka Pendek, 0-12 bulan",
     problem: "Cakupan imunisasi dasar belum mencapai target wilayah.",
     action: "Pelayanan imunisasi terjadwal, sweeping sasaran, dan edukasi keluarga.",
     target: "Meningkatkan cakupan imunisasi dasar lengkap.",
@@ -178,7 +178,7 @@ const PROGRAM_CATALOG: Record<string, RecommendationCard> = {
   tracking: {
     name: "Pelacakan Anak Belum Imunisasi",
     category: "Surveilans Program",
-    period: "Segera · 0–3 bulan",
+    period: "Segera, 0-3 bulan",
     problem: "Anak yang belum lengkap imunisasi belum seluruhnya teridentifikasi.",
     action: "Pemadanan data, kunjungan rumah, dan tindak lanjut melalui kader serta Puskesmas.",
     target: "Mengurangi jumlah anak nol dosis dan imunisasi tidak lengkap.",
@@ -259,9 +259,9 @@ export default function ProgramRecommendationPage({
     <div className="cura-page">
       <TopBar title="Rekomendasi Program Penanganan Kesehatan" onAIPanel={onAIPanel} />
       <div className="cura-page-content program-page-content">
-        <div className="data-page-heading">
+        <div className="data-page-heading program-page-heading">
           <div>
-            <div className="data-page-title">Rekomendasi Program Penanganan Kesehatan</div>
+            <div className="data-page-title">{selectedRegion.name}</div>
             <div className="data-page-subtitle">
               Rekomendasi tindakan disusun berdasarkan status wilayah, skor kesehatan, masalah utama, indikator rendah, dan kebutuhan layanan kesehatan.
             </div>
@@ -304,8 +304,8 @@ export default function ProgramRecommendationPage({
           </div>
         </div>
 
-        <div className="program-layout">
-          <div>
+        <div className="program-columns">
+          <div className="program-main-column">
             <div className="program-section-heading">
               <div className="data-page-title">{recommendations.length} Program Prioritas untuk {selectedRegion.name}</div>
               <div className="data-page-subtitle">Urutan program disesuaikan dengan masalah dan indikator terendah wilayah.</div>
@@ -340,8 +340,27 @@ export default function ProgramRecommendationPage({
                 </article>
               ))}
             </div>
+
+            <div className="program-monitoring-section">
+              <div>
+                <div className="data-page-title">Monitoring Pelaksanaan Program</div>
+                <div className="data-page-subtitle">Ringkasan kesiapan tindak lanjut untuk rekomendasi aktif di {selectedRegion.name}.</div>
+              </div>
+              <div className="program-monitoring-grid">
+                {recommendations.map((program, index) => (
+                  <div className="program-monitoring-item" key={program.name}>
+                    <CheckCircle2 size={17} />
+                    <div>
+                      <strong>{program.name}</strong>
+                      <span>{program.status}, Tahap {index + 1} dari {recommendations.length}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
+          <div className="program-side-column">
           <aside className="recommendation-basis-panel">
             <div className="data-panel-title">Dasar Rekomendasi</div>
             <div className="data-page-subtitle">Rekomendasi dibuat dari:</div>
@@ -355,34 +374,17 @@ export default function ProgramRecommendationPage({
             ].map((item) => (
               <div key={item}><Check size={14} /><span>{item}</span></div>
             ))}
-          </aside>
-        </div>
+            </aside>
 
-        <div className="program-monitoring-section">
-          <div>
-            <div className="data-page-title">Monitoring Pelaksanaan Program</div>
-            <div className="data-page-subtitle">Ringkasan kesiapan tindak lanjut untuk rekomendasi aktif di {selectedRegion.name}.</div>
-          </div>
-          <div className="program-monitoring-grid">
-            {recommendations.map((program, index) => (
-              <div className="program-monitoring-item" key={program.name}>
-                <CheckCircle2 size={17} />
-                <div>
-                  <strong>{program.name}</strong>
-                  <span>{program.status} · Tahap {index + 1} dari {recommendations.length}</span>
-                </div>
+            <div className="program-page-note">
+              <ShieldAlert size={18} />
+              <div>
+                <strong>Catatan Pelaksanaan</strong>
+                <span>
+                  Rekomendasi membantu penentuan prioritas program. Keputusan pelaksanaan, penetapan target, dan alokasi sumber daya tetap dilakukan oleh pemerintah daerah dan Dinas Kesehatan.
+                </span>
               </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="program-page-note">
-          <ShieldAlert size={18} />
-          <div>
-            <strong>Catatan Pelaksanaan</strong>
-            <span>
-              Rekomendasi membantu penentuan prioritas program. Keputusan pelaksanaan, penetapan target, dan alokasi sumber daya tetap dilakukan oleh pemerintah daerah dan Dinas Kesehatan.
-            </span>
+            </div>
           </div>
         </div>
       </div>

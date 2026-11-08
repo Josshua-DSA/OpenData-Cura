@@ -22,16 +22,14 @@ function drawerStatus(metric: MapMetric, r: typeof regionHealth[number]) {
 }
 
 const LAYER_DEFS: { key: keyof LayerState; label: string; desc: string }[] = [
-  { key: "boundaries", label: "Batas Wilayah Kabupaten/Kota", desc: "Garis batas administratif" },
-  { key: "markers",    label: "Titik Fasilitas Kesehatan",    desc: "Marker per kabupaten/kota" },
-  { key: "heatmap",    label: "Heatmap Kepadatan Kasus",      desc: "Warna fill berdasarkan metrik" },
-  { key: "labels",     label: "Label Nama Daerah",            desc: "Teks nama wilayah di peta" },
+  { key: "fill",       label: "Warna Klaster",      desc: "Warna isi wilayah berdasarkan metrik" },
+  { key: "boundaries", label: "Batas Wilayah",      desc: "Garis batas antar kabupaten/kota" },
+  { key: "labels",     label: "Label Nama Daerah",  desc: "Teks nama wilayah di peta" },
 ];
 
 const DEFAULT_LAYER_CHECKED: Record<keyof LayerState, boolean> = {
+  fill:       true,
   boundaries: true,
-  markers:    true,
-  heatmap:    false,
   labels:     true,
 };
 
@@ -43,15 +41,7 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
   const [kabupatenFilter, setKabupatenFilter] = useState("Semua Wilayah");
   const [year, setYear]                 = useState("2024");
   const [layerPanelOpen, setLayerPanelOpen] = useState(false);
-  // Bumped when the map canvas changes width (drawer open/close) so Leaflet
-  // re-measures itself and the province stays framed.
-  const [mapBumpKey, setMapBumpKey] = useState(0);
   const layerBtnRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => setMapBumpKey((k) => k + 1));
-    return () => cancelAnimationFrame(frame);
-  }, [selectedRegion, layerPanelOpen]);
 
   // Close layer panel on outside click
   useEffect(() => {
@@ -67,16 +57,6 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
 
   const toggleLayer = (key: keyof LayerState) =>
     setLayers((prev) => ({ ...prev, [key]: !prev[key] }));
-
-  const handleRegionSelect = (id: string | null) => {
-    if (!id || id === "Semua Wilayah" || id === selectedRegion) {
-      setSelectedRegion(null);
-      setKabupatenFilter("Semua Wilayah");
-    } else {
-      setSelectedRegion(id);
-      setKabupatenFilter(id);
-    }
-  };
 
   const handleReset = () => {
     setMetric("bedRatio");
@@ -123,7 +103,7 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
           <select
             className="cura-select"
             value={kabupatenFilter}
-            onChange={(e) => handleRegionSelect(e.target.value)}
+            onChange={(e) => setKabupatenFilter(e.target.value)}
           >
             <option value="Semua Wilayah">Semua Wilayah</option>
             {regionHealth.map((r) => (
@@ -258,17 +238,16 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
         {/* Map canvas */}
         <div
           className="cura-map-canvas"
-          style={{ flex: 1, padding: 0, display: "flex", flexDirection: "column", minHeight: 480, height: "100%", position: "relative" }}
+          style={{ flex: 1, padding: "var(--spacing-lg)", display: "flex", flexDirection: "column", minHeight: 0 }}
           onClick={() => setLayerPanelOpen(false)}
         >
           <EastJavaMarkerMap
             metric={metric}
             layers={layers}
             resetKey={resetKey}
-            mapBumpKey={mapBumpKey}
-            focusRegion={selectedRegion ?? (kabupatenFilter !== "Semua Wilayah" ? kabupatenFilter : undefined)}
-            onRegionClick={handleRegionSelect}
-            height="100%"
+            focusRegion={kabupatenFilter !== "Semua Wilayah" ? kabupatenFilter : undefined}
+            onRegionClick={(id) => setSelectedRegion((prev) => (prev === id ? null : id))}
+            height={520}
           />
         </div>
 
@@ -284,7 +263,7 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
             <>
               <div
                 className="cura-drawer-overlay"
-                onClick={() => handleRegionSelect(null)}
+                onClick={() => setSelectedRegion(null)}
                 style={{ display: "none" }}
               />
               <aside style={{
@@ -304,7 +283,7 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
                     </div>
                   </div>
                   <button
-                    onClick={() => handleRegionSelect(null)}
+                    onClick={() => setSelectedRegion(null)}
                     style={{ background: "transparent", border: "none", cursor: "pointer", color: "var(--color-text-secondary)", padding: 4, minWidth: 36, minHeight: 36, display: "flex", alignItems: "center", justifyContent: "center" }}
                   >
                     <X size={18} />
@@ -313,14 +292,14 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
 
                 <div className="cura-drawer-body" style={{ display: "flex", flexDirection: "column", gap: "var(--spacing-lg)" }}>
 
-                  {/* Status banner — color matches current metric */}
+                  {/* Status banner: color matches current metric */}
                   <div style={{ background: status.color + "18", borderRadius: "var(--radius-md)", padding: "var(--spacing-md) var(--spacing-lg)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <div>
                       <div style={{ fontSize: 11, color: "var(--color-text-secondary)", fontFamily: "var(--font-family-base)", marginBottom: 2 }}>
                         {cfg.title}
                       </div>
                       <div style={{ fontWeight: 700, fontSize: "var(--font-size-kpi)", color: status.color, fontFamily: "var(--font-family-base)" }}>
-                        {rows[0]?.[1] ?? "—"}
+                        {rows[0]?.[1] ?? "-"}
                       </div>
                     </div>
                     <span style={{ background: status.color, color: "white", padding: "3px 10px", borderRadius: 99, fontSize: 11, fontWeight: 700 }}>

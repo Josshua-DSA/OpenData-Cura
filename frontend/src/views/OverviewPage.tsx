@@ -203,7 +203,7 @@ export default function OverviewPage({
     if (br === null) return null;
     if (br >= 1.0) return <span className="cura-kpi-badge positive">Memenuhi WHO</span>;
     if (br >= 0.75) return <span className="cura-kpi-badge warning">Di bawah WHO 1,0</span>;
-    return <span className="cura-kpi-badge critical">Kritis – Jauh dari WHO</span>;
+    return <span className="cura-kpi-badge critical">Kritis, jauh dari WHO</span>;
   }
 
   // ── Region dropdown (desktop) ────────────────────────────────────────────────
@@ -242,7 +242,7 @@ export default function OverviewPage({
           border: "none", padding: "var(--spacing-2xl)", color: "white",
         }}>
           <div style={{ fontSize: "var(--font-size-caption)", textTransform: "uppercase", letterSpacing: "0.1em", opacity: 0.65, marginBottom: "var(--spacing-sm)", fontFamily: "var(--font-family-base)", fontWeight: 600 }}>
-            Tilik Jatim HealthTrust Jatim
+            Tilik Jatim
           </div>
           <h1 style={{ fontSize: 26, fontWeight: 800, margin: "0 0 var(--spacing-md)", lineHeight: 1.25, fontFamily: "var(--font-family-base)", color: "white" }}>
             {selectedRegion ? `Profil Kesehatan ${regionLabel(selectedRegion)}` : "Memahami Kesehatan Jawa Timur\nMelalui Data"}
@@ -550,7 +550,7 @@ export default function OverviewPage({
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "var(--spacing-md)", marginBottom: "var(--spacing-md)", flexWrap: "wrap" }}>
               <div>
                 <div className="cura-section-title" style={{ margin: 0 }}>
-                  {selectedRegion ? `Peta – ${regionLabel(selectedRegion)}` : "Peta Distribusi Bed Ratio Jawa Timur"}
+                  {selectedRegion ? `Peta: ${regionLabel(selectedRegion)}` : "Peta Distribusi Bed Ratio Jawa Timur"}
                 </div>
                 <div style={{ fontSize: "var(--font-size-caption)", color: "var(--color-text-secondary)", marginTop: 4, fontFamily: "var(--font-family-base)" }}>
                   {selectedRegion
@@ -804,7 +804,7 @@ export default function OverviewPage({
 
         <footer className="overview-footer">
           <div>
-            <strong>Tilik Jatim HealthTrust Jawa Timur</strong>
+            <strong>Tilik Jatim, Jawa Timur</strong>
             <span>Dashboard intelijen kesehatan publik untuk 38 kabupaten/kota.</span>
           </div>
           <span>Data simulasi analitik · Tahun {year}</span>

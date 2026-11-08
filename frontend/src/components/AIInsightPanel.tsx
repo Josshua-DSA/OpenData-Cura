@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import { BrainCircuit, X, Send } from "lucide-react";
+import { BrainCircuit, X } from "lucide-react";
 import AiMessage from "./AiMessage";
+import ChatComposer from "./ChatComposer";
 import { apiRequest, type ApiEnvelope } from "../lib/api";
 
 interface Message {
@@ -89,12 +90,6 @@ export default function AIInsightPanel({ onClose }: AIInsightPanelProps) {
     if (isBusy) return;
     setInputValue(prompt);
     sendMessage(prompt);
-  }
-
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter" && !isBusy) {
-      sendMessage(inputValue);
-    }
   }
 
   return (
@@ -202,41 +197,16 @@ export default function AIInsightPanel({ onClose }: AIInsightPanelProps) {
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="cura-ai-input">
-          <input
-            type="text"
-            placeholder="Tanyakan tentang data kesehatan..."
-            value={inputValue}
-            disabled={isBusy}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            style={{
-              flex: 1,
-              background: "none",
-              border: "none",
-              outline: "none",
-              color: "var(--color-text-primary)",
-              fontSize: "var(--font-size-body-sm)",
-              opacity: isBusy ? 0.7 : 1,
-            }}
-          />
-          <button
-            className="cura-btn cura-btn-primary"
-            disabled={isBusy}
-            onClick={() => sendMessage(inputValue)}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.375rem",
-              padding: "0.5rem 1rem",
-              opacity: isBusy ? 0.65 : 1,
-              cursor: isBusy ? "not-allowed" : "pointer",
-            }}
-          >
-            <Send size={16} />
-            {isLoading ? "Memuat…" : isTyping ? "Mengetik…" : "Kirim"}
-          </button>
-        </div>
+        <ChatComposer
+          value={inputValue}
+          onChange={setInputValue}
+          onSend={sendMessage}
+          disabled={isBusy}
+          isLoading={isLoading}
+          isTyping={isTyping}
+          placeholder="Tanyakan tentang data kesehatan..."
+          className="cura-ai-input"
+        />
       </div>
     </>
   );

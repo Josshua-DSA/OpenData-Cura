@@ -126,7 +126,7 @@ export default function Layout({ currentPage, onNavigate, children, onAIPanel, y
           <MapPinned size={15} />
           <div>
             <span>Wilayah aktif</span>
-            <strong>Jawa Timur · {year}</strong>
+            <strong>Jawa Timur, {year}</strong>
           </div>
         </div>
 
@@ -200,7 +200,7 @@ export default function Layout({ currentPage, onNavigate, children, onAIPanel, y
                 <LogoMark />
                 <div>
                   <div className="cura-mobile-brand-name">Tilik Jatim</div>
-                  <div className="cura-mobile-brand-region">HealthTrust Jatim</div>
+                  <div className="cura-mobile-brand-region">Tilik Jatim</div>
                 </div>
               </div>
               <button className="cura-mobile-menu-button" onClick={() => setMobileOpen(false)} aria-label="Tutup navigasi">
