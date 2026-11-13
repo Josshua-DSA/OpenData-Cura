@@ -4022,8 +4022,16 @@ button,
 }
 .ejm-zoom-btn:hover { background: var(--color-light-blue); }
 
-/* Labels (pointer-events none so hover passes through to polygons) */
+/* Labels (pointer-events none so hover passes through to polygons).
+   Label kini marker Leaflet asli: wrapper `.leaflet-marker-icon.ejm-label-icon`
+   harus transparan tanpa border (default `.leaflet-div-icon` memberi latar
+   putih + border), dan teks `.ejm-label` dipusatkan oleh yang menyetel style. */
 .ejm-wrap .ejm-label { pointer-events: none; }
+.ejm-wrap .leaflet-marker-icon.ejm-label-icon {
+  background: transparent;
+  border: 0;
+  pointer-events: none;
+}
 
 .cura-filter-bar {
   display: flex;

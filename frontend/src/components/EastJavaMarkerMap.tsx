@@ -8,7 +8,6 @@ import {
   useState,
   type CSSProperties,
 } from "react";
-import { createPortal } from "react-dom";
 import { GeoJSON, MapContainer, TileLayer, useMap } from "react-leaflet";
 import { Layers, Minus, Plus, RotateCcw } from "lucide-react";
 import { regionHealth, type RegionHealth } from "../data/healthData";
@@ -474,7 +473,7 @@ function PaneLayers({
 // (cache `map._size`) dan `Renderer._update()` yang di-skip selama
 // `map._animatingZoom`. Bila itu dijalankan sebelum container punya ukuran
 // final, transform SVG tertinggal dan semua path tergeser (label tidak, karena
-// label diposisikan via `latLngToContainerPoint` di pane sendiri).
+// label adalah marker Leaflet asli yang diposisikan oleh map pane sendiri).
 // Urutan perbaikan: pastikan container > 0 px → invalidateSize → fitBounds
 // (bounds dari GeoJSON) → setView tanpa animasi untuk memaksa renderer
 // menghitung ulang bounds + transform. Diulang sekali setelah 300 ms karena
@@ -631,14 +630,27 @@ function MapZoomWatcher({ onZoom }: { onZoom: (z: number) => void }) {
   return null;
 }
 
-// ── Label: DOM marker mengikuti proyeksi peta, pointer-events none ─────────
+// ── Label: marker Leaflet asli, pointer-events none ────────────────────────
+// Posisi label TIDAK dihitung manual. Marker diposisikan Leaflet sendiri
+// (`latLngToLayerPoint`, relatif ke map pane), jadi saat pan/zoom marker ikut
+// bergeser bersama map pane tanpa perlu event listener apa pun. Menghitung
+// `latLngToContainerPoint` lalu menaruh elemen di dalam map pane membuat label
+// tergeser dua kali sebesar pergeseran map pane (bug "label tertinggal saat
+// pan"), karena pane itu sendiri ikut di-translate.
+const LABEL_CLASS = "ejm-label";
+
+// Nilai numerik ditulis dengan satuan eksplisit ("11px", bukan 11) karena
+// di-apply lewat `Object.assign(el.style, …)` yang TIDAK menambahkan "px"
+// seperti React; angka telanjang akan ditolak CSS dan diabaikan.
 const LABEL_STYLE: CSSProperties = {
   position: "absolute",
-  left: 0,
-  top: 0,
-  willChange: "transform",
+  left: "0px",
+  top: "0px",
+  // Titik jangkar marker berada di (0,0) elemen induk; -50%/-50% memusatkan
+  // teks tepat di titik label.
+  transform: "translate(-50%, -50%)",
   pointerEvents: "none",
-  fontSize: 11,
+  fontSize: "11px",
   fontWeight: 600,
   color: "#0f172a",
   textShadow: "0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff",
@@ -647,49 +659,84 @@ const LABEL_STYLE: CSSProperties = {
   userSelect: "none",
 };
 
-function LabelDot({ lat, lng, text }: { lat: number; lng: number; text: string }) {
-  const map = useMap();
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const update = () => {
-      const pt = map.latLngToContainerPoint([lat, lng]);
-      el.style.transform = `translate(${pt.x}px, ${pt.y}px) translate(-50%, -50%)`;
-    };
-    update();
-    map.on("zoom", update);
-    map.on("move", update);
-    map.on("resize", update);
-    return () => {
-      map.off("zoom", update);
-      map.off("move", update);
-      map.off("resize", update);
-    };
-  }, [map, lat, lng]);
-
-  return (
-    <div ref={ref} className="ejm-label" style={LABEL_STYLE}>
-      {text}
-    </div>
-  );
+// Elemen teks untuk `L.divIcon({ html })`. Dibuat sebagai DOM node (bukan
+// string HTML) supaya nama wilayah tidak perlu di-escape manual.
+function createLabelElement(text: string): HTMLElement {
+  const el = document.createElement("span");
+  el.className = LABEL_CLASS;
+  Object.assign(el.style, LABEL_STYLE);
+  el.textContent = text;
+  return el;
 }
 
-// Dipasang ke dalam pane Leaflet `labelsPane` (z 500, pointer-events none).
+// Satu marker Leaflet per kabupaten/kota, dimiliki satu L.layerGroup di pane
+// `labelsPane` (z 500, pointer-events none). Marker hanya ditambah/dibuang saat
+// himpunan label yang terlihat berubah (zoom melewati `minZoom`); marker yang
+// sudah ada dibiarkan, dan pan/drag sama sekali tidak menyentuh React.
 function LabelsLayer({ points, zoom }: { points: LabelPoint[]; zoom: number }) {
   const map = useMap();
-  const shown = useMemo(() => points.filter((p) => zoom >= p.minZoom), [points, zoom]);
-  const pane = map.getPane(PANE_LABELS);
-  if (!pane) return null;
-  return createPortal(
-    <>
-      {shown.map((p) => (
-        <LabelDot key={p.id} lat={p.lat} lng={p.lng} text={p.name} />
-      ))}
-    </>,
-    pane,
-  );
+  const groupRef = useRef<L.LayerGroup | null>(null);
+  // id → marker + teks yang sedang ditampilkan, agar label yang teksnya berubah
+  // diganti tanpa membuat marker ganda.
+  const markersRef = useRef(new Map<string, { marker: L.Marker; text: string }>());
+
+  // Layer group pemilik marker: dibuat & dipasang SEKALI per map.
+  useEffect(() => {
+    const group = L.layerGroup().addTo(map);
+    groupRef.current = group;
+    const markers = markersRef.current;
+    return () => {
+      group.remove();
+      group.clearLayers();
+      groupRef.current = null;
+      markers.clear();
+    };
+  }, [map]);
+
+  // Sinkronisasi visibilitas. Dijalankan hanya saat `zoom` berubah (state yang
+  // diperbarui handler zoomend ber-debounce 150 ms) atau daftar titik berubah.
+  useEffect(() => {
+    const group = groupRef.current;
+    if (!group) return;
+    const markers = markersRef.current;
+    const visible = new Set<string>();
+
+    for (const p of points) {
+      if (zoom < p.minZoom) continue;
+      visible.add(p.id);
+      const existing = markers.get(p.id);
+      // Marker yang sudah ada tidak disentuh sama sekali (Leaflet yang
+      // memindahkannya saat pan/zoom). Hanya teks yang berubah yang diganti.
+      if (existing && existing.text === p.name) continue;
+      if (existing) {
+        group.removeLayer(existing.marker);
+        markers.delete(p.id);
+      }
+      const marker = L.marker([p.lat, p.lng], {
+        pane: PANE_LABELS,
+        interactive: false,
+        keyboard: false,
+        icon: L.divIcon({
+          className: "ejm-label-icon",
+          html: createLabelElement(p.name),
+          // Ikon nol: teks dipusatkan oleh translate(-50%,-50%) di LABEL_STYLE.
+          iconSize: [0, 0],
+          iconAnchor: [0, 0],
+        }),
+      });
+      markers.set(p.id, { marker, text: p.name });
+      group.addLayer(marker);
+    }
+
+    // Label yang tidak lagi terlihat pada zoom ini dibuang.
+    for (const [id, entry] of markers) {
+      if (visible.has(id)) continue;
+      group.removeLayer(entry.marker);
+      markers.delete(id);
+    }
+  }, [map, points, zoom]);
+
+  return null;
 }
 
 // ── Legenda klaster ─────────────────────────────────────────────────────────
