@@ -609,6 +609,47 @@ function MapResizer() {
   return null;
 }
 
+// ── Klik area kosong peta (bukan poligon) → tutup panel ────────────────────
+// Klik poligon ikut "bubble" ke map di Leaflet, jadi abaikan event yang
+// sumbernya bukan map itu sendiri (sourceTarget !== map).
+function MapBackgroundClick({ onBackgroundClick }: { onBackgroundClick?: () => void }) {
+  const map = useMap();
+  useEffect(() => {
+    if (!onBackgroundClick) return;
+    const handler = (e: L.LeafletMouseEvent) => {
+      if ((e as L.LeafletEvent).sourceTarget !== map) return;
+      onBackgroundClick();
+    };
+    map.on("click", handler);
+    return () => {
+      map.off("click", handler);
+    };
+  }, [map, onBackgroundClick]);
+  return null;
+}
+
+// ── Panel detail: satu kali invalidateSize saat panel dibuka/ditutup ───────
+// Tanpa fitBounds ulang agar tampilan peta tidak melompat.
+function MapPanelResizer({ panelOpen }: { panelOpen: boolean }) {
+  const map = useMap();
+  const prevRef = useRef(panelOpen);
+  const frameRef = useRef(0);
+
+  useEffect(() => {
+    if (prevRef.current === panelOpen) return;
+    prevRef.current = panelOpen;
+    cancelAnimationFrame(frameRef.current);
+    frameRef.current = requestAnimationFrame(() => {
+      const container = map.getContainer();
+      if (container.clientWidth <= 0 || container.clientHeight <= 0) return;
+      map.invalidateSize({ animate: false });
+    });
+    return () => cancelAnimationFrame(frameRef.current);
+  }, [panelOpen, map]);
+
+  return null;
+}
+
 // ── Zoom → label (zoomend di-debounce 150ms) ───────────────────────────────
 function MapZoomWatcher({ onZoom }: { onZoom: (z: number) => void }) {
   const map = useMap();
@@ -869,7 +910,12 @@ export interface EastJavaMarkerMapProps {
   selectedRegion?: string | null;
   onRegionClick?: (regionId: string) => void;
   onRegionHover?: (regionId: string | null) => void;
+  /** Klik pada area peta kosong (bukan poligon wilayah). */
+  onMapBackgroundClick?: () => void;
   resetKey?: number;
+  /** True saat panel detail wilayah terbuka. Dipakai untuk satu kali
+   *  invalidateSize setelah panel dibuka/ditutup (tanpa fitBounds ulang). */
+  panelOpen?: boolean;
 }
 
 interface TooltipState {
@@ -889,7 +935,9 @@ export default function EastJavaMarkerMap({
   selectedRegion = null,
   onRegionClick,
   onRegionHover,
+  onMapBackgroundClick,
   resetKey = 0,
+  panelOpen = false,
 }: EastJavaMarkerMapProps) {
   const mapRef = useRef<L.Map | null>(null);
   const baseLayerRef = useRef<L.GeoJSON | null>(null);
@@ -1092,7 +1140,18 @@ export default function EastJavaMarkerMap({
         setTooltipPos({ x: pt.x, y: pt.y });
       });
       path.on("mouseout", () => handleMouseOut(path, id));
-      path.on("click", () => {
+      path.on("click", (e: L.LeafletMouseEvent) => {
+        // Hentikan propagasi Leaflet ke map agar klik wilayah tidak dianggap
+        // klik area kosong. `DomEvent.stopPropagation` pada event asli hanya
+        // memanggil stopPropagation DOM dan TIDAK menandai `_stopped`, sehingga
+        // Leaflet tetap mengirim click ke target map dan panel langsung tertutup.
+        const originalEvent = e.originalEvent as
+          | (MouseEvent & { _stopped?: boolean })
+          | undefined;
+        if (originalEvent) {
+          originalEvent._stopped = true;
+          L.DomEvent.stopPropagation(originalEvent);
+        }
         if (onRegionClick) onRegionClick(id);
       });
     },
@@ -1191,6 +1250,8 @@ export default function EastJavaMarkerMap({
           zoomControl={false}
         >
           <MapResizer />
+          <MapPanelResizer panelOpen={panelOpen} />
+          <MapBackgroundClick onBackgroundClick={onMapBackgroundClick} />
           <MapReset resetKey={resetKey} bounds={geoBounds ?? fallbackBounds()} />
           <MapZoomWatcher onZoom={handleZoom} />
 

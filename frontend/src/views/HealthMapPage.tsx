@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { Layers, RotateCcw, X } from "lucide-react";
 import EastJavaMarkerMap from "../components/EastJavaMarkerMap";
 import {
@@ -6,19 +6,15 @@ import {
   type LayerState,
   DEFAULT_LAYERS,
   METRIC_CONFIG,
+  CLUSTER_STYLES,
 } from "../data/mapConfig";
 import TopBar from "../components/TopBar";
 import { regionHealth } from "../data/healthData";
+import { formatDecimal, formatNumber, formatPercent } from "../lib/formatNumber";
 
 interface HealthMapPageProps {
   onAIPanel?: () => void;
   year?: string;
-}
-
-// Re-derive status for the drawer from the same config
-function drawerStatus(metric: MapMetric, r: typeof regionHealth[number]) {
-  const cfg = METRIC_CONFIG[metric];
-  return cfg.getStatusLabel(r);
 }
 
 const LAYER_DEFS: { key: keyof LayerState; label: string; desc: string }[] = [
@@ -57,6 +53,16 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
 
   const toggleLayer = (key: keyof LayerState) =>
     setLayers((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  // Esc menutup panel detail wilayah.
+  useEffect(() => {
+    if (selectedRegion === null) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setSelectedRegion(null);
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [selectedRegion]);
 
   const handleReset = () => {
     setMetric("bedRatio");
@@ -238,7 +244,7 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
         {/* Map canvas */}
         <div
           className="cura-map-canvas"
-          style={{ flex: 1, padding: "var(--spacing-lg)", display: "flex", flexDirection: "column", minHeight: 0 }}
+          style={{ padding: "var(--spacing-lg)", display: "flex", flexDirection: "column", minHeight: 0 }}
           onClick={() => setLayerPanelOpen(false)}
         >
           <EastJavaMarkerMap
@@ -246,110 +252,104 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
             layers={layers}
             resetKey={resetKey}
             focusRegion={kabupatenFilter !== "Semua Wilayah" ? kabupatenFilter : undefined}
+            selectedRegion={selectedRegion}
             onRegionClick={(id) => setSelectedRegion((prev) => (prev === id ? null : id))}
-            height={520}
+            onMapBackgroundClick={() => setSelectedRegion(null)}
+            panelOpen={selectedRegion !== null}
           />
         </div>
 
-        {/* ── Region detail drawer ── */}
+        {/* Panel detail wilayah: kolom samping tetap (laci di bawah peta < 1100px) */}
         {selectedData && (() => {
-          const status    = drawerStatus(metric, selectedData);
+          const cfg       = METRIC_CONFIG[metric];
+          const clusterId = cfg.getCluster(selectedData);
+          const cluster   = CLUSTER_STYLES[clusterId];
           const hospitals = Math.round(selectedData.facilityCount * 0.28);
           const puskesmas = selectedData.facilityCount - hospitals;
-          const cfg       = METRIC_CONFIG[metric];
-          const rows      = cfg.tooltipRows(selectedData);
+
+          const main = {
+            bedRatio:     { label: "Rasio tempat tidur", value: formatDecimal(selectedData.bedRatio, 2), unit: "per 1.000 penduduk" },
+            stuntingRate: { label: "Prevalensi stunting", value: formatPercent(selectedData.stuntingRate, 1), unit: "dari balita" },
+            disease:      { label: "Total kasus penyakit", value: formatNumber(selectedData.dbd + selectedData.tb + selectedData.pneumonia), unit: "kasus" },
+          }[metric];
+
+          // Peringkat dihitung dari data yang ada: urut nilai metrik aktif
+          // dari terendah, lalu cari posisi wilayah terpilih.
+          const sorted = [...regionHealth].sort((a, b) => cfg.getValue(a) - cfg.getValue(b));
+          const rank = sorted.findIndex((r) => r.id === selectedData.id) + 1;
+          const total = regionHealth.length;
+
+          const rows: [string, string][] = [
+            ["Rasio tempat tidur", `${formatDecimal(selectedData.bedRatio, 2)} per 1.000 penduduk`],
+            ["Prevalensi stunting", formatPercent(selectedData.stuntingRate, 1)],
+            ["Jumlah penduduk",    formatNumber(selectedData.population)],
+            ["Total fasilitas",    formatNumber(selectedData.facilityCount)],
+            ["Rumah sakit",        formatNumber(hospitals)],
+            ["Puskesmas",          formatNumber(puskesmas)],
+          ];
 
           return (
-            <>
-              <div
-                className="cura-drawer-overlay"
-                onClick={() => setSelectedRegion(null)}
-                style={{ display: "none" }}
-              />
-              <aside style={{
-                width: 320,
-                background: "var(--color-white)",
-                borderLeft: "1px solid var(--color-border)",
-                display: "flex", flexDirection: "column",
-                flexShrink: 0, overflowY: "auto",
-              }}>
-                <div className="cura-drawer-header">
-                  <div>
-                    <div style={{ fontSize: "var(--font-size-caption)", color: "var(--color-text-secondary)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 2, fontFamily: "var(--font-family-base)" }}>
-                      {selectedData.type === "kota" ? "Kota" : "Kabupaten"}
-                    </div>
-                    <div style={{ fontSize: "var(--font-size-heading-sm)", fontWeight: 700, color: "var(--color-navy)", fontFamily: "var(--font-family-base)" }}>
-                      {selectedData.name}
-                    </div>
+            <aside className="cura-region-panel" role="dialog" aria-label={`Detail ${selectedData.name}`}>
+              <div className="cura-region-panel-header">
+                <div style={{ minWidth: 0 }}>
+                  <div className="cura-region-kicker">
+                    {selectedData.type === "kota" ? "KOTA" : "KABUPATEN"}
                   </div>
-                  <button
-                    onClick={() => setSelectedRegion(null)}
-                    style={{ background: "transparent", border: "none", cursor: "pointer", color: "var(--color-text-secondary)", padding: 4, minWidth: 36, minHeight: 36, display: "flex", alignItems: "center", justifyContent: "center" }}
-                  >
-                    <X size={18} />
-                  </button>
+                  <div className="cura-region-title">{selectedData.name}</div>
                 </div>
+                <button
+                  type="button"
+                  className="cura-region-close"
+                  onClick={() => setSelectedRegion(null)}
+                  aria-label="Tutup panel detail wilayah"
+                  title="Tutup (Esc)"
+                >
+                  <X size={18} />
+                </button>
+              </div>
 
-                <div className="cura-drawer-body" style={{ display: "flex", flexDirection: "column", gap: "var(--spacing-lg)" }}>
-
-                  {/* Status banner: color matches current metric */}
-                  <div style={{ background: status.color + "18", borderRadius: "var(--radius-md)", padding: "var(--spacing-md) var(--spacing-lg)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div>
-                      <div style={{ fontSize: 11, color: "var(--color-text-secondary)", fontFamily: "var(--font-family-base)", marginBottom: 2 }}>
-                        {cfg.title}
-                      </div>
-                      <div style={{ fontWeight: 700, fontSize: "var(--font-size-kpi)", color: status.color, fontFamily: "var(--font-family-base)" }}>
-                        {rows[0]?.[1] ?? "-"}
-                      </div>
-                    </div>
-                    <span style={{ background: status.color, color: "white", padding: "3px 10px", borderRadius: 99, fontSize: 11, fontWeight: 700 }}>
-                      {status.label}
+              <div className="cura-region-panel-body">
+                {/* Kartu nilai utama: label + badge, lalu angka besar + satuan */}
+                <div className="cura-metric-card" style={{ background: cluster.color + "14" }}>
+                  <div className="cura-metric-card-head">
+                    <span className="cura-metric-label">{main.label}</span>
+                    <span className="cura-metric-badge" style={{ background: cluster.color }}>
+                      {cluster.label}
                     </span>
                   </div>
-
-                  {/* Metric detail rows */}
-                  <div>
-                    <div style={{ fontSize: "var(--font-size-caption)", fontWeight: 700, color: "var(--color-text-secondary)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "var(--spacing-sm)", fontFamily: "var(--font-family-base)" }}>
-                      Detail Metrik
-                    </div>
-                    {rows.map(([label, value]) => (
-                      <div key={label} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid var(--color-border)", fontSize: "var(--font-size-body-sm)" }}>
-                        <span style={{ color: "var(--color-text-secondary)", fontFamily: "var(--font-family-base)" }}>{label}</span>
-                        <span style={{ fontWeight: 600, color: "var(--color-navy)", fontFamily: "var(--font-family-base)" }}>{value}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Static health indicators */}
-                  <div>
-                    <div style={{ fontSize: "var(--font-size-caption)", fontWeight: 700, color: "var(--color-text-secondary)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "var(--spacing-sm)", fontFamily: "var(--font-family-base)" }}>
-                      Indikator Kesehatan
-                    </div>
-                    {[
-                      { label: "Bed Ratio",     value: `${selectedData.bedRatio.toFixed(2)} / 1.000` },
-                      { label: "Stunting",       value: `${selectedData.stuntingRate.toFixed(1)}%` },
-                      { label: "Rumah Sakit",    value: String(hospitals) },
-                      { label: "Puskesmas",      value: String(puskesmas) },
-                      { label: "Populasi",       value: selectedData.population.toLocaleString("id-ID") },
-                    ].map(({ label, value }) => (
-                      <div key={label} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid var(--color-border)", fontSize: "var(--font-size-body-sm)" }}>
-                        <span style={{ color: "var(--color-text-secondary)", fontFamily: "var(--font-family-base)" }}>{label}</span>
-                        <span style={{ fontWeight: 600, color: "var(--color-navy)", fontFamily: "var(--font-family-base)" }}>{value}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div style={{ display: "flex", flexDirection: "column", gap: "var(--spacing-sm)" }}>
-                    <button className="cura-btn cura-btn-primary" style={{ width: "100%", justifyContent: "center" }}>
-                      Lihat Profil Lengkap
-                    </button>
-                    <button className="cura-btn cura-btn-secondary" style={{ width: "100%", justifyContent: "center" }}>
-                      Bandingkan Wilayah
-                    </button>
+                  <div className="cura-metric-value-row">
+                    <span className="cura-metric-value">{main.value}</span>
+                    <span className="cura-metric-unit">{main.unit}</span>
                   </div>
                 </div>
-              </aside>
-            </>
+
+                {/* Ringkasan wilayah: satu bagian tanpa baris ganda */}
+                <div>
+                  <div className="cura-region-section-label">Ringkasan Wilayah</div>
+                  <div className="cura-region-rows">
+                    {rows.map(([label, value]) => (
+                      <div key={label} className="cura-region-row">
+                        <span className="cura-region-row-label">{label}</span>
+                        <span className="cura-region-row-value">{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <p className="cura-region-rank">
+                  Peringkat {formatNumber(rank)} dari {formatNumber(total)} untuk metrik {main.label.toLowerCase()}.
+                </p>
+              </div>
+
+              <div className="cura-region-panel-footer">
+                <button className="cura-btn cura-btn-primary" type="button">
+                  Lihat Profil Lengkap
+                </button>
+                <button className="cura-btn cura-btn-secondary" type="button">
+                  Bandingkan Wilayah
+                </button>
+              </div>
+            </aside>
           );
         })()}
       </div>

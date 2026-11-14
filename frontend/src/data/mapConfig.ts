@@ -1,4 +1,5 @@
 import { regionHealth } from "./healthData";
+import { formatDecimal, formatNumber, formatPercent } from "../lib/formatNumber";
 
 // -- Types --
 export type MapMetric = "bedRatio" | "stuntingRate" | "disease";
@@ -89,17 +90,17 @@ export const DISEASE_THRESHOLDS = {
 
 // Format angka ribuan gaya Indonesia untuk teks legenda.
 function num(value: number): string {
-  return value.toLocaleString("id-ID");
+  return formatNumber(value);
 }
 
 // Format rasio 2 desimal dengan koma (gaya Indonesia) untuk teks legenda.
 function ratio(value: number): string {
-  return value.toFixed(2).replace(".", ",");
+  return formatDecimal(value, 2);
 }
 
 // Format persen 1 desimal dengan koma untuk teks legenda.
 function pct(value: number): string {
-  return value.toFixed(1).replace(".", ",");
+  return formatDecimal(value, 1);
 }
 
 // Bed ratio adequacy: higher = better.
@@ -148,7 +149,7 @@ export const METRIC_CONFIG: Record<MapMetric, MetricConfig> = {
   bedRatio: {
     title: "Rasio Tempat Tidur per 1.000 Penduduk",
     getValue: (r) => r.bedRatio,
-    getDisplay: (r) => `${r.bedRatio.toFixed(2)} / 1.000`,
+    getDisplay: (r) => `${formatDecimal(r.bedRatio, 2)} per 1.000`,
     getCluster: bedCluster,
     getStatusLabel: (r) => {
       const c = bedCluster(r);
@@ -162,15 +163,15 @@ export const METRIC_CONFIG: Record<MapMetric, MetricConfig> = {
       { cluster: "critical", label: "Critical", threshold: `< ${ratio(BED_RATIO_THRESHOLDS.watch)}`, color: CLUSTER_STYLES.critical.color },
     ],
     tooltipRows: (r) => [
-      ["Rasio Tempat Tidur", `${r.bedRatio.toFixed(2)} / 1.000`],
-      ["Populasi",           r.population.toLocaleString("id-ID")],
-      ["Fasilitas",          r.facilityCount.toLocaleString("id-ID")],
+      ["Rasio tempat tidur", `${formatDecimal(r.bedRatio, 2)} per 1.000 penduduk`],
+      ["Jumlah penduduk",    formatNumber(r.population)],
+      ["Total fasilitas",    formatNumber(r.facilityCount)],
     ],
   },
   stuntingRate: {
     title: "Prevalensi Stunting",
     getValue: (r) => r.stuntingRate,
-    getDisplay: (r) => `${r.stuntingRate.toFixed(1)}%`,
+    getDisplay: (r) => formatPercent(r.stuntingRate, 1),
     getCluster: stuntingCluster,
     getStatusLabel: (r) => {
       const c = stuntingCluster(r);
@@ -184,15 +185,15 @@ export const METRIC_CONFIG: Record<MapMetric, MetricConfig> = {
       { cluster: "critical", label: "Critical", threshold: `>= ${pct(STUNTING_THRESHOLDS.watch)}%`, color: CLUSTER_STYLES.critical.color },
     ],
     tooltipRows: (r) => [
-      ["Prevalensi Stunting", `${r.stuntingRate.toFixed(1)}%`],
-      ["Target Nasional",     `< ${pct(STUNTING_THRESHOLDS.adequate)}%`],
-      ["Populasi",            r.population.toLocaleString("id-ID")],
+      ["Prevalensi stunting", formatPercent(r.stuntingRate, 1)],
+      ["Target nasional",     `< ${pct(STUNTING_THRESHOLDS.adequate)}%`],
+      ["Jumlah penduduk",     formatNumber(r.population)],
     ],
   },
   disease: {
     title: "Kasus Penyakit Menular (DBD + TB + Pneumonia)",
     getValue: (r) => r.dbd + r.tb + r.pneumonia,
-    getDisplay: (r) => (r.dbd + r.tb + r.pneumonia).toLocaleString("id-ID"),
+    getDisplay: (r) => formatNumber(r.dbd + r.tb + r.pneumonia),
     getCluster: diseaseCluster,
     getStatusLabel: (r) => {
       const c = diseaseCluster(r);
@@ -206,10 +207,10 @@ export const METRIC_CONFIG: Record<MapMetric, MetricConfig> = {
       { cluster: "critical", label: "Critical", threshold: `>= ${num(DISEASE_THRESHOLDS.watch)} kasus`, color: CLUSTER_STYLES.critical.color },
     ],
     tooltipRows: (r) => [
-      ["Total Kasus", (r.dbd + r.tb + r.pneumonia).toLocaleString("id-ID")],
-      ["DBD",         r.dbd.toLocaleString("id-ID")],
-      ["TB",          r.tb.toLocaleString("id-ID")],
-      ["Pneumonia",   r.pneumonia.toLocaleString("id-ID")],
+      ["Total kasus", formatNumber(r.dbd + r.tb + r.pneumonia)],
+      ["DBD",         formatNumber(r.dbd)],
+      ["TB",          formatNumber(r.tb)],
+      ["Pneumonia",   formatNumber(r.pneumonia)],
     ],
   },
 };
