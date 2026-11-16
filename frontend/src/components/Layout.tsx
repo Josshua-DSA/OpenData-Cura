@@ -15,6 +15,7 @@ import {
   PanelLeftOpen,
   X,
 } from "lucide-react";
+import tilikJatimLogo from "../assets/tilik-jatim-logo.png";
 
 interface LayoutProps {
   currentPage: string;
@@ -66,6 +67,12 @@ export default function Layout({ currentPage, onNavigate, children, onAIPanel, y
     <div className="cura-logo-mark">TJ</div>
   );
 
+  const SidebarLogo = () => (
+    <div className="cura-sidebar-logo-mark">
+      <img src={tilikJatimLogo.src} alt="Tilik Jatim" />
+    </div>
+  );
+
   function SidebarBtn({ item, active }: { item: NavItem; active: boolean }) {
     const Icon = item.icon;
     return (
@@ -104,7 +111,7 @@ export default function Layout({ currentPage, onNavigate, children, onAIPanel, y
         {/* Logo row */}
         <div className="cura-sidebar-brand">
           <div className="cura-sidebar-brand-lockup">
-            <LogoMark />
+            <SidebarLogo />
             <div className="cura-sidebar-brand-copy">
               <div className="cura-sidebar-brand-name">Tilik Jatim</div>
               <div className="cura-sidebar-brand-subtitle">HealthTrust Platform</div>

@@ -41,6 +41,7 @@ export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPag
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
+  const inFlightRef = useRef(false);
 
   const isBusy = isLoading || isTyping;
 
@@ -72,8 +73,9 @@ export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPag
 
   async function ask(question: string) {
     const value = question.trim();
-    if (!value || isBusy) return;
+    if (!value || inFlightRef.current) return;
 
+    inFlightRef.current = true;
     setIsLoading(true);
     setInput("");
     setMessages((current) => [
@@ -107,6 +109,8 @@ export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPag
           animate: true,
         },
       ]);
+    } finally {
+      inFlightRef.current = false;
     }
   }
 

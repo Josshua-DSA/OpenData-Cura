@@ -320,6 +320,26 @@ button,
   font-weight: var(--font-weight-bold);
 }
 
+.cura-sidebar-logo-mark {
+  position: relative;
+  width: calc(var(--spacing-2xl) + var(--spacing-sm));
+  height: calc(var(--spacing-2xl) + var(--spacing-sm));
+  flex-shrink: 0;
+  overflow: hidden;
+  background: var(--color-white);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.cura-sidebar-logo-mark img {
+  position: absolute;
+  top: -51%;
+  left: -70%;
+  width: 240%;
+  max-width: none;
+  height: auto;
+}
+
 .cura-sidebar-brand {
   min-height: calc(var(--spacing-3xl) + var(--spacing-2xl));
   display: flex;
