@@ -15,6 +15,8 @@ import { formatDecimal, formatNumber, formatPercent } from "../lib/formatNumber"
 interface HealthMapPageProps {
   onAIPanel?: () => void;
   year?: string;
+  onProfileNavigate?: (regionId: string) => void;
+  onCompareNavigate?: (regionId: string) => void;
 }
 
 const LAYER_DEFS: { key: keyof LayerState; label: string; desc: string }[] = [
@@ -29,7 +31,7 @@ const DEFAULT_LAYER_CHECKED: Record<keyof LayerState, boolean> = {
   labels:     true,
 };
 
-export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
+export default function HealthMapPage({ onAIPanel, onProfileNavigate, onCompareNavigate }: HealthMapPageProps) {
   const [metric, setMetric]             = useState<MapMetric>("bedRatio");
   const [layers, setLayers]             = useState<LayerState>(DEFAULT_LAYERS);
   const [resetKey, setResetKey]         = useState(0);
@@ -342,10 +344,18 @@ export default function HealthMapPage({ onAIPanel }: HealthMapPageProps) {
               </div>
 
               <div className="cura-region-panel-footer">
-                <button className="cura-btn cura-btn-primary" type="button">
+                <button
+                  className="cura-btn cura-btn-primary"
+                  type="button"
+                  onClick={() => onProfileNavigate?.(selectedData.id)}
+                >
                   Lihat Profil Lengkap
                 </button>
-                <button className="cura-btn cura-btn-secondary" type="button">
+                <button
+                  className="cura-btn cura-btn-secondary"
+                  type="button"
+                  onClick={() => onCompareNavigate?.(selectedData.id)}
+                >
                   Bandingkan Wilayah
                 </button>
               </div>

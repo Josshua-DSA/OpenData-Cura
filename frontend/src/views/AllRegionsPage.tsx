@@ -26,6 +26,7 @@ interface AllRegionsPageProps {
   year?: string;
   onYearChange?: (year: string) => void;
   onRecommendationNavigate?: (regionName: string) => void;
+  initialRegion?: string | null;
 }
 
 interface RegionFilters {
@@ -58,6 +59,7 @@ export default function AllRegionsPage({
   year = "2024",
   onYearChange,
   onRecommendationNavigate,
+  initialRegion,
 }: AllRegionsPageProps) {
   const [draftFilters, setDraftFilters] = useState<RegionFilters>(DEFAULT_FILTERS);
   const [appliedFilters, setAppliedFilters] = useState<RegionFilters>(DEFAULT_FILTERS);
@@ -147,6 +149,21 @@ export default function AllRegionsPage({
   useEffect(() => () => {
     if (loadingTimer.current) clearTimeout(loadingTimer.current);
   }, []);
+
+  useEffect(() => {
+    if (!initialRegion) {
+      setDraftFilters(DEFAULT_FILTERS);
+      setAppliedFilters(DEFAULT_FILTERS);
+      setPage(0);
+      return;
+    }
+    const row = regionScoreRows.find((item) => item.id === initialRegion);
+    if (!row) return;
+    const nextFilters = { ...DEFAULT_FILTERS, region: row.name };
+    setDraftFilters(nextFilters);
+    setAppliedFilters(nextFilters);
+    setPage(0);
+  }, [initialRegion]);
 
   const statusDistribution = [
     { label: "Baik", level: "good", count: filtered.filter((row) => row.status === "Baik").length },

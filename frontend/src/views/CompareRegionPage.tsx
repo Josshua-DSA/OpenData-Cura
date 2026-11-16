@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -16,6 +16,7 @@ import { regionHealth } from "../data/healthData";
 interface CompareRegionPageProps {
   onAIPanel?: () => void;
   year?: string;
+  initialRegion?: string | null;
 }
 
 interface MetricConfig {
@@ -33,9 +34,13 @@ const METRICS: MetricConfig[] = [
   { key: "aki", label: "AKI", unit: "/100k", lowerIsBetter: true, decimals: 0 },
 ];
 
-export default function CompareRegionPage({ onAIPanel }: CompareRegionPageProps) {
-  const [regionAId, setRegionAId] = useState("surabaya");
+export default function CompareRegionPage({ onAIPanel, initialRegion }: CompareRegionPageProps) {
+  const [regionAId, setRegionAId] = useState(initialRegion ?? "surabaya");
   const [regionBId, setRegionBId] = useState("sampang");
+
+  useEffect(() => {
+    setRegionAId(initialRegion ?? "surabaya");
+  }, [initialRegion]);
 
   const regionA = regionHealth.find((r) => r.id === regionAId)!;
   const regionB = regionHealth.find((r) => r.id === regionBId)!;

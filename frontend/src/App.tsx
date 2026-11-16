@@ -22,16 +22,30 @@ export default function App() {
   const [year, setYear] = useState("2024")
   const [region, setRegion] = useState("all")
   const [recommendationRegion, setRecommendationRegion] = useState<string | null>(null)
+  const [profileRegion, setProfileRegion] = useState<string | null>(null)
+  const [compareRegion, setCompareRegion] = useState<string | null>(null)
   const [toast, setToast] = useState<string | null>(null)
 
   const handleNavigate = (page: string) => {
     if (page === "programs") setRecommendationRegion(null)
+    if (page === "regions") setProfileRegion(null)
+    if (page === "compare") setCompareRegion(null)
     setCurrentPage(page as Page)
   }
 
   const handleRecommendationNavigate = (regionName: string) => {
     setRecommendationRegion(regionName)
     setCurrentPage("programs")
+  }
+
+  const handleProfileNavigate = (regionId: string) => {
+    setProfileRegion(regionId)
+    setCurrentPage("regions")
+  }
+
+  const handleCompareNavigate = (regionId: string) => {
+    setCompareRegion(regionId)
+    setCurrentPage("compare")
   }
 
   const handleYearChange = (y: string) => {
@@ -58,11 +72,11 @@ export default function App() {
   const renderPage = () => {
     switch (currentPage) {
       case "overview":   return <OverviewPage   {...sharedProps} onNavigate={handleNavigate} region={region} onRegionChange={handleRegionChange} onYearChange={handleYearChange} />
-      case "healthmap":  return <HealthMapPage  {...sharedProps} />
+      case "healthmap":  return <HealthMapPage  {...sharedProps} onProfileNavigate={handleProfileNavigate} onCompareNavigate={handleCompareNavigate} />
       case "facilities": return <FacilitiesPage {...sharedProps} />
       case "disease":    return <DiseasePage    {...sharedProps} />
-      case "compare":    return <CompareRegionPage {...sharedProps} />
-      case "regions":    return <AllRegionsPage {...sharedProps} onYearChange={handleYearChange} onRecommendationNavigate={handleRecommendationNavigate} />
+      case "compare":    return <CompareRegionPage {...sharedProps} initialRegion={compareRegion} />
+      case "regions":    return <AllRegionsPage {...sharedProps} onYearChange={handleYearChange} onRecommendationNavigate={handleRecommendationNavigate} initialRegion={profileRegion} />
       case "programs":   return <ProgramRecommendationPage {...sharedProps} initialRegion={recommendationRegion} />
       case "aiinsight":  return <AIInsightPage {...sharedProps} />
       case "opendata":   return <OpenDataPage   {...sharedProps} />
