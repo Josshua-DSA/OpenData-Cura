@@ -305,11 +305,11 @@ export default function ProgramRecommendationPage({
         </div>
 
         <div className="program-columns">
+          <div className="program-section-heading">
+            <div className="data-page-title">{recommendations.length} Program Prioritas untuk {selectedRegion.name}</div>
+            <div className="data-page-subtitle">Urutan program disesuaikan dengan masalah dan indikator terendah wilayah.</div>
+          </div>
           <div className="program-main-column">
-            <div className="program-section-heading">
-              <div className="data-page-title">{recommendations.length} Program Prioritas untuk {selectedRegion.name}</div>
-              <div className="data-page-subtitle">Urutan program disesuaikan dengan masalah dan indikator terendah wilayah.</div>
-            </div>
             <div className="program-card-grid">
               {recommendations.map((program, index) => (
                 <article className="program-recommendation-card" key={program.name}>

@@ -1,4 +1,5 @@
 import { regionHealth } from "./healthData.ts";
+import { regionScoreCsv } from "./regionScoreCsvData.ts";
 
 export type RegionScoreStatus =
   | "Baik"
@@ -24,34 +25,8 @@ export interface RegionScoreRow {
   indicatorScores: IndicatorScore[];
 }
 
-const STATUS_GROUPS: Record<RegionScoreStatus, string[]> = {
-  Baik: [
-    "surabaya", "batu", "blitar-kota", "kediri-kota", "madiun-kota",
-    "mojokerto-kota", "pasuruan-kota", "probolinggo-kota", "banyuwangi",
-    "gresik", "tulungagung", "jombang",
-  ],
-  "Perlu Dipantau": [
-    "malang-kota", "sidoarjo", "kediri-kab", "mojokerto-kab", "lamongan",
-    "madiun-kab", "magetan", "pasuruan-kab", "ponorogo", "nganjuk",
-    "ngawi", "blitar-kab", "tuban", "malang-kab",
-  ],
-  "Perlu Intervensi": [
-    "jember", "pamekasan", "bondowoso", "lumajang", "situbondo",
-    "sumenep", "trenggalek", "bojonegoro",
-  ],
-  "Prioritas Tinggi": ["probolinggo-kab", "sampang", "bangkalan", "pacitan"],
-};
-
-const SCORE_OVERRIDES: Record<string, number> = {
-  surabaya: 84,
-  "malang-kota": 79,
-  sidoarjo: 71,
-  jember: 57,
-  "probolinggo-kab": 43,
-  sampang: 41,
-  bangkalan: 48,
-  pamekasan: 54,
-};
+// Skor dan status dibaca dari regional_health_index_scores.csv lewat regionScoreCsvData.ts.
+// Tidak ada lagi override skor hardcoded di sini.
 
 const ANALYTIC_OVERRIDES: Record<string, {
   indicator: string;
@@ -146,17 +121,11 @@ function displayName(name: string) {
   return name.replace(/^Kab\.\s/, "Kabupaten ");
 }
 
-function statusFor(id: string): RegionScoreStatus {
-  return (Object.keys(STATUS_GROUPS) as RegionScoreStatus[]).find((status) =>
-    STATUS_GROUPS[status].includes(id),
-  )!;
-}
-
-function scoreFor(status: RegionScoreStatus, index: number) {
-  if (status === "Baik") return 88 - (index % 8);
-  if (status === "Perlu Dipantau") return 78 - (index % 9);
-  if (status === "Perlu Intervensi") return 58 - (index % 10);
-  return 39 - (index % 7);
+function statusFromScore(score: number): RegionScoreStatus {
+  if (score >= 80) return "Baik";
+  if (score >= 60) return "Perlu Dipantau";
+  if (score >= 40) return "Perlu Intervensi";
+  return "Prioritas Tinggi";
 }
 
 function issueProfile(region: (typeof regionHealth)[number]) {
@@ -208,8 +177,8 @@ function clamp(value: number) {
 
 export const regionScoreRows: RegionScoreRow[] = regionHealth
   .map((region, index) => {
-    const status = statusFor(region.id);
-    const score = SCORE_OVERRIDES[region.id] ?? scoreFor(status, index);
+    const score = regionScoreCsv[displayName(region.name)]?.score ?? 0;
+    const status = statusFromScore(score);
     const profile = issueProfile(region);
     const override = ANALYTIC_OVERRIDES[region.id];
     const programs = override?.topRecommendations ?? PROGRAMS_BY_ISSUE[profile.key];

@@ -42,11 +42,11 @@ const HEALTH_SCORE_FACTORS = [
 ];
 
 const REGION_SCORE_EXAMPLES = [
-  { name: "Kota Surabaya", score: 82, level: "good" },
-  { name: "Kota Malang", score: 78, level: "watch" },
-  { name: "Kabupaten Sidoarjo", score: 70, level: "watch" },
-  { name: "Kabupaten Jember", score: 58, level: "intervention" },
-  { name: "Kabupaten Probolinggo", score: 43, level: "critical" },
+  { name: "Kota Surabaya", score: 52.78, level: "intervention" },
+  { name: "Kota Malang", score: 53.92, level: "intervention" },
+  { name: "Kabupaten Sidoarjo", score: 55.73, level: "intervention" },
+  { name: "Kabupaten Jember", score: 39.11, level: "critical" },
+  { name: "Kabupaten Probolinggo", score: 34.16, level: "critical" },
 ];
 
 const PRIORITY_FACTORS = [

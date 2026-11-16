@@ -38,17 +38,37 @@ export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPag
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
 
   const isBusy = isLoading || isTyping;
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const container = messagesContainerRef.current;
+    if (!container) return;
+    container.scrollTop = container.scrollHeight;
   };
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     scrollToBottom();
   }, [messages, isLoading]);
+
+  useEffect(() => {
+    let node: HTMLElement | null = pageRef.current?.parentElement ?? null;
+    while (node) {
+      const style = window.getComputedStyle(node);
+      if (/(auto|scroll)/.test(style.overflowY)) {
+        node.scrollTop = 0;
+      }
+      node = node.parentElement;
+    }
+    window.scrollTo(0, 0);
+  }, []);
 
   async function ask(question: string) {
     const value = question.trim();
@@ -91,7 +111,7 @@ export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPag
   }
 
   return (
-    <div className="cura-page ai-insight-page">
+    <div className="cura-page ai-insight-page" ref={pageRef}>
       <TopBar title="Tilik Jatim AI Insight" year={year} onAIPanel={onAIPanel} />
       <div className="cura-page-content ai-insight-content">
         <div className="data-page-heading">
@@ -137,7 +157,7 @@ export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPag
               <div className="cura-splash-logo"><BrainCircuit size={22} /></div>
               <div><strong>Tilik Jatim AI</strong><span>Asisten analitik kesehatan</span></div>
             </div>
-            <div className="ai-chat-messages">
+            <div className="ai-chat-messages" ref={messagesContainerRef}>
               {messages.map((message, index) => (
                 <div className={`ai-message ai-message-${message.role}`} key={`${message.role}-${index}`}>
                   {message.role === "ai" && <div className="ai-message-avatar"><Sparkles size={15} /></div>}
@@ -180,8 +200,6 @@ export default function AIInsightPage({ onAIPanel, year = "2024" }: AIInsightPag
                   </div>
                 </div>
               )}
-
-              <div ref={messagesEndRef} />
             </div>
 
             <ChatComposer
