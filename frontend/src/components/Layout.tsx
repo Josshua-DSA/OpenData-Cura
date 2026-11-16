@@ -63,10 +63,6 @@ export default function Layout({ currentPage, onNavigate, children, onAIPanel, y
     setMobileOpen(false);
   }
 
-  const LogoMark = () => (
-    <div className="cura-logo-mark">TJ</div>
-  );
-
   const SidebarLogo = () => (
     <div className="cura-sidebar-logo-mark">
       <img src={tilikJatimLogo.src} alt="Tilik Jatim" />
@@ -170,7 +166,7 @@ export default function Layout({ currentPage, onNavigate, children, onAIPanel, y
       {/* ── Mobile top header ── */}
       <header className="cura-mobile-header">
         <div className="cura-mobile-brand">
-          <LogoMark />
+          <SidebarLogo />
           <div>
             <div className="cura-mobile-brand-name">Tilik Jatim</div>
             <div className="cura-mobile-brand-region">Jawa Timur</div>
@@ -204,7 +200,7 @@ export default function Layout({ currentPage, onNavigate, children, onAIPanel, y
             {/* Header */}
             <div className="cura-mobile-drawer-header">
               <div className="cura-mobile-brand">
-                <LogoMark />
+                <SidebarLogo />
                 <div>
                   <div className="cura-mobile-brand-name">Tilik Jatim</div>
                   <div className="cura-mobile-brand-region">Tilik Jatim</div>
