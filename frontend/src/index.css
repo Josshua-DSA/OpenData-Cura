@@ -4858,8 +4858,11 @@ button,
     min-width: 0;
   }
 
-  .cura-ai-input .ai-composer-send {
+  .cura-ai-input .ai-composer-send,
+  .ai-chat-composer .ai-composer-send {
     flex: 0 0 auto;
+    width: auto;
+    min-width: 0;
     white-space: nowrap;
   }
 
@@ -4890,6 +4893,86 @@ button,
   }
 
   .cura-compare-grid { grid-template-columns: 1fr !important; }
+}
+
+/* Overview chatbot widget: full-height flex shell on mobile */
+@media (max-width: 900px) {
+  .cura-ai-panel {
+    position: fixed;
+    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cura-ai-header {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding-inline: var(--spacing-lg);
+  }
+
+  .cura-ai-header > button {
+    flex-shrink: 0;
+  }
+
+  .cura-ai-messages {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    max-height: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
+  .cura-ai-messages .cura-chip {
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  .cura-ai-input {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    padding: var(--spacing-md);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+  }
+
+  .cura-ai-input textarea {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+    writing-mode: horizontal-tb;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  .cura-ai-input .ai-composer-send {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    white-space: nowrap;
+    padding-inline: var(--spacing-md);
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1199px) {
